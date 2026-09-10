@@ -1,0 +1,25 @@
+# Credentials — never commit these
+.env.elastic
+*.env
+.env.*
+!.env.example
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Backup files created by sed on macOS
+*.bak
+*.tmp
+
+# OTel demo repo — cloned separately, not committed here
+opentelemetry-demo/
+
+# Python
+__pycache__/
+*.pyc

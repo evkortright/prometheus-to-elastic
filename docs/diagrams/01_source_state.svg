@@ -1,0 +1,104 @@
+<svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="560" fill="#FAFAFA"/>
+
+  <!-- Title -->
+  <text x="450" y="36" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">OTel Astronomy Shop — Source State (Before Migration)</text>
+
+  <!-- App Services container -->
+  <rect x="40" y="60" width="820" height="110" rx="10" fill="#F8FFFE" stroke="#9FE1CB" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <text x="60" y="80" font-size="11" fill="#0F6E56" font-weight="bold" letter-spacing="1">APP SERVICES — 16 MICROSERVICES (OTLP INSTRUMENTED)</text>
+
+  <!-- Service boxes -->
+  <rect x="60" y="88" width="120" height="68" rx="6" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+  <text x="120" y="116" text-anchor="middle" font-size="13" font-weight="bold" fill="#085041">Frontend</text>
+  <text x="120" y="133" text-anchor="middle" font-size="11" fill="#0F6E56">Next.js / Go</text>
+  <text x="120" y="149" text-anchor="middle" font-size="10" fill="#1D9E75">OTLP →</text>
+
+  <rect x="200" y="88" width="120" height="68" rx="6" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+  <text x="260" y="116" text-anchor="middle" font-size="13" font-weight="bold" fill="#085041">Checkout</text>
+  <text x="260" y="133" text-anchor="middle" font-size="11" fill="#0F6E56">Go</text>
+  <text x="260" y="149" text-anchor="middle" font-size="10" fill="#1D9E75">OTLP →</text>
+
+  <rect x="340" y="88" width="120" height="68" rx="6" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+  <text x="400" y="116" text-anchor="middle" font-size="13" font-weight="bold" fill="#085041">Payment</text>
+  <text x="400" y="133" text-anchor="middle" font-size="11" fill="#0F6E56">JavaScript</text>
+  <text x="400" y="149" text-anchor="middle" font-size="10" fill="#1D9E75">OTLP →</text>
+
+  <rect x="480" y="88" width="140" height="68" rx="6" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+  <text x="550" y="116" text-anchor="middle" font-size="13" font-weight="bold" fill="#085041">Recommendation</text>
+  <text x="550" y="133" text-anchor="middle" font-size="11" fill="#0F6E56">Python</text>
+  <text x="550" y="149" text-anchor="middle" font-size="10" fill="#1D9E75">OTLP →</text>
+
+  <rect x="640" y="88" width="90" height="68" rx="6" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1"/>
+  <text x="685" y="116" text-anchor="middle" font-size="13" font-weight="bold" fill="#085041">Ad Svc</text>
+  <text x="685" y="133" text-anchor="middle" font-size="11" fill="#0F6E56">Java</text>
+  <text x="685" y="149" text-anchor="middle" font-size="10" fill="#1D9E75">OTLP →</text>
+
+  <rect x="750" y="88" width="100" height="68" rx="6" fill="#D3D1C7" stroke="#888780" stroke-width="1"/>
+  <text x="800" y="116" text-anchor="middle" font-size="14" font-weight="bold" fill="#444441">+11 more</text>
+  <text x="800" y="135" text-anchor="middle" font-size="11" fill="#5F5E5A">services</text>
+
+  <!-- OTLP push arrows -->
+  <line x1="120" y1="156" x2="380" y2="222" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <line x1="260" y1="156" x2="400" y2="222" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <line x1="400" y1="156" x2="420" y2="222" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <line x1="550" y1="156" x2="460" y2="222" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <line x1="685" y1="156" x2="490" y2="222" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <text x="450" y="210" text-anchor="middle" font-size="11" fill="#185FA5">OTLP push — gRPC :4317 / HTTP :4318</text>
+
+  <!-- OTel Collector -->
+  <rect x="200" y="228" width="500" height="90" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5"/>
+  <text x="450" y="258" text-anchor="middle" font-size="15" font-weight="bold" fill="#26215C">OTel Collector</text>
+  <text x="450" y="278" text-anchor="middle" font-size="11" fill="#3C3489">Receives OTLP · generates span metrics (span_metrics connector)</text>
+  <text x="450" y="295" text-anchor="middle" font-size="11" fill="#3C3489">Also scrapes: Redis · PostgreSQL · Docker · nginx · host metrics · ad service /metrics</text>
+  <text x="450" y="312" text-anchor="middle" font-size="11" fill="#3C3489">Exposes Prometheus endpoint :9464</text>
+
+  <!-- Prometheus scrape arrow -->
+  <line x1="450" y1="318" x2="350" y2="382" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="430" y="360" text-anchor="middle" font-size="11" fill="#555">Prometheus scrape pull (:9464/metrics)</text>
+
+  <!-- Prometheus -->
+  <rect x="170" y="388" width="180" height="70" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/>
+  <text x="260" y="416" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A1B0C">Prometheus</text>
+  <text x="260" y="434" text-anchor="middle" font-size="11" fill="#712B13">Local TSDB</text>
+  <text x="260" y="450" text-anchor="middle" font-size="11" fill="#712B13">Serves PromQL :9090</text>
+
+  <!-- PromQL to Grafana -->
+  <line x1="350" y1="422" x2="488" y2="422" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="420" y="414" text-anchor="middle" font-size="11" fill="#555">PromQL queries</text>
+
+  <!-- Grafana -->
+  <rect x="488" y="388" width="180" height="70" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.5"/>
+  <text x="578" y="416" text-anchor="middle" font-size="14" font-weight="bold" fill="#412402">Grafana</text>
+  <text x="578" y="434" text-anchor="middle" font-size="11" fill="#633806">Dashboards · alerts</text>
+  <text x="578" y="450" text-anchor="middle" font-size="11" fill="#633806">Pre-provisioned</text>
+
+  <!-- Load generator -->
+  <rect x="40" y="388" width="110" height="70" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="1.5"/>
+  <text x="95" y="414" text-anchor="middle" font-size="13" font-weight="bold" fill="#2C2C2A">Load gen</text>
+  <text x="95" y="432" text-anchor="middle" font-size="11" fill="#5F5E5A">Synthetic</text>
+  <text x="95" y="448" text-anchor="middle" font-size="11" fill="#5F5E5A">traffic</text>
+  <line x1="150" y1="422" x2="168" y2="422" stroke="#888780" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+  <!-- Legend -->
+  <rect x="40" y="490" width="820" height="52" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1"/>
+  <text x="60" y="510" font-size="11" fill="#2C2C2A" font-weight="bold">This is the unmodified OTel Astronomy Shop.</text>
+  <text x="60" y="528" font-size="11" fill="#5F5E5A">No changes needed to run it. Prometheus and Grafana are already included. The Collector exposes :9464 which Prometheus scrapes on its standard interval.</text>
+
+  <!-- Legend dots -->
+  <rect x="530" y="500" width="12" height="12" rx="2" fill="#B5D4F4" stroke="#185FA5" stroke-width="1"/>
+  <text x="548" y="511" font-size="11" fill="#2C2C2A">OTLP (app telemetry)</text>
+  <rect x="680" y="500" width="12" height="12" rx="2" fill="#B4B2A9" stroke="#888780" stroke-width="1"/>
+  <text x="698" y="511" font-size="11" fill="#2C2C2A">Prometheus scrape / PromQL</text>
+</svg>

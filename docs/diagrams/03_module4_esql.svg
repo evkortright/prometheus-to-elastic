@@ -1,0 +1,90 @@
+<svg width="900" height="520" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="520" fill="#FAFAFA"/>
+
+  <!-- Title -->
+  <text x="450" y="34" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">Module 4 — Cross-Signal Correlation with ES|QL</text>
+
+  <!-- Source labels -->
+  <text x="210" y="66" text-anchor="middle" font-size="10" fill="#888780" font-weight="bold" letter-spacing="1">FROM REMOTE_WRITE</text>
+  <text x="690" y="66" text-anchor="middle" font-size="10" fill="#888780" font-weight="bold" letter-spacing="1">SEEDED SEPARATELY</text>
+
+  <!-- Data source 1: metrics -->
+  <rect x="50" y="74" width="320" height="70" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/>
+  <text x="210" y="100" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A1B0C">metrics-generic.prometheus-*</text>
+  <text x="210" y="118" text-anchor="middle" font-size="11" fill="#712B13">Request rates · latency histograms</text>
+  <text x="210" y="134" text-anchor="middle" font-size="11" fill="#712B13">error counters · span metrics</text>
+
+  <!-- Data source 2: service catalog -->
+  <rect x="530" y="74" width="320" height="70" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="1.5"/>
+  <text x="690" y="100" text-anchor="middle" font-size="13" font-weight="bold" fill="#2C2C2A">service_catalog index</text>
+  <text x="690" y="118" text-anchor="middle" font-size="11" fill="#5F5E5A">service · owner · tier</text>
+  <text x="690" y="134" text-anchor="middle" font-size="11" fill="#5F5E5A">latency_slo_ms · cost_center</text>
+
+  <!-- Arrows into ES|QL pipeline -->
+  <line x1="210" y1="144" x2="210" y2="198" stroke="#993C1D" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  <path d="M690 144 L690 180 L450 198" fill="none" stroke="#888780" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arr-gray)"/>
+
+  <!-- ES|QL pipeline container -->
+  <rect x="40" y="200" width="820" height="176" rx="10" fill="#F8F7FF" stroke="#AFA9EC" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <text x="450" y="188" text-anchor="middle" font-size="10" fill="#534AB7" font-weight="bold" letter-spacing="1">ES|QL PIPELINE</text>
+
+  <!-- Stage 1 -->
+  <rect x="60" y="218" width="160" height="70" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5"/>
+  <text x="140" y="244" text-anchor="middle" font-size="13" font-weight="bold" fill="#26215C">PROMQL …</text>
+  <text x="140" y="262" text-anchor="middle" font-size="11" fill="#3C3489">rate(http_server_</text>
+  <text x="140" y="277" text-anchor="middle" font-size="11" fill="#3C3489">request…[5m])</text>
+
+  <line x1="220" y1="253" x2="248" y2="253" stroke="#534AB7" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Stage 2 -->
+  <rect x="248" y="218" width="160" height="70" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5"/>
+  <text x="328" y="244" text-anchor="middle" font-size="13" font-weight="bold" fill="#26215C">LOOKUP JOIN</text>
+  <text x="328" y="262" text-anchor="middle" font-size="11" fill="#3C3489">service_catalog</text>
+  <text x="328" y="277" text-anchor="middle" font-size="11" fill="#3C3489">ON service.name</text>
+
+  <line x1="408" y1="253" x2="436" y2="253" stroke="#534AB7" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Stage 3 -->
+  <rect x="436" y="218" width="160" height="70" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5"/>
+  <text x="516" y="244" text-anchor="middle" font-size="13" font-weight="bold" fill="#26215C">WHERE …</text>
+  <text x="516" y="262" text-anchor="middle" font-size="11" fill="#3C3489">latency_slo_ms</text>
+  <text x="516" y="277" text-anchor="middle" font-size="11" fill="#3C3489">IS NOT NULL</text>
+
+  <line x1="596" y1="253" x2="624" y2="253" stroke="#534AB7" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Stage 4 -->
+  <rect x="624" y="218" width="160" height="70" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5"/>
+  <text x="704" y="244" text-anchor="middle" font-size="13" font-weight="bold" fill="#26215C">STATS avg_rate</text>
+  <text x="704" y="262" text-anchor="middle" font-size="11" fill="#3C3489">BY service,</text>
+  <text x="704" y="277" text-anchor="middle" font-size="11" fill="#3C3489">tier, owner</text>
+
+  <!-- What Prometheus cannot do note -->
+  <rect x="60" y="302" width="724" height="58" rx="6" fill="#FFF" stroke="#D3D1C7" stroke-width="1"/>
+  <text x="422" y="322" text-anchor="middle" font-size="11" fill="#5F5E5A" font-weight="bold">Pure Prometheus world:</text>
+  <text x="422" y="338" text-anchor="middle" font-size="11" fill="#888780">Two separate queries in two different tools · manual correlation · no SLO context in metric results</text>
+  <text x="422" y="354" text-anchor="middle" font-size="11" fill="#0F6E56" font-weight="bold">Elastic ES|QL:  one pipeline · metrics + business context in a single result set</text>
+
+  <!-- Arrow down to output -->
+  <line x1="450" y1="376" x2="450" y2="412" stroke="#534AB7" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+
+  <!-- Output -->
+  <rect x="270" y="412" width="360" height="72" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1.5"/>
+  <text x="450" y="436" text-anchor="middle" font-size="14" font-weight="bold" fill="#04342C">Kibana — Discover / Dashboard</text>
+  <text x="450" y="454" text-anchor="middle" font-size="11" fill="#085041">Rate per service · enriched with tier, owner, SLO status</text>
+  <text x="450" y="470" text-anchor="middle" font-size="11" fill="#085041">Queryable with PromQL or ES|QL</text>
+
+  <!-- Footer note -->
+  <text x="450" y="506" text-anchor="middle" font-size="10" fill="#B4B2A9">service_catalog is a small lookup index seeded as part of the Module 4 demo setup — not from remote_write</text>
+</svg>

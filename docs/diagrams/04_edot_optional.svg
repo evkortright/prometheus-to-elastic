@@ -1,0 +1,110 @@
+<svg width="900" height="620" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-coral" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#993C1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="620" fill="#FAFAFA"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">EDOT as Optional Layer — Three Paths to Elastic</text>
+  <text x="450" y="52" text-anchor="middle" font-size="12" fill="#888780">The Prometheus-first path (left) is the training track focus. EDOT paths shown for context.</text>
+
+  <!-- Path labels -->
+  <text x="150" y="82" text-anchor="middle" font-size="11" fill="#993C1D" font-weight="bold">PATH A (TRACK FOCUS)</text>
+  <text x="150" y="96" text-anchor="middle" font-size="10" fill="#993C1D">Prometheus → Elastic direct</text>
+
+  <text x="450" y="82" text-anchor="middle" font-size="11" fill="#0F6E56" font-weight="bold">PATH B (EDOT BRIDGE)</text>
+  <text x="450" y="96" text-anchor="middle" font-size="10" fill="#0F6E56">Prometheus → EDOT → Elastic</text>
+
+  <text x="760" y="82" text-anchor="middle" font-size="11" fill="#185FA5" font-weight="bold">PATH C (FUTURE STATE)</text>
+  <text x="760" y="96" text-anchor="middle" font-size="10" fill="#185FA5">OTel/EDOT Collector → Elastic only</text>
+
+  <!-- App Services (shared top) -->
+  <rect x="240" y="108" width="420" height="56" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1.5"/>
+  <text x="450" y="130" text-anchor="middle" font-size="14" font-weight="bold" fill="#085041">OTel Astronomy Shop</text>
+  <text x="450" y="150" text-anchor="middle" font-size="11" fill="#0F6E56">16 microservices — OTLP instrumented</text>
+
+  <!-- OTLP arrows to OTel Collector -->
+  <line x1="390" y1="164" x2="330" y2="210" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <line x1="510" y1="164" x2="570" y2="210" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <!-- Shared OTel Collector -->
+  <rect x="240" y="214" width="420" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5"/>
+  <text x="450" y="238" text-anchor="middle" font-size="14" font-weight="bold" fill="#26215C">OTel Collector (demo built-in)</text>
+  <text x="450" y="256" text-anchor="middle" font-size="11" fill="#3C3489">Span metrics · infra scrapes · exposes :9464</text>
+
+  <!-- Prometheus scrape down -->
+  <line x1="340" y1="270" x2="210" y2="314" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="245" y="300" font-size="10" fill="#555">scrape :9464</text>
+
+  <!-- Prometheus -->
+  <rect x="80" y="318" width="260" height="62" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/>
+  <text x="210" y="344" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A1B0C">Prometheus</text>
+  <text x="210" y="362" text-anchor="middle" font-size="11" fill="#712B13">Local TSDB + remote_write fan-out</text>
+
+  <!-- PATH A: direct remote_write to Elastic -->
+  <path d="M80 349 L40 349 L40 490 L88 490" fill="none" stroke="#993C1D" stroke-width="2" marker-end="url(#arr-coral)"/>
+  <rect x="30" y="404" width="14" height="64" rx="4" fill="#FAECE7" stroke="#993C1D" stroke-width="1"/>
+  <text x="22" y="438" text-anchor="middle" font-size="9" fill="#993C1D" transform="rotate(-90,22,438)">remote_write</text>
+
+  <!-- PATH B: Prometheus → EDOT receiver -->
+  <path d="M210 380 L210 422" fill="none" stroke="#0F6E56" stroke-width="2" stroke-dasharray="6 3" marker-end="url(#arr-green)"/>
+  <text x="230" y="408" font-size="10" fill="#0F6E56">remote_write v2</text>
+
+  <!-- EDOT Collector box -->
+  <rect x="100" y="426" width="220" height="72" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="2"/>
+  <rect x="100" y="426" width="220" height="24" rx="8" fill="#1D9E75"/>
+  <rect x="100" y="438" width="220" height="12" fill="#1D9E75"/>
+  <text x="210" y="443" text-anchor="middle" font-size="12" font-weight="bold" fill="#E1F5EE">EDOT Collector</text>
+  <text x="210" y="462" text-anchor="middle" font-size="11" fill="#085041">prometheusremotewrite receiver</text>
+  <text x="210" y="478" text-anchor="middle" font-size="11" fill="#085041">Processes · enriches · exports OTLP</text>
+  <text x="210" y="493" text-anchor="middle" font-size="9" fill="#0F6E56">⚠ Requires Prometheus remote_write v2 + metadata WAL flag</text>
+
+  <!-- EDOT → Elastic -->
+  <line x1="210" y1="498" x2="210" y2="532" stroke="#0F6E56" stroke-width="2" marker-end="url(#arr-green)"/>
+  <text x="232" y="520" font-size="10" fill="#0F6E56">OTLP export</text>
+
+  <!-- PATH C: future direct OTLP from collector -->
+  <line x1="560" y1="270" x2="680" y2="314" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arr-blue)"/>
+  <text x="660" y="302" font-size="10" fill="#185FA5">OTLP direct</text>
+  <text x="660" y="315" font-size="10" fill="#185FA5">(future)</text>
+
+  <!-- Future state EDOT / Agent box -->
+  <rect x="560" y="318" width="260" height="72" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="2" stroke-dasharray="6 3"/>
+  <text x="690" y="344" text-anchor="middle" font-size="13" font-weight="bold" fill="#042C53">EDOT / Elastic Agent</text>
+  <text x="690" y="362" text-anchor="middle" font-size="11" fill="#0C447C">Replace Prometheus entirely</text>
+  <text x="690" y="380" text-anchor="middle" font-size="11" fill="#0C447C">Collector built into Elastic Agent</text>
+
+  <!-- Future EDOT → Elastic -->
+  <line x1="690" y1="390" x2="690" y2="532" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arr-blue)"/>
+
+  <!-- Elastic Serverless (shared destination) -->
+  <rect x="88" y="536" width="744" height="60" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="2"/>
+  <text x="450" y="560" text-anchor="middle" font-size="15" font-weight="bold" fill="#04342C">Elastic Serverless — Observability Project</text>
+  <text x="450" y="580" text-anchor="middle" font-size="11" fill="#085041">PromQL  ·  ES|QL  ·  Kibana  ·  Alerting  ·  Dashboard migration tooling</text>
+
+  <!-- Grafana off path A -->
+  <rect x="40" y="318" width="34" height="62" rx="4" fill="#FAEEDA" stroke="#854F0B" stroke-width="1"/>
+  <text x="57" y="340" text-anchor="middle" font-size="9" fill="#412402" transform="rotate(-90,57,340)">Grafana</text>
+  <text x="57" y="372" text-anchor="middle" font-size="8" fill="#633806" transform="rotate(-90,57,372)">unchanged</text>
+  <line x1="80" y1="349" x2="74" y2="349" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Legend -->
+  <line x1="400" y1="606" x2="430" y2="606" stroke="#993C1D" stroke-width="2"/>
+  <text x="434" y="610" font-size="10" fill="#993C1D">Path A — track focus</text>
+  <line x1="540" y1="606" x2="570" y2="606" stroke="#0F6E56" stroke-width="2" stroke-dasharray="6 3"/>
+  <text x="574" y="610" font-size="10" fill="#0F6E56">Path B — EDOT bridge</text>
+  <line x1="690" y1="606" x2="720" y2="606" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="724" y="610" font-size="10" fill="#185FA5">Path C — future state</text>
+</svg>
