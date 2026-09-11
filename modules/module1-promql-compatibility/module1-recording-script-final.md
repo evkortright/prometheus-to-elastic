@@ -11,9 +11,20 @@
 Run through every item before hitting record.
 
 **Stack:**
-- [ ] `docker compose -f compose.yaml -f compose.observability.yaml ps` — all containers Up
+- [ ] Stop any unrelated containers first: `docker stop edu-ctfd-nginx-1 edu-ctfd-cache-1 edu-ctfd-db-1 2>/dev/null`
+- [ ] Verify Prometheus is running and healthy:
+  ```bash
+  docker ps --filter "name=prometheus" --format "table {{.Names}}	{{.Status}}"
+  curl -s 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool | grep '"status"'
+  ```
+  Both should return `Up X minutes` and `"status": "success"`. If Prometheus is missing or exited:
+  ```bash
+  cd ~/personal/projects/elastic-migration/opentelemetry-demo
+  docker compose -f compose.yaml -f compose.observability.yaml up --detach --force-recreate prometheus
+  # Wait 5 minutes before continuing
+  ```
+- [ ] `docker compose -f compose.yaml -f compose.observability.yaml ps` — all other containers Up
 - [ ] Stack has been running for **at least 15 minutes** — Prometheus needs this to build a stable rate window
-- [ ] CTFd containers are stopped: `docker stop edu-ctfd-nginx-1 edu-ctfd-cache-1 edu-ctfd-db-1`
 
 **Browser tabs — set up in this order before recording:**
 - [ ] **Tab 1 — Grafana:** `http://localhost:8080/grafana/` → Dashboards → Demo folder → **Spanmetrics Demo Dashboard** — confirm panels are populated
