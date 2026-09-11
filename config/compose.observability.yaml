@@ -74,13 +74,15 @@ services:
       - --web.enable-lifecycle
       - --web.route-prefix=/
       - --web.enable-otlp-receiver
+      - --storage.tsdb.wal-compression
+      - --storage.tsdb.retention.size=800MB
       - --enable-feature=exemplar-storage
     volumes:
       - ./src/prometheus/prometheus-config.yaml:/etc/prometheus/prometheus-config.yaml
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 1024M
     restart: unless-stopped
     ports:
       - "${PROMETHEUS_PORT}:${PROMETHEUS_PORT}"
