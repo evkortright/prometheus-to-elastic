@@ -229,10 +229,11 @@ Point at the rising line on the right edge of the chart.
 
 > "Same PromQL. Same metrics. Same query patterns your team already knows.
 >
-> What changed is what you can do next. Pipe into ES|QL. Join against other data.
-> Correlate with logs and traces in the same query — without leaving this interface.
+> What changed is what you can do next. Pipe into ES|QL. Sort, filter, aggregate —
+> right here, on top of your Prometheus data, without a separate tool.
 >
-> That's what we'll cover in Module 2."
+> In Module 2 we'll look at how the Remote Write configuration works under the hood —
+> so you understand exactly what's flowing, and how to set it up yourself from scratch."
 
 ---
 
