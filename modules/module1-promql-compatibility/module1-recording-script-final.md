@@ -4,6 +4,8 @@
 **Runtime:** ~8–10 minutes
 **Last rehearsed:** September 10, 2026 — all queries and timings validated
 
+> **Status note (October 19, 2026):** The environment was rebuilt on a new Elastic Serverless project and this script is being re-validated. Several numbers and claims below (Scene 5 baseline and spike values, the organic error pattern, the chart/table toggle, "didn't change a single character") are open items. See `docs/module1-status-2026-10-19.md` before relying on them.
+
 ---
 
 ## Pre-recording checklist
@@ -19,12 +21,12 @@ Run through every item before hitting record.
   ```
   Both should return `Up X minutes` and `"status": "success"`. If Prometheus is missing or exited:
   ```bash
-  cd ~/personal/projects/elastic-migration/opentelemetry-demo
+  cd ~/personal/projects/prometheus-to-elastic/opentelemetry-demo
   docker compose -f compose.yaml -f compose.observability.yaml up --detach --force-recreate prometheus
-  # Wait 5 minutes before continuing
+  # Wait at least 15 minutes before continuing
   ```
 - [ ] `docker compose -f compose.yaml -f compose.observability.yaml ps` — all other containers Up
-- [ ] Stack has been running for **at least 15 minutes** — Prometheus needs this to build a stable rate window
+- [ ] Stack has been running for **at least 15 minutes** — Prometheus needs this to build a stable rate window (about **45 minutes** after the first start on a new Elastic project, for a full Last 30 minutes chart)
 
 **Browser tabs — set up in this order before recording:**
 - [ ] **Tab 1 — Grafana:** `http://localhost:8080/grafana/` → Dashboards → Demo folder → **Spanmetrics Demo Dashboard** — confirm panels are populated

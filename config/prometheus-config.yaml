@@ -55,11 +55,11 @@ storage:
     out_of_order_time_window: 30m
 
 remote_write:
-  - url: "https://observabilityserverless-ac5280.es.us-central1.gcp.elastic.cloud/_prometheus/api/v1/write"
+  - url: "__ES_WRITE_URL__"
     name: elastic-serverless
     authorization:
       type: ApiKey
-      credentials: "OFQtLV9KOEJNV2pPSUN0S3RCTmE6cnlaNG5vVXpQelpNRnlBc0V5bHFVQQ=="
+      credentials: "__ES_API_KEY__"
     queue_config:
       capacity: 10000
       max_shards: 50

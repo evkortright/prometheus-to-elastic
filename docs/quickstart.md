@@ -7,7 +7,7 @@ Use this guide every time you return to work on the project. It assumes the stac
 ## Step 1 — Check if the stack is already running
 
 ```bash
-cd ~/personal/projects/elastic-migration/opentelemetry-demo
+cd ~/personal/projects/prometheus-to-elastic/opentelemetry-demo
 docker compose -f compose.yaml -f compose.observability.yaml ps \
   --format "table {{.Name}}\t{{.Status}}"
 ```
@@ -24,6 +24,14 @@ docker logs <container-name> --tail 20 2>&1
 ---
 
 ## Step 2 — Start the stack
+
+**First run, or after editing `.env.elastic`?** Generate the Prometheus config first. From the repo root:
+```bash
+./scripts/apply-config.sh
+```
+This writes the real endpoint and key into the demo's Prometheus config (never into a tracked file) and copies the patched compose file. A healthy result prints `200` or `403` for the base endpoint (a write-only key may be refused at the cluster root) and `405` for the write endpoint. A `401` means the key was rejected.
+
+Then start the stack:
 
 ```bash
 docker compose -f compose.yaml -f compose.observability.yaml up --detach
@@ -42,9 +50,9 @@ docker compose -f compose.yaml -f compose.observability.yaml up --detach
 ```
 
 **Prometheus exits with code 137 (OOM):**
-The memory limit needs increasing. Check `config/compose.observability.yaml` — Prometheus should have `memory: 1024M`. If not, copy the patched file from the repo:
+The memory limit needs increasing. Check `config/compose.observability.yaml` — Prometheus should have `memory: 1024M`. If not, re-apply the patched file from the repo (the script copies it for you):
 ```bash
-cp ../config/compose.observability.yaml compose.observability.yaml
+../scripts/apply-config.sh
 docker compose -f compose.yaml -f compose.observability.yaml up --detach --force-recreate prometheus
 ```
 
@@ -74,22 +82,28 @@ Expected output:
 If Prometheus is missing or exited, restart it:
 ```bash
 docker compose -f compose.yaml -f compose.observability.yaml up --detach --force-recreate prometheus
-# Wait 5 minutes before recording — Prometheus needs time to build a stable rate window
+# Wait at least 15 minutes before recording — Prometheus needs time to build a stable rate window
 ```
 
 ---
 
 ## Step 4 — Verify data is flowing to Elastic
 
-```bash
-source ~/personal/projects/elastic-migration/.env.elastic
+Check from the Prometheus side. The API key for this project is write-only, so it cannot list indices and the old `_cat/indices` check no longer works.
 
-curl -s \
-  -H "Authorization: ApiKey ${ES_API_KEY}" \
-  "${ES_ENDPOINT}/_cat/indices/metrics-*?h=index,docs.count"
+```bash
+curl -s http://localhost:9090/metrics | grep '^prometheus_remote_storage_samples'
 ```
 
-Expected output: a non-zero document count in the `metrics-generic.prometheus-default` index. If the count is the same after 2 minutes, remote-write may have stopped — restart Prometheus.
+Run it twice, about a minute apart. `samples_total` should increase and `samples_failed_total` should stay at `0`. `samples_pending` should stay near `0`.
+
+These counters are only available on the `/metrics` page here. Querying them through `/api/v1/query` returned no results when tested on October 19, 2026.
+
+Also scan the Prometheus log for remote-write errors:
+```bash
+docker logs prometheus --tail 30 2>&1 | grep -i -E "remote|error|401|403"
+```
+A healthy start shows the `elastic-serverless` queue starting and the WAL replaying, with no 401 or 403 lines.
 
 ---
 
@@ -110,7 +124,7 @@ The `MAX(@timestamp)` should be within the last 2 minutes. If it is stale, Prome
 
 Once all steps above pass:
 
-- [ ] Stack has been running for **at least 15 minutes** — Prometheus needs this for stable `rate()` windows
+- [ ] Stack has been running for **at least 15 minutes** — Prometheus needs this for stable `rate()` windows. Allow about **45 minutes** after the first start on a new Elastic project if you want a full "Last 30 minutes" chart
 - [ ] Kibana chart for Query 1 shows stable flat lines — not ramping up
 - [ ] Prometheus graph at `5m` time range shows stable flat lines
 - [ ] Grafana Spanmetrics dashboard panels are populated
@@ -124,7 +138,7 @@ Once all steps above pass:
 When you are done for the day:
 
 ```bash
-cd ~/personal/projects/elastic-migration/opentelemetry-demo
+cd ~/personal/projects/prometheus-to-elastic/opentelemetry-demo
 docker compose -f compose.yaml -f compose.observability.yaml stop
 ```
 

@@ -7,6 +7,8 @@
 > **Source system:** OpenTelemetry Astronomy Shop v3.0.0 (the canonical OTel reference app) shipping metrics to Prometheus + Grafana.
 > **Destination:** Elastic Serverless (Observability Complete project).
 > **Last validated:** August 13, 2026 — all steps below were executed and confirmed working.
+>
+> **Revised October 19, 2026:** Sections 1.1, 1.3, 1.4, 1.7, 2.5, and the key-files tree were updated after rebuilding on a new Serverless project with a restricted (write-only) API key. Everything else is unchanged from the August 13 validation. Note that the Instruqt sections still assume the original unrestricted-key pattern and need a decision. See `docs/module1-status-2026-10-19.md`.
 
 ---
 
@@ -17,7 +19,7 @@ v3.0.0 of the OTel demo changed several things from earlier versions. These are 
 | What changed | Old assumption | Validated reality |
 |---|---|---|
 | Compose filename | `docker-compose.yml` | `compose.yaml` |
-| Prometheus + Grafana included | Needed `-f compose.observability.yaml` | Included by default in `compose.yaml` |
+| Prometheus + Grafana included | Needed `-f compose.observability.yaml` | **Still needed.** `compose.yaml` alone defines neither; pass both `-f` files. Corrected Oct 19 (an earlier version of this row said they were included by default) |
 | Prometheus config filename | `prometheus.yml` | `prometheus-config.yaml` |
 | Grafana URL | `http://localhost:3000` | `http://localhost:8080/grafana/` (proxied) |
 | Prometheus port | `:9090` | `:9090` ✓ unchanged |
@@ -25,7 +27,7 @@ v3.0.0 of the OTel demo changed several things from earlier versions. These are 
 | Metrics flow to Prometheus | Collector exposes `:9464`, Prometheus scrapes | Collector pushes via OTLP to `http://prometheus:9090/api/v1/otlp` |
 | Prometheus version | v3.7.3 | v3.13.1 (pinned in `.env`) |
 | OTel demo version | 1.11.x | 3.0.0 (latest stable as of August 2026) |
-| Container count | ~20 | 30 containers |
+| Container count | ~20 | 25 services with both compose files (30 was reported on Aug 13; cause unknown). Verified Oct 19 |
 | Docker Desktop bind mount | Refreshes live | **Requires container restart** to pick up host file edits |
 
 **Architecture note:** In v3.0.0, Prometheus no longer scrapes the OTel Collector. Instead the Collector pushes metrics to Prometheus via OTLP. This does not affect the migration story — Prometheus still holds the data and still supports `remote_write` out. The learner's experience is identical.
@@ -64,45 +66,45 @@ You need two things from your project:
 
 **ES endpoint** — from the project overview page, looks like:
 ```
-https://<project-id>.es.<region>.gcp.elastic.cloud
+https://<project-id>.es.<region>.<cloud>.elastic.cloud
 ```
+Use the base URL only: no path and no port. The remote-write path is added by `scripts/apply-config.sh`.
 
-**API key** — in Kibana → Stack Management → API Keys → Create API key:
-- Name: `metrics-writer`
-- Type: Personal
-- Control security privileges: OFF (unrestricted is fine for dev)
-- Click **Create** and copy the **Encoded** value immediately — it is only shown once
-
-**Verify connectivity** before touching anything else:
-```bash
-curl -s -o /dev/null -w "%{http_code}" \
-  -H "Authorization: ApiKey ${ES_API_KEY}" \
-  "${ES_ENDPOINT}"
-# Expect: 200
-
-curl -s -o /dev/null -w "%{http_code}" \
-  -H "Authorization: ApiKey ${ES_API_KEY}" \
-  -H "Content-Type: application/x-protobuf" \
-  "${ES_ENDPOINT}/_prometheus/api/v1/write"
-# Expect: 405 (endpoint exists, only accepts POST with protobuf body)
+**API key** — create a key that can only write metrics. In Kibana → Dev Tools:
 ```
+POST /_security/api_key
+{
+  "name": "prometheus-remote-write",
+  "role_descriptors": {
+    "prw_writer": {
+      "indices": [
+        { "names": ["metrics-*"], "privileges": ["auto_configure", "create_doc"] }
+      ]
+    }
+  }
+}
+```
+Copy the `encoded` value from the response immediately — it is only shown once.
 
-**Store credentials** in a file outside the git repo (never committed):
+> **Revision note (October 19, 2026):** The August 13 setup used an unrestricted key ("Control security privileges: OFF"). The rebuilt environment uses the restricted key above, following the privileges in Elastic's Prometheus remote write blog post. A restricted key cannot read the cluster root or list indices, so a `403` on the base URL is expected, and the `_cat/indices` check was replaced (see 1.4). Queries in Kibana run under your own login, so the key only needs write access.
+
+**Store credentials** in a gitignored file at the repo root:
 ```bash
-cat > ~/projects/elastic-migration/.env.elastic << 'EOF'
-ES_ENDPOINT=https://<your-project-id>.es.<region>.gcp.elastic.cloud
-ES_API_KEY=<your-encoded-key>
-EOF
+cd ~/projects/prometheus-to-elastic
+cp config/.env.example .env.elastic
+# edit .env.elastic: base ES_ENDPOINT and the encoded ES_API_KEY
 
 # Verify (without exposing the key)
-grep -o "ES_.*=.*" ~/projects/elastic-migration/.env.elastic | sed 's/=.*/=***/'
+grep -o "ES_.*=.*" .env.elastic | sed 's/=.*/=***/'
 ```
+
+**Verify connectivity** by running `./scripts/apply-config.sh` (see 1.3). Expect `200` or `403` for the base endpoint and `405` for the write endpoint (it only accepts POST with a protobuf body). A `401` means the key was rejected.
 
 ### 1.2 — Clone and start the OTel demo
 
 ```bash
-mkdir -p ~/projects/elastic-migration
-cd ~/projects/elastic-migration
+mkdir -p ~/projects/prometheus-to-elastic
+cd ~/projects/prometheus-to-elastic
 
 # Pin to 3.0.0 — do not clone main
 git clone --depth 1 --branch 3.0.0 \
@@ -113,17 +115,17 @@ cd opentelemetry-demo
 
 **Pull images before starting** (catches auth/network issues early):
 ```bash
-docker compose pull --quiet 2>&1 | tail -5
+docker compose -f compose.yaml -f compose.observability.yaml pull --quiet 2>&1 | tail -5
 ```
 
-**Start the stack** (Prometheus and Grafana are included by default — no extra `-f` flags needed):
+**Start the stack** (Prometheus and Grafana are defined in `compose.observability.yaml`, so both `-f` files are required):
 ```bash
-docker compose up --detach
+docker compose -f compose.yaml -f compose.observability.yaml up --detach
 ```
 
-This starts ~30 containers. Wait about 2 minutes, then verify:
+This starts 25 containers. Wait about 2 minutes, then verify:
 ```bash
-docker compose ps --format "table {{.Name}}\t{{.Status}}" | grep -v healthy
+docker compose -f compose.yaml -f compose.observability.yaml ps --format "table {{.Name}}\t{{.Status}}" | grep -v healthy
 # Only containers without (healthy) status should appear
 # Some containers don't have healthchecks — that's normal
 ```
@@ -137,46 +139,14 @@ curl -s 'http://localhost:9090/api/v1/query?query=traces_span_metrics_calls_tota
 
 ### 1.3 — Add remote_write to Prometheus
 
-**Make a backup first:**
+The `remote_write` block lives in a committed template, `config/prometheus-config.yaml`, with two placeholders for the write URL and the API key. Prometheus does not expand shell variables in its config, so the real values must be written into the file. `scripts/apply-config.sh` does this:
+
 ```bash
-cp src/prometheus/prometheus-config.yaml \
-   src/prometheus/prometheus-config.yaml.bak
+cd ~/projects/prometheus-to-elastic
+./scripts/apply-config.sh
 ```
 
-**Source your credentials:**
-```bash
-source ~/projects/elastic-migration/.env.elastic
-```
-
-**Append the remote_write block** (values hardcoded — do not use `${VARIABLE}` syntax, Prometheus does not expand shell variables):
-```bash
-cat >> src/prometheus/prometheus-config.yaml << EOF
-
-remote_write:
-  - url: "${ES_ENDPOINT}/_prometheus/api/v1/write"
-    name: elastic-serverless
-    authorization:
-      type: ApiKey
-      credentials: "${ES_API_KEY}"
-    queue_config:
-      capacity: 10000
-      max_shards: 50
-      max_samples_per_send: 5000
-      batch_send_deadline: 5s
-EOF
-```
-
-**Verify the URL expanded correctly** (not a literal `${...}`):
-```bash
-grep "url:" src/prometheus/prometheus-config.yaml
-# Should show the actual https:// URL, not a variable reference
-```
-
-If you see `${ES_ENDPOINT}` literally, fix it:
-```bash
-sed -i.tmp "s|\${ES_ENDPOINT}|${ES_ENDPOINT}|g" src/prometheus/prometheus-config.yaml
-sed -i.tmp "s|\${ES_API_KEY}|${ES_API_KEY}|g" src/prometheus/prometheus-config.yaml
-```
+The script reads `.env.elastic` (never modifies it), writes the result to `opentelemetry-demo/src/prometheus/prometheus-config.yaml` (inside the gitignored demo folder), copies the patched `compose.observability.yaml` into the demo, and refuses to run unless `DEMO_VERSION=3.0.0`. The key never appears in a tracked file.
 
 **⚠️ macOS Docker Desktop gotcha:** Editing a bind-mounted file on the host does NOT refresh inside the container automatically. You must restart the Prometheus container to pick up the change:
 
@@ -196,16 +166,11 @@ curl -s 'http://localhost:9090/api/v1/status/config' \
 
 ### 1.4 — Verify data is flowing to Elastic
 
-Wait 30–60 seconds after the Prometheus restart, then:
+Wait 30–60 seconds after the Prometheus restart, then check from the Prometheus side. The key is write-only, so `_cat/indices` no longer works:
 
 ```bash
-source ~/projects/elastic-migration/.env.elastic
-
-# Check document count in Elastic
-curl -s \
-  -H "Authorization: ApiKey ${ES_API_KEY}" \
-  "${ES_ENDPOINT}/_cat/indices/metrics-*?h=index,docs.count"
-# Expect: .ds-metrics-generic.prometheus-default-<date>-000001  <large number>
+curl -s http://localhost:9090/metrics | grep '^prometheus_remote_storage_samples'
+# Expect: samples_total climbing between runs, samples_failed_total staying at 0
 ```
 
 In Kibana → Discover → switch to ES|QL:
@@ -244,11 +209,11 @@ You should see rows with hundreds of metric fields including `traces_span_metric
 
 Before hitting record for each video:
 
-- [ ] `docker compose ps` — all containers show Up
+- [ ] `docker compose -f compose.yaml -f compose.observability.yaml ps` — all containers show Up
 - [ ] `http://localhost:8080` loads the storefront
 - [ ] `http://localhost:8080/grafana/` shows populated dashboards (give it 5–10 min after first start)
 - [ ] Prometheus at `:9090` shows data for `traces_span_metrics_calls_total`
-- [ ] Elastic index has documents: `curl ... /_cat/indices/metrics-*`
+- [ ] Remote-write is delivering: `samples_total` climbing and `samples_failed_total` at 0 on `http://localhost:9090/metrics`
 - [ ] Kibana Discover ES|QL query returns rows
 - [ ] `.env.elastic` file not visible anywhere on screen
 - [ ] Terminal history cleared if API key was recently echoed
@@ -257,22 +222,22 @@ Before hitting record for each video:
 
 **Start:**
 ```bash
-cd ~/projects/elastic-migration/opentelemetry-demo
-docker compose up --detach
-# Give it 2 minutes, then verify with docker compose ps
+cd ~/projects/prometheus-to-elastic/opentelemetry-demo
+docker compose -f compose.yaml -f compose.observability.yaml up --detach
+# Give it 2 minutes, then verify with the same command and ps
 ```
 
 **Stop (preserves data):**
 ```bash
-docker compose stop
+docker compose -f compose.yaml -f compose.observability.yaml stop
 ```
 
 **Full teardown (removes all data):**
 ```bash
-docker compose down --volumes
+docker compose -f compose.yaml -f compose.observability.yaml down --volumes
 ```
 
-After a full teardown, you will need to re-apply the `remote_write` block from a backup — the Prometheus config is restored from the source file on disk, which should already have the block if you saved it.
+After a full teardown, the generated Prometheus config on disk is kept. If you changed credentials, re-run `./scripts/apply-config.sh` before starting.
 
 ---
 
@@ -447,14 +412,14 @@ Use the Elastic Cloud API to create a project per track start and delete at trac
 | Component | Memory | Notes |
 |---|---|---|
 | OTel Astronomy Shop (30 containers) | ~8–10 GB | Validated on Apple Silicon |
-| Prometheus | ~512 MB | OTLP receiver + remote_write — **default 200MB limit is insufficient after a few days of running; increase to 512MB in compose.observability.yaml** |
+| Prometheus | ~1 GB | OTLP receiver + remote_write — **default 200MB limit is insufficient after a few days of running; this repo's patched compose file sets 1024M** |
 | Grafana | ~100 MB | Pre-provisioned dashboards |
 | **Total** | **~10 GB** | Use n1-standard-4 (15 GB) |
 
 > ⚠️ **Known issue:** The default Prometheus memory limit in `compose.observability.yaml` is 200MB.
 > After running for several days with remote_write active, Prometheus will OOM and crash-loop.
-> Fix: edit `compose.observability.yaml` and change `memory: 200M` to `memory: 512M` under the
-> Prometheus `resources.limits` block, then recreate the container:
+> Fix: use the patched `config/compose.observability.yaml` (`memory: 1024M`, plus `--storage.tsdb.wal-compression` and `--storage.tsdb.retention.size=800MB`;
+> `scripts/apply-config.sh` copies it into the demo), then recreate the container:
 > `docker compose -f compose.yaml -f compose.observability.yaml up --detach --force-recreate prometheus`
 > The `llm` container may also OOM under memory pressure but recovers once Prometheus stabilizes.
 
@@ -485,15 +450,17 @@ Steps 1–3 are complete as of August 13, 2026. Pick up from step 4.
 ## Key files (local repo structure)
 
 ```
-~/projects/elastic-migration/
+~/projects/prometheus-to-elastic/
 ├── .env.elastic                          # credentials — gitignored, never committed
+├── config/                               # tracked: placeholder prometheus-config.yaml, patched compose, .env.example
+├── scripts/
+│   └── apply-config.sh                   # generates the demo's Prometheus config from the template + .env.elastic
 ├── opentelemetry-demo/                   # cloned at tag 3.0.0
-│   ├── compose.yaml                      # main compose file (includes Prometheus + Grafana)
-│   ├── compose.observability.yaml        # already merged into compose.yaml in v3.0.0
+│   ├── compose.yaml                      # main compose file (does NOT define Prometheus or Grafana)
+│   ├── compose.observability.yaml        # adds Prometheus, Grafana, Jaeger, OpenSearch; replaced by config/compose.observability.yaml
 │   ├── src/
 │   │   ├── prometheus/
-│   │   │   ├── prometheus-config.yaml    # EDITED: remote_write block added at bottom
-│   │   │   └── prometheus-config.yaml.bak  # backup before edit
+│   │   │   └── prometheus-config.yaml    # GENERATED by scripts/apply-config.sh (contains the key; gitignored with the demo folder)
 │   │   └── otel-collector/
 │   │       ├── otelcol-config.yml
 │   │       ├── otelcol-config-observability.yml

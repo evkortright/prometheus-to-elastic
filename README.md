@@ -13,7 +13,7 @@ The core message: **your PromQL works in Elastic unchanged**. The migration adds
 ## Architecture
 
 ```
-OTel Astronomy Shop (30 microservices)
+OTel Astronomy Shop (16 microservices)
         │
         ▼ OTLP push
   OTel Collector
@@ -34,7 +34,7 @@ One `remote_write` block added to `prometheus-config.yaml`. Nothing else changes
 
 | Module | Topic | Status |
 |---|---|---|
-| 1 | PromQL Compatibility | ✅ Complete — script, cheat sheet, rehearsed |
+| 1 | PromQL Compatibility | 🔶 In progress — script and cheat sheet drafted; re-validating on a rebuilt environment (see `docs/module1-status-2026-10-19.md`) |
 | 2 | Remote Write Configuration | 🔲 Planned |
 | 3 | Dashboard Migration | 🔲 Planned |
 | 3.5 | Field Name Alignment (Prometheus → OTel semconv) | 🔲 Planned |
@@ -51,33 +51,34 @@ Each module has:
 ## Repository structure
 
 ```
-elastic-migration/
+prometheus-to-elastic/
 ├── README.md
 ├── .gitignore
+├── config/
+│   ├── prometheus-config.yaml          # Template: remote_write block with placeholders (no credentials)
+│   ├── compose.observability.yaml      # Patched: 1GB Prometheus memory, WAL compression, retention cap
+│   └── .env.example                    # Template — copy to ../.env.elastic and fill in values
+├── scripts/
+│   └── apply-config.sh                 # Generates the demo's Prometheus config from the template + .env.elastic
 ├── docs/
-│   ├── environment-setup-guide.md   # Full setup plan, validated steps, open questions
-│   └── diagrams/
-│       ├── 01_source_state.svg      # OTel demo before migration
-│       ├── 01_source_state.png
-│       ├── 02_bridge_state.svg      # With remote_write bridge
-│       ├── 02_bridge_state.png
-│       ├── 03_module4_esql.svg      # ES|QL cross-signal correlation
-│       ├── 03_module4_esql.png
-│       ├── 04_edot_optional.svg     # EDOT as optional layer
-│       └── 04_edot_optional.png
+│   ├── environment-setup-guide.md      # Full setup plan, validated steps, open questions
+│   ├── quickstart.md                   # Daily launch and verification guide
+│   ├── otel-collector-reference.md     # What the Collector does in the demo
+│   ├── module-learning-objectives.md   # Two-track curriculum with Bloom's objectives
+│   ├── module1-status-2026-10-19.md    # Environment change log and open Module 1 findings
+│   ├── handoff-2026-10-19-module1-video.md  # Point-in-time handoff (endpoint details superseded)
+│   └── diagrams/                       # 4 architecture diagrams (SVG + PNG)
 ├── modules/
 │   └── module1-promql-compatibility/
-│       ├── recording-script-final.md   # Use this for recording
-│       ├── promql-cheatsheet.md        # Query reference
-│       └── demo-script.md              # Working draft (superseded by final)
-├── config/
-│   ├── prometheus-config.yaml          # With remote_write block — copy over otel demo default
-│   ├── compose.observability.yaml      # With 512MB Prometheus memory limit fix
-│   └── .env.example                    # Template — copy to .env.elastic and fill in values
+│       ├── module1-recording-script-final.md   # Use this for recording
+│       ├── module1-promql-cheatsheet.md        # Query reference
+│       └── module1-demo-script.md              # Working draft (superseded by final)
 └── instruqt/                           # To be built
     ├── track.yml
     └── challenges/
 ```
+
+The OTel demo is cloned inside this folder as `opentelemetry-demo/` and is gitignored.
 
 ---
 
@@ -90,63 +91,60 @@ elastic-migration/
 - An Elastic Serverless **Observability Complete** project on [cloud.elastic.co](https://cloud.elastic.co)
 - Git
 
-### 1. Clone the OTel demo (pinned version)
+### 1. Clone this repo and the OTel demo (pinned version)
 
 ```bash
-mkdir -p ~/projects/elastic-migration
-cd ~/projects/elastic-migration
+git clone https://github.com/evkortright/prometheus-to-elastic.git ~/projects/prometheus-to-elastic
+cd ~/projects/prometheus-to-elastic
 
 git clone --depth 1 --branch 3.0.0 \
   https://github.com/open-telemetry/opentelemetry-demo.git
 
-cd opentelemetry-demo
+# Confirm the pin — the payment service fails to start on "latest"
+grep -n "DEMO_VERSION" opentelemetry-demo/.env   # expect DEMO_VERSION=3.0.0
 ```
 
-### 2. Apply config patches
+### 2. Create the Elastic credentials
 
-```bash
-# Copy the patched Prometheus config (includes remote_write block)
-cp ../config/prometheus-config.yaml src/prometheus/prometheus-config.yaml
+In your Serverless project, open Kibana → Dev Tools and create a key that can only write metrics:
 
-# Copy the patched observability compose (512MB Prometheus memory limit)
-cp ../config/compose.observability.yaml compose.observability.yaml
+```
+POST /_security/api_key
+{
+  "name": "prometheus-remote-write",
+  "role_descriptors": {
+    "prw_writer": {
+      "indices": [
+        { "names": ["metrics-*"], "privileges": ["auto_configure", "create_doc"] }
+      ]
+    }
+  }
+}
 ```
 
-### 3. Set up Elastic credentials
+Copy the `encoded` value from the response; it is shown only once. Then, from the repo root:
 
 ```bash
-# Copy the template
-cp ../config/.env.example ../.env.elastic
-
-# Edit with your actual values
-# ES_ENDPOINT=https://<project-id>.es.<region>.gcp.elastic.cloud
+cp config/.env.example .env.elastic
+nano .env.elastic
+# ES_ENDPOINT=https://<project-id>.es.<region>.<cloud>.elastic.cloud   (base URL: no path, no port)
 # ES_API_KEY=<your-encoded-api-key>
-nano ../.env.elastic
 ```
 
-> ⚠️ `.env.elastic` is gitignored — never commit it.
+> ⚠️ `.env.elastic` is gitignored — never commit it. The key is also written into the demo's generated Prometheus config (step 3), which lives in the gitignored demo folder.
 
-### 4. Verify connectivity
+### 3. Generate the Prometheus config
 
 ```bash
-source ../.env.elastic
-
-# Should return 200
-curl -s -o /dev/null -w "%{http_code}" \
-  -H "Authorization: ApiKey ${ES_API_KEY}" \
-  "${ES_ENDPOINT}"
-
-# Should return 405 (endpoint exists, POST only)
-curl -s -o /dev/null -w "%{http_code}" \
-  -H "Authorization: ApiKey ${ES_API_KEY}" \
-  -H "Content-Type: application/x-protobuf" \
-  "${ES_ENDPOINT}/_prometheus/api/v1/write"
+./scripts/apply-config.sh
 ```
 
-### 5. Start the stack
+The script builds `opentelemetry-demo/src/prometheus/prometheus-config.yaml` from the template and your `.env.elastic`, copies the patched compose file into the demo, and checks the endpoint. Expected output: `200` or `403` for the base endpoint (a write-only key may be refused at the cluster root) and `405` for the write endpoint. A `401` means the key was rejected.
+
+### 4. Start the stack
 
 ```bash
-cd ~/projects/elastic-migration/opentelemetry-demo
+cd opentelemetry-demo
 
 # Pull images first (catches auth/network issues early)
 docker compose -f compose.yaml -f compose.observability.yaml pull --quiet
@@ -162,16 +160,22 @@ docker compose -f compose.yaml -f compose.observability.yaml ps \
   --format "table {{.Name}}\t{{.Status}}"
 ```
 
-### 6. Verify data is flowing to Elastic
+### 5. Verify data is flowing to Elastic
+
+The key is write-only, so check from the Prometheus side:
 
 ```bash
-source ../.env.elastic
-curl -s \
-  -H "Authorization: ApiKey ${ES_API_KEY}" \
-  "${ES_ENDPOINT}/_cat/indices/metrics-*?h=index,docs.count"
+curl -s http://localhost:9090/metrics | grep '^prometheus_remote_storage_samples'
 ```
 
-Expect a non-zero document count within 2–3 minutes.
+Run it twice, a minute apart: `samples_total` should climb and `samples_failed_total` should stay at `0`. Then open Kibana → Discover (ES|QL) and run:
+
+```esql
+FROM metrics-generic.prometheus-default
+| STATS MIN(@timestamp), MAX(@timestamp), COUNT(*)
+```
+
+`MAX(@timestamp)` should be within the last couple of minutes.
 
 ---
 
@@ -190,10 +194,10 @@ Expect a non-zero document count within 2–3 minutes.
 ## Known issues
 
 **Prometheus OOM after extended running**
-The default 200MB memory limit in `compose.observability.yaml` is insufficient after several days of running with `remote_write` active. The patched `compose.observability.yaml` in this repo sets it to 512MB. If Prometheus crash-loops with exit code 137, check its memory limit.
+The default 200MB memory limit in `compose.observability.yaml` is insufficient after several days of running with `remote_write` active. The patched `compose.observability.yaml` in this repo sets it to 1024MB and adds WAL compression and a local retention cap. If Prometheus crash-loops with exit code 137, re-run `./scripts/apply-config.sh` and recreate the container.
 
 **macOS Docker Desktop bind mount**
-Editing `prometheus-config.yaml` on the host does not refresh inside the container automatically. Always restart the Prometheus container after editing:
+Editing `prometheus-config.yaml` on the host does not refresh inside the container automatically. Always restart the Prometheus container after regenerating the config:
 ```bash
 docker restart prometheus
 ```
@@ -201,15 +205,22 @@ docker restart prometheus
 **Grafana Demo Dashboard shows "No data"**
 The Demo Dashboard requires OpenSearch (logs) and Jaeger (traces). Use the **Spanmetrics Demo Dashboard** instead for Module 1 — it is driven purely by Prometheus metrics and populates immediately.
 
+**Write-only API key limits what you can check from the shell**
+The key can write metrics but cannot list indices (`_cat/indices`) or read the cluster root. Use the Prometheus `/metrics` counters and Kibana queries to verify ingestion.
+
+**Remote-write endpoint choice**
+This track uses the direct Elasticsearch endpoint (`/_prometheus/api/v1/write`). Elastic's current documentation recommends the Managed Prometheus Remote Write endpoint for Serverless projects. The direct endpoint still works; which one the curriculum teaches is an open decision (see `docs/module1-status-2026-10-19.md`).
+
 ---
 
 ## Daily workflow
 
 **Start:**
 ```bash
-cd ~/projects/elastic-migration/opentelemetry-demo
+cd ~/projects/prometheus-to-elastic/opentelemetry-demo
 docker compose -f compose.yaml -f compose.observability.yaml up --detach
 # Wait 15+ minutes before recording — Prometheus needs time to build stable rate() windows
+# (about 45 minutes after the first start on a new project, for a full Last 30 minutes chart)
 ```
 
 **Stop (preserves data):**
@@ -229,4 +240,4 @@ docker compose -f compose.yaml -f compose.observability.yaml down --volumes
 
 This repo is under active development. See `docs/environment-setup-guide.md` for the full project plan, open questions, and build order.
 
-Planned next: Module 2 (Remote Write Configuration) and Instruqt sandbox setup.
+Planned next: finish Module 1 (re-validation, slides, recording), then Module 2 (Remote Write Configuration) and Instruqt sandbox setup.
