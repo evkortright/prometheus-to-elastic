@@ -66,3 +66,33 @@ Not yet done: Prometheus-versus-Kibana value comparison, measuring the real inci
 11. **Remote-write endpoint.** Elastic's docs recommend the Managed Prometheus Remote Write endpoint for Serverless (key with `event:write` for the `apm` application; no URL-path routing). The direct endpoint used here still works. Whether the managed endpoint writes to the same data stream name was not confirmed. This affects Module 2's content.
 12. **Prometheus-compatible query endpoints.** The PROMQL docs mention `query` and `query_range` endpoints. If usable from Grafana, they may allow a truly unmodified query (relevant to Module 3).
 13. **Instruqt key pattern.** The Instruqt sections still assume an unrestricted key and hardcoded values; they need the restricted-key and template pattern.
+14. **Proposed LO wording** (for the root chat). The docs list explicit vector matching as unsupported, and "no syntax changes" is an absolute that the docs do not make.
+    - **LO1:** Recognize which everyday PromQL query patterns (label selectors, aggregation, `rate()` / `increase()` on counters) run in Elastic using the same PromQL expression. *(Remember)*
+    - **LO2:** Write and execute PromQL queries (instant vectors, range vectors reduced by functions, aggregation, arithmetic between aggregated results) against a live Elastic TSDS, reproducing results a Prometheus user would already expect. *(Apply)*
+    - **LO3:** Identify specific behavioral differences between Elastic's implementation and vanilla Prometheus: constructs that are not yet supported (such as explicit vector matching modifiers), behavior at query boundaries, and the feature's preview status. *(Analyze)*
+15. **Description feedback (reviewer, decided).** Avoid absolute claims ("always works", "not possible in pure PromQL"). Keep the strength by making the claim about the *expression* and saying *most* or *everyday*. Write the module description last, after the three videos are built, with a module-level version and one per video. The reviewer's suggested text is the skeleton. Hold "real-time error rate detection" and "ranked and filtered results" until the lab and the incident demo are re-validated.
+
+---
+## 4. Claims register
+
+Every spoken or written claim in Module 1 should trace to a row here. Status: **Verified** (seen in this environment), **Docs** (stated in Elastic's PROMQL docs, not yet tested here), **Observed** (seen, but incomplete), **Open**, **Retired**.
+
+| # | Claim | Status | Evidence or next step |
+|---|---|---|---|
+| 1 | Most PromQL expressions run unchanged | Docs | PROMQL command page, Limitations. Lab R1 to R8 |
+| 2 | The expression body is identical to Prometheus's; the line in Discover adds the PROMQL command and a result name | Verified | Screenshots of Queries 1 to 3 |
+| 3 | PROMQL is a preview feature (9.4 docs) | Docs | Serverless status not found |
+| 4 | Explicit matching (`on`, `ignoring`, `group_left`, `group_right`) is not supported | Docs | Lab P1 |
+| 5 | `and` / `unless`, the `@` modifier, and subqueries are not supported | Docs | Lab P2 to P4 |
+| 6 | Dividing two different unaggregated metrics returns no results, not an error | Docs | Lab P5 |
+| 7 | Omitting the range selector uses an implicit window of max(step, scrape_interval) | Docs | Lab P6 |
+| 8 | Step is derived from the date picker and about 100 buckets by default | Observed | 10 s steps in most screenshots, 1 min in one. Lab P7 |
+| 9 | Remote-write delivers samples to Elastic | Verified | `samples_total` equals `samples_in_total`; failed 0 |
+| 10 | Query 2 ranks frontend, cart, recommendation, checkout, shipping, payment | Verified | 8-minute window; re-check on a full window |
+| 11 | ES|QL commands can continue on a PROMQL result (filter, sort, stats) | Verified | Query 2 |
+| 12 | Prometheus reports 18 services | Verified | Legend screenshot |
+| 13 | Payment has an organic error baseline of about 0.004 | Observed | One hump in about 30 minutes. Interval unknown |
+| 14 | Spike size with `paymentFailure` on | Open | Not measured on the new project |
+| 15 | Elastic can be queried by Grafana as a Prometheus data source | Open | Docs page title only. Test before using |
+| 16 | Filtering belongs in the selector, not a WHERE pipe | Docs | Affects Queries 1 and 2 and Scene 3 |
+| 17 | "Can't be done in pure PromQL" and "never possible in Prometheus" | Retired | `topk()` and `sort_desc()` rank. Replace with "the result comes back as columns, so you can keep going" |
