@@ -234,6 +234,8 @@ docker compose -f compose.yaml -f compose.observability.yaml down --volumes
 # Note: this clears Prometheus local TSDB. Elastic data is unaffected.
 ```
 
+To also delete the metrics stored in Elasticsearch (clean slate without a new project), follow "Reset: stop the stack and wipe all Prometheus data" in `docs/quickstart.md`.
+
 ---
 
 ## Contributing

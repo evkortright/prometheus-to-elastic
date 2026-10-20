@@ -149,3 +149,33 @@ This stops containers but preserves their state. Next time you start, data resum
 docker compose -f compose.yaml -f compose.observability.yaml down --volumes
 ```
 Note: this clears Prometheus local storage. Elastic data is unaffected.
+
+---
+
+## Reset: stop the stack and wipe all Prometheus data
+
+Use this for a clean slate without creating a new Elastic project. **Order matters:** stop the stack first so nothing writes while you delete, and wipe the local data before restarting so Prometheus cannot replay old samples into the emptied data stream.
+
+**1. Stop the local stack and delete its data**
+```bash
+cd ~/personal/projects/prometheus-to-elastic/opentelemetry-demo
+docker compose -f compose.yaml -f compose.observability.yaml down --volumes --remove-orphans
+```
+This removes the containers and their volumes, including Prometheus's local storage. Your config files on disk are untouched.
+
+**2. Delete the data in Elasticsearch**
+
+The remote-write API key is write-only and cannot delete. Use Kibana → Dev Tools, which runs under your own login:
+```
+GET _data_stream/metrics-generic.prometheus-default
+DELETE _data_stream/metrics-generic.prometheus-default
+```
+The `GET` confirms the exact name first. The `DELETE` removes the data stream **and all of its backing indices**, and it cannot be undone. Use the exact name; do not use wildcards such as `metrics-*`, which would also delete any other metrics in the project.
+
+**3. Restart and rebuild the baseline**
+```bash
+docker compose -f compose.yaml -f compose.observability.yaml up --detach
+```
+The data stream is expected to be recreated automatically when the first new samples arrive (the key has the `auto_configure` privilege). Confirm with the Step 4 and Step 5 checks, then allow about 45 minutes before recording.
+
+If you only changed credentials and did not delete the data, you do not need this section. Re-run `./scripts/apply-config.sh` and `docker restart prometheus` instead.
