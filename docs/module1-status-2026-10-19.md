@@ -39,7 +39,9 @@ Stack started 16:14. Queries run in Kibana Discover, ES|QL mode, Last 15 minutes
 - **Display** (**Verified**): Discover shows the chart and the result list together in this Kibana version. Whether any chart/table toggle exists was not checked.
 - **Step size** (**Verified**): one-minute steps in one screenshot, 10-second steps in others. What sets it is unknown.
 
-Not yet done: Prometheus-versus-Kibana value comparison, measuring the real incident spike, measuring organic error frequency, scratch recording, slides.
+**Query lab (Oct 20, rebuilt desktop environment):** R1, R3, R4, and R6 compared against Prometheus; results are recorded in `module1-query-lab.md`. Headline: R3 and R6 agree closely, and R4 differs by about half when the date picker is narrower than the window.
+
+Not yet done: R2, R5, R7, R8, the probes, measuring the real incident spike, measuring organic error frequency, scratch recording, slides.
 
 ---
 
@@ -96,3 +98,6 @@ Every spoken or written claim in Module 1 should trace to a row here. Status: **
 | 15 | Elastic can be queried by Grafana as a Prometheus data source | Open | Docs page title only. Test before using |
 | 16 | Filtering belongs in the selector, not a WHERE pipe | Docs | Affects Queries 1 and 2 and Scene 3 |
 | 17 | "Can't be done in pure PromQL" and "never possible in Prometheus" | Retired | `topk()` and `sort_desc()` rank. Replace with "the result comes back as columns, so you can keep going" |
+| 18 | A `rate()` value evaluated back to back agrees between Prometheus and Elastic | Verified | Lab R3: 8.888018468 versus 8.888018465 |
+| 19 | A fixed range-selector window longer than the date picker's range only sees data inside the picker | Verified (effect); mechanism consistent with the docs | Lab R4: 9,391 (15-min picker) versus 18,925 (1-hour picker) versus Prometheus 18,960 |
+| 20 | Grouped `rate()` agrees on all 18 services; busy services within about 6%, small ones within about 13% | Verified | Lab R6. Small-service gaps attributed to timing (inference) |

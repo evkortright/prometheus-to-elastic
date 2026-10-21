@@ -12,7 +12,7 @@ Every command below is complete and ready to copy. The Prometheus commands go in
 
 - Stack running for **at least 45 minutes**, so a Last 30 minutes range is full and `rate()` windows have settled.
 - Prometheus UI at `http://localhost:9090`: use the **Table** tab for values and the **Graph** tab for shape.
-- Kibana → Discover → **ES|QL** mode, time picker on **Last 30 minutes**.
+- Kibana → Discover → **ES|QL** mode, time picker on **Last 1 hour** (use Last 30 minutes until the stack has run that long). **The picker must cover the longest window in the query:** PROMQL only reads data inside the picker's range, so a 30-minute window under a 15-minute picker sees about 15 minutes (see R4).
 - Feature flag `paymentFailure` **off** for the whole lab.
 - Before you start: `curl -s http://localhost:9090/metrics | grep '^prometheus_remote_storage_samples'` should show `samples_failed_total` at 0.
 
@@ -48,10 +48,14 @@ Elastic:
 ```esql
 PROMQL index=metrics-generic.prometheus-default time=?_tend calls=(traces_span_metrics_calls_total{service_name="frontend"})
 ```
-- Prometheus (series count, a sample value):
-- Elastic (rows, columns shown):
-- Verdict: ☐ Same ☐ Differs ☐ Error ☐ Empty
-- Notes:
+Count of series in Elastic:
+```esql
+PROMQL index=metrics-generic.prometheus-default time=?_tend calls=(traces_span_metrics_calls_total{service_name="frontend"}) | STATS series = COUNT(*)
+```
+- Prometheus: 50 series, labels listed inline.
+- Elastic: 50 series. Columns: `calls`, `step`, and `_timeseries` (a JSON column holding the labels, including `__name__`).
+- Verdict: ☑ Same ☐ Differs ☐ Error ☐ Empty
+- Notes (Oct 20): series count and label names agree. Presentation differs: inline labels versus a `_timeseries` JSON column. `step` is the evaluation time.
 
 ### R2 — Regex and negative matchers
 
@@ -70,41 +74,64 @@ PROMQL index=metrics-generic.prometheus-default time=?_tend calls=(traces_span_m
 
 ### R3 — rate() on a counter
 
+Use the summed form so each side returns one number.
+
 Prometheus:
 ```promql
-rate(traces_span_metrics_calls_total{service_name="frontend"}[5m])
+sum(rate(traces_span_metrics_calls_total{service_name="frontend"}[5m]))
 ```
 Elastic (instant):
 ```esql
-PROMQL index=metrics-generic.prometheus-default time=?_tend frontend_rate=(rate(traces_span_metrics_calls_total{service_name="frontend"}[5m]))
+PROMQL index=metrics-generic.prometheus-default time=?_tend frontend_rate=(sum(rate(traces_span_metrics_calls_total{service_name="frontend"}[5m])))
 ```
 Elastic (range, for the chart):
 ```esql
-PROMQL index=metrics-generic.prometheus-default frontend_rate=(rate(traces_span_metrics_calls_total{service_name="frontend"}[5m]))
+PROMQL index=metrics-generic.prometheus-default frontend_rate=(sum(rate(traces_span_metrics_calls_total{service_name="frontend"}[5m])))
 ```
-- Prometheus (value):
-- Elastic (value):
-- Verdict: ☐ Same ☐ Differs ☐ Error ☐ Empty
-- Notes:
+Optional, the unaggregated form (50 rows per side):
+```promql
+rate(traces_span_metrics_calls_total{service_name="frontend"}[5m])
+```
+```esql
+PROMQL index=metrics-generic.prometheus-default time=?_tend frontend_rate=(rate(traces_span_metrics_calls_total{service_name="frontend"}[5m]))
+```
+- Prometheus (value): 8.888018467743953
+- Elastic (value): 8.888018465483446
+- Verdict: ☑ Same ☐ Differs ☐ Error ☐ Empty
+- Notes (Oct 20): relative difference about 2.5e-10. In the unaggregated Elastic rows, `_timeseries` still showed `__name__` after `rate()`, whereas Prometheus drops the metric name; unconfirmed whether that is a real difference or how the column is built. The aggregated Elastic result has no `_timeseries` column; Prometheus shows `{}`.
 
 ### R4 — increase() on a counter
 
+Use the summed form.
+
 Prometheus:
 ```promql
-increase(traces_span_metrics_calls_total{service_name="frontend"}[30m])
+sum(increase(traces_span_metrics_calls_total{service_name="frontend"}[30m]))
 ```
 Elastic:
 ```esql
-PROMQL index=metrics-generic.prometheus-default time=?_tend frontend_increase=(increase(traces_span_metrics_calls_total{service_name="frontend"}[30m]))
+PROMQL index=metrics-generic.prometheus-default time=?_tend frontend_increase=(sum(increase(traces_span_metrics_calls_total{service_name="frontend"}[30m])))
 ```
-Optional, Elastic only. The docs show a window that stretches over the whole date picker range, which Prometheus has no equivalent for. Compare it against the 30m version above:
+Optional, Elastic only. The docs describe a window that spans the whole date picker range:
 ```esql
-PROMQL index=metrics-generic.prometheus-default time=?_tend frontend_increase=(increase(traces_span_metrics_calls_total{service_name="frontend"}[?_tend - ?_tstart]))
+PROMQL index=metrics-generic.prometheus-default time=?_tend frontend_increase=(sum(increase(traces_span_metrics_calls_total{service_name="frontend"}[?_tend - ?_tstart])))
 ```
-- Prometheus (value):
-- Elastic (value, both versions):
-- Verdict: ☐ Same ☐ Differs ☐ Error ☐ Empty
-- Notes (how long has the stack been running?):
+**Picker-width test** (same expression, only the picker changes). Run in quick succession:
+1. Picker **Last 15 minutes**: Elastic instant query above.
+2. Prometheus query above.
+3. Picker **Last 1 hour**: Elastic instant query above.
+
+Recorded results (Oct 20, steady traffic of about 10 req/s):
+
+| Run | Value | Versus Prometheus |
+|---|---|---|
+| Prometheus | 18,960.0 | |
+| Elastic, picker 15 min | 9,391.1 | 49.5% |
+| Elastic, picker 1 hour | 18,924.9 | 99.8% (evaluated about 80 s later) |
+| Earlier run, picker 15 min | Elastic 9,729.1 | Prometheus 18,745.9 (51.9%) |
+
+- Verdict: ☐ Same ☑ Differs ☐ Error ☐ Empty. **Differs when the picker is narrower than the window; Same when the picker covers it.**
+- Notes: the expression is identical in every run, and only the picker width changes the answer. The about-50% result matches only 15 of 30 minutes being visible at steady load. The docs say the time range comes from the date picker and recommend omitting range selectors when porting queries. They do not spell out this specific effect in the parts I read, so it is recorded as measured. The same effect likely explains the chart ramp at the left edge of the picker (a 5-minute `rate()` window filling up).
 
 ### R5 — Aggregation, whole system
 
@@ -127,18 +154,18 @@ Prometheus:
 ```promql
 sum by (service_name) (rate(traces_span_metrics_calls_total[5m]))
 ```
-Elastic (instant):
+Elastic (instant, sorted so it lines up with Prometheus):
 ```esql
-PROMQL index=metrics-generic.prometheus-default time=?_tend request_rate=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m])))
+PROMQL index=metrics-generic.prometheus-default time=?_tend request_rate=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m]))) | SORT service_name
 ```
 Elastic (range, for the chart):
 ```esql
 PROMQL index=metrics-generic.prometheus-default request_rate=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m])))
 ```
-- Prometheus (number of series, frontend value; we saw 18 services earlier):
-- Elastic (number of rows, frontend value):
-- Verdict: ☐ Same ☐ Differs ☐ Error ☐ Empty
-- Notes:
+- Prometheus: 18 series; labels shown inline as `{service_name="..."}`.
+- Elastic: 18 results; `request_rate`, `step`, and `service_name` as separate columns, with the same `step` on every row.
+- Verdict: ☑ Same ☐ Differs ☐ Error ☐ Empty
+- Notes (Oct 20, picker 1 hour, run back to back): same 18 services. Busy services agree within about 1 to 6% (frontend 10.242 versus 10.338, frontend-proxy 9.801 versus 10.084, flagd 8.605 versus 8.467, product-catalog 4.167 versus 4.234, cart 2.038 versus 2.150). Low-traffic services differ by up to about 13% (payment 0.129 versus 0.113), consistent with a few calls' worth of timing noise in a 5-minute window; this is an inference, not tested at a fixed evaluation time. Zero-traffic services (frontend-web, flagd-ui, load-generator) are 0 on both sides.
 
 ### R7 — Arithmetic with a scalar
 
@@ -308,12 +335,12 @@ PROMQL index=metrics-generic.prometheus-default time=?_tend top3=(topk(3, sum by
 
 | ID | Verdict | One line |
 |---|---|---|
-| R1 | | |
+| R1 | Same | 50 series, same labels; presentation differs (`_timeseries` column) |
 | R2 | | |
-| R3 | | |
-| R4 | | |
+| R3 | Same | 8.888018468 versus 8.888018465 (summed, instant) |
+| R4 | Differs / Same | Half the value when the picker is narrower than the window; matches when the picker covers it |
 | R5 | | |
-| R6 | | |
+| R6 | Same | 18 services; busy ones within about 6%, small ones within about 13% (timing) |
 | R7 | | |
 | R8 | | |
 | P1 | | |

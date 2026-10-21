@@ -65,8 +65,9 @@ Rungs map to the lab: selector is R1, `rate()` is R3, `sum by` is R6, `increase(
 2. **Capture on the desktop.** Which recorder, and does the Windows browser reach WSL's `localhost:9090`?
 3. **Grafana as a second data source.** If Elastic can be added as a Prometheus data source in Grafana, rung 1 could show a literally identical query. Needs reading the docs page and a test. Not required for Video 1.
 4. **Wording of "same".** "The same expression" versus "the same query." Use "expression" until we confirm what the Grafana route shows.
+5. **Where `increase()` goes.** R4 gives about half the Prometheus value when the date picker is narrower than the window. Recommendation: keep Video 1 to selector, `rate()`, and `sum by`, and show `increase()` in Video 3 as the boundary-behavior example. The alternative is to keep it here with the picker set to Last 1 hour and say nothing about windows, which sets Video 3 up as a reveal. LO1 currently names `increase()`, so this also touches the LO wording. Needs your call.
 
 ## Dependencies
 
-- Query lab verdicts for R1, R3, R4, R6 (and R2 if we add a regex example).
+- Query lab verdicts for R1, R3, R4, R6: **done Oct 20.** R1, R3, and R6 are Same. R4 matches only when the date picker covers the window (see decision 5).
 - Confirm the Last 30 minutes chart looks right after 45 minutes of data.
