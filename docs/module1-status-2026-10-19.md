@@ -77,16 +77,18 @@ Not yet done: R2, R5, R7, R8, the probes, measuring the real incident spike, mea
 ---
 ## 4. Claims register
 
+**Update (Oct 21, 2026):** Rows 1, 3 to 6, and 15 were revised and rows 21 to 31 added after reading Elastic's live PromQL pages (list at the end of this section). Section 3 items 2 and 14 are superseded: item 2 by row 3, and item 14 because the LO wording was applied to `module-learning-objectives.md` (commit `4ae9f7f`). Docs change often, so re-read the limitations page before each recording.
+
 Every spoken or written claim in Module 1 should trace to a row here. Status: **Verified** (seen in this environment), **Docs** (stated in Elastic's PROMQL docs, not yet tested here), **Observed** (seen, but incomplete), **Open**, **Retired**.
 
 | # | Claim | Status | Evidence or next step |
 |---|---|---|---|
-| 1 | Most PromQL expressions run unchanged | Docs | PROMQL command page, Limitations. Lab R1 to R8 |
+| 1 | Most, but not all, PromQL expressions run unchanged | Docs | Limitations page says the majority of PromQL expressions run unchanged (https://www.elastic.co/docs/reference/query-languages/promql/promql-limitations); the PROMQL command page notes it supports most, but not all, of PromQL. Lab R1 to R8 test our subset |
 | 2 | The expression body is identical to Prometheus's; the line in Discover adds the PROMQL command and a result name | Verified | Screenshots of Queries 1 to 3 |
-| 3 | PROMQL is a preview feature (9.4 docs) | Docs | Serverless status not found |
-| 4 | Explicit matching (`on`, `ignoring`, `group_left`, `group_right`) is not supported | Docs | Lab P1 |
-| 5 | `and` / `unless`, the `@` modifier, and subqueries are not supported | Docs | Lab P2 to P4 |
-| 6 | Dividing two different unaggregated metrics returns no results, not an error | Docs | Lab P5 |
+| 3 | PROMQL is available on Elastic Cloud Serverless; on Elastic Stack it was preview in 9.4 and is GA from 9.5 | Docs (partly) | Author's paste of the live command page (Oct 21): badges read Serverless and Stack GA 9.5+. Elastic's what-is-PromQL page says GA on Serverless. Recent docs preview builds say Serverless GA. The live badge shows no Preview label for Serverless but does not say GA in words. **Script rule:** say "available on Elastic Cloud Serverless"; do not say "preview" |
+| 4 | Explicit matching (`on`, `ignoring`, `group_left`, `group_right`) is not supported | Docs | Limitations page, group modifiers (retrieved Oct 21). Lab P1 |
+| 5 | `and` / `unless`, the `@` modifier, and subqueries are not supported | Docs | Limitations page (retrieved Oct 21). Top-level `or` is supported, nested `or` is not. Lab P2 to P4 |
+| 6 | Dividing two different unaggregated metrics returns no results, not an error | Docs | Limitations page (retrieved Oct 21). Lab P5 |
 | 7 | Omitting the range selector uses an implicit window of max(step, scrape_interval) | Docs | Lab P6 |
 | 8 | Step is derived from the date picker and about 100 buckets by default | Observed | 10 s steps in most screenshots, 1 min in one. Lab P7 |
 | 9 | Remote-write delivers samples to Elastic | Verified | `samples_total` equals `samples_in_total`; failed 0 |
@@ -95,9 +97,22 @@ Every spoken or written claim in Module 1 should trace to a row here. Status: **
 | 12 | Prometheus reports 18 services | Verified | Legend screenshot |
 | 13 | Payment has an organic error baseline of about 0.004 | Observed | One hump in about 30 minutes. Interval unknown |
 | 14 | Spike size with `paymentFailure` on | Open | Not measured on the new project |
-| 15 | Elastic can be queried by Grafana as a Prometheus data source | Open | Docs page title only. Test before using |
+| 15 | Elastic can be queried by Grafana as a Prometheus data source | Docs, untested | Grafana page says existing dashboards work without changes if the PromQL is supported (https://www.elastic.co/docs/reference/query-languages/promql/promql-grafana). Not tested here; do not use in a script until tested |
 | 16 | Filtering belongs in the selector, not a WHERE pipe | Docs | Affects Queries 1 and 2 and Scene 3 |
 | 17 | "Can't be done in pure PromQL" and "never possible in Prometheus" | Retired | `topk()` and `sort_desc()` rank. Replace with "the result comes back as columns, so you can keep going" |
 | 18 | A `rate()` value evaluated back to back agrees between Prometheus and Elastic | Verified | Lab R3: 8.888018468 versus 8.888018465 |
 | 19 | A fixed range-selector window longer than the date picker's range only sees data inside the picker | Verified (effect); mechanism consistent with the docs | Lab R4: 9,391 (15-min picker) versus 18,925 (1-hour picker) versus Prometheus 18,960 |
 | 20 | Grouped `rate()` agrees on all 18 services; busy services within about 6%, small ones within about 13% | Verified | Lab R6. Small-service gaps attributed to timing (inference) |
+| 21 | Binary expressions need both operands aggregated alike (`sum(a) / sum(b)`) or both unaggregated; `sum(a) / b` returns a client error; operations with a plain number (`... * 60`) are supported | Docs | Limitations page. Lab R7, R8; candidate probe for `sum(a) / b` |
+| 22 | Comparison operators work only at the top level and only with a scalar literal on the right; comparing two vectors returns a client error | Docs | Limitations page; comparison operators page. Candidate probe |
+| 23 | Selectors without a metric name, and regex matchers on `__name__`, are not supported | Docs | Limitations page. Matches the P5 note in the lab. Candidate probe |
+| 24 | Prometheus staleness markers are not applied; a series disappears only once all its samples leave the evaluation window | Docs | Limitations page. Untested |
+| 25 | Native histograms: `rate` is not available (use `increase`); `irate` and `delta` are not available either | Docs | Limitations page. Untested; relevant only to native-histogram users |
+| 26 | Exemplar queries are not supported (HTTP API) | Docs | Limitations page. Untested |
+| 27 | Time buckets align to fixed calendar boundaries, which can cause slight differences from Prometheus | Docs, version-dependent | Limitations page says this; a merged docs fix (elastic/elasticsearch PR 160789) says it applies to 9.4 only, with query-start alignment from 9.5. Our Serverless project's behavior is unknown. A possible second cause of the small-service gaps in R6 (the timing-noise explanation in row 20 remains an inference) |
+| 28 | The Prometheus-compatible `/api/v1/query` endpoint is implemented as a five-minute range query ending at the evaluation time | Docs | Limitations page. Applies to the HTTP API and the Grafana route, not to the ES\|QL PROMQL command |
+| 29 | Elastic's `=~` is fully anchored and `!=` behaves as in Prometheus | Open | Prometheus behavior is verified (https://next.prometheus.io/docs/querying/basics). Elastic's Label matching operators page is unread; Lab R2 tests it |
+| 30 | Elastic's marketing wording is "minimal changes"; our wording stays "most everyday expressions" | Decision | Elastic's what-is-PromQL page. Keep our narration at the strength of the limitations page |
+| 31 | The `offset` modifier is supported | Open | The limitations page text mentions `offset` in a way that was ambiguous when retrieved. Read the reference page or test before any claim |
+
+**Sources retrieved Oct 21, 2026:** https://www.elastic.co/docs/reference/query-languages/promql/promql-limitations (fetched in full); https://www.elastic.co/docs/reference/query-languages/promql; https://www.elastic.co/docs/reference/query-languages/promql/promql-grafana; https://www.elastic.co/docs/reference/query-languages/promql/promql-http-api; https://www.elastic.co/what-is/promql; https://next.prometheus.io/docs/querying/basics. The PROMQL command page was checked through the author's paste of its header, and through docs preview builds (not canonical).
