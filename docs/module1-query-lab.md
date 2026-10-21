@@ -67,10 +67,38 @@ Elastic:
 ```esql
 PROMQL index=metrics-generic.prometheus-default time=?_tend calls=(traces_span_metrics_calls_total{service_name=~"frontend|checkout", status_code!="STATUS_CODE_ERROR"})
 ```
-- Prometheus:
-- Elastic:
-- Verdict: ☐ Same ☐ Differs ☐ Error ☐ Empty
-- Notes:
+
+Count form used on Oct 21 (it shows which series matched without listing all of them). Run with the picker on Last 1 hour.
+
+Prometheus (Table tab):
+```promql
+count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout", status_code!="STATUS_CODE_ERROR"})
+```
+Elastic:
+```esql
+PROMQL index=metrics-generic.prometheus-default time=?_tend series=(count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout", status_code!="STATUS_CODE_ERROR"}))
+```
+Baseline, the same expressions with the `status_code!=` matcher removed:
+```promql
+count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout"})
+```
+```esql
+PROMQL index=metrics-generic.prometheus-default time=?_tend series=(count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout"}))
+```
+
+Recorded results (Oct 21, series counts):
+
+| service_name | status_code | Prometheus with `!=` (11:10) | Elastic with `!=` (11:13) | Prometheus baseline | Elastic baseline (11:14) |
+|---|---|---|---|---|---|
+| checkout | STATUS_CODE_UNSET | 8 | 8 | 8 | 8 |
+| frontend | STATUS_CODE_UNSET | 36 | 36 | 36 | 36 |
+| checkout | STATUS_CODE_ERROR | not returned | not returned | 2 | 2 |
+| frontend | STATUS_CODE_ERROR | not returned | not returned | 14 | 14 |
+
+- Prometheus: checkout 8 and frontend 36 series, both STATUS_CODE_UNSET (11:10 CDT).
+- Elastic: the same two rows, 8 and 36 (11:13 CDT).
+- Verdict: ☑ Same ☐ Differs ☐ Error ☐ Empty
+- Notes (Oct 21): `frontend-proxy` is absent on both sides, so the regex `frontend|checkout` is fully anchored in both systems. The `!=` matcher removed exactly the ERROR series on both sides (14 for frontend, 2 for checkout; 16 in total). Frontend has 36 + 14 = 50 series, equal to the 50 recorded in R1 on Oct 20. These two services have no STATUS_CODE_OK series in this data.
 
 ### R3 — rate() on a counter
 
@@ -143,10 +171,10 @@ Elastic:
 ```esql
 PROMQL index=metrics-generic.prometheus-default time=?_tend total_rate=(sum(rate(traces_span_metrics_calls_total[5m])))
 ```
-- Prometheus (value):
-- Elastic (value):
-- Verdict: ☐ Same ☐ Differs ☐ Error ☐ Empty
-- Notes:
+- Prometheus (value): 46.37547088042138 (run immediately before the Elastic query; time not recorded)
+- Elastic (value): 46.375470912857935 (step 11:16:55 CDT, Oct 21)
+- Verdict: ☑ Same ☐ Differs ☐ Error ☐ Empty
+- Notes (Oct 21, picker 1 hour): relative difference about 7.0e-10. Prometheus shows the empty label set `{}`; Elastic returns only `total_rate` and `step`.
 
 ### R6 — Aggregation by label
 
@@ -177,10 +205,10 @@ Elastic:
 ```esql
 PROMQL index=metrics-generic.prometheus-default time=?_tend per_minute=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m])) * 60)
 ```
-- Prometheus (frontend value, per minute):
-- Elastic (frontend value):
-- Verdict: ☐ Same ☐ Differs ☐ Error ☐ Empty
-- Notes:
+- Prometheus (frontend value, per minute): 767.3139428285692 (frontend-proxy 775.5646303858657). 18 results, 11:19 CDT, Oct 21.
+- Elastic (frontend value): 767.3139427675849 (frontend-proxy 775.5646303242174). Step 11:19:05 CDT.
+- Verdict: ☑ Same ☐ Differs ☐ Error ☐ Empty
+- Notes (Oct 21, picker 1 hour): relative differences about 7.9e-11 on both compared rows, with the same sign. The cause of the near-identical gaps is unexplained. Prometheus returned 18 results, with frontend-web, flagd-ui and load-generator at 0, as in R6. The Elastic row count was not recorded.
 
 ### R8 — Error ratio (arithmetic between two aggregated results)
 
@@ -196,10 +224,10 @@ Elastic (range, for the chart):
 ```esql
 PROMQL index=metrics-generic.prometheus-default error_ratio=(sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m])) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m])))
 ```
-- Prometheus (which services appear? frontend and payment values):
-- Elastic (which services appear?):
-- Verdict: ☐ Same ☐ Differs ☐ Error ☐ Empty
-- Notes (services with no error series: do they drop out in both?):
+- Prometheus (which services appear? frontend and payment values): 8 services (as pasted). payment 0.03125, flagd 0.0008347245409015025, and ad, recommendation, frontend-proxy, frontend, shipping and checkout all 0. Run 11:26 CDT, Oct 21.
+- Elastic (which services appear?): the same 8 services. payment 0.0312500000000003, flagd 0.0008347245409015352, the other six 0. Step 11:26:21 CDT.
+- Verdict: ☑ Same ☐ Differs ☐ Error ☐ Empty
+- Notes (Oct 21, picker 1 hour): yes, services with no matching error series drop out in both systems. The same 10 services are absent on both sides: frontend-web, flagd-ui, load-generator, telemetry-docs, quote, email, currency, cart, product-catalog, image-provider. The nonzero values agree to about 1e-14 (payment) and 4e-14 (flagd), relative. The row counts were assumed from the pasted rows, not read from Discover. A first attempt at 11:22 was discarded because the Prometheus paste was the R7 table, not the R8 result. Payment's ratio was 0 at 11:22:53 and 0.03125 at 11:26 with `paymentFailure` off.
 
 ---
 
@@ -336,13 +364,13 @@ PROMQL index=metrics-generic.prometheus-default time=?_tend top3=(topk(3, sum by
 | ID | Verdict | One line |
 |---|---|---|
 | R1 | Same | 50 series, same labels; presentation differs (`_timeseries` column) |
-| R2 | | |
+| R2 | Same | Regex anchored and `!=` agree: frontend 36 and checkout 8 UNSET series; baseline adds 14 and 2 ERROR series on both sides |
 | R3 | Same | 8.888018468 versus 8.888018465 (summed, instant) |
 | R4 | Differs / Same | Half the value when the picker is narrower than the window; matches when the picker covers it |
-| R5 | | |
+| R5 | Same | 46.375470881 versus 46.375470913 (summed, instant) |
 | R6 | Same | 18 services; busy ones within about 6%, small ones within about 13% (timing) |
-| R7 | | |
-| R8 | | |
+| R7 | Same | frontend 767.31394283 versus 767.31394277 per minute; `* 60` works |
+| R8 | Same | Same 8 services; 10 without error series drop out on both sides; nonzero values agree to about 1e-14 |
 | P1 | | |
 | P2 | | |
 | P3 | | |

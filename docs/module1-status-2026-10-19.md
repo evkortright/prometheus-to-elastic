@@ -41,7 +41,7 @@ Stack started 16:14. Queries run in Kibana Discover, ES|QL mode, Last 15 minutes
 
 **Query lab (Oct 20, rebuilt desktop environment):** R1, R3, R4, and R6 compared against Prometheus; results are recorded in `module1-query-lab.md`. Headline: R3 and R6 agree closely, and R4 differs by about half when the date picker is narrower than the window.
 
-Not yet done: R2, R5, R7, R8, the probes, measuring the real incident spike, measuring organic error frequency, scratch recording, slides.
+Done Oct 21: R2, R5, R7 and R8, all Same (see `module1-query-lab.md`). Not yet done: the probes, measuring the real incident spike, measuring organic error frequency, scratch recording, slides.
 
 ---
 
@@ -77,7 +77,7 @@ Not yet done: R2, R5, R7, R8, the probes, measuring the real incident spike, mea
 ---
 ## 4. Claims register
 
-**Update (Oct 21, 2026):** Rows 1, 3 to 6, and 15 were revised and rows 21 to 31 added after reading Elastic's live PromQL pages (list at the end of this section). Section 3 items 2 and 14 are superseded: item 2 by row 3, and item 14 because the LO wording was applied to `module-learning-objectives.md` (commit `4ae9f7f`). Docs change often, so re-read the limitations page before each recording.
+**Update (Oct 21, 2026):** Rows 1, 3 to 6, and 15 were revised and rows 21 to 31 added after reading Elastic's live PromQL pages, and rows 32 to 35 added after the Oct 21 lab runs (list at the end of this section). Section 3 items 2 and 14 are superseded: item 2 by row 3, and item 14 because the LO wording was applied to `module-learning-objectives.md` (commit `4ae9f7f`). Docs change often, so re-read the limitations page before each recording.
 
 Every spoken or written claim in Module 1 should trace to a row here. Status: **Verified** (seen in this environment), **Docs** (stated in Elastic's PROMQL docs, not yet tested here), **Observed** (seen, but incomplete), **Open**, **Retired**.
 
@@ -91,7 +91,7 @@ Every spoken or written claim in Module 1 should trace to a row here. Status: **
 | 6 | Dividing two different unaggregated metrics returns no results, not an error | Docs | Limitations page (retrieved Oct 21). Lab P5 |
 | 7 | Omitting the range selector uses an implicit window of max(step, scrape_interval) | Docs | Lab P6 |
 | 8 | Step is derived from the date picker and about 100 buckets by default | Observed | 10 s steps in most screenshots, 1 min in one. Lab P7 |
-| 9 | Remote-write delivers samples to Elastic | Verified | `samples_total` equals `samples_in_total`; failed 0 |
+| 9 | Remote-write delivers samples to Elastic | Verified (Oct 19 run) | Oct 19: `samples_total` equalled `samples_in_total` and failed was 0. Oct 21: the counters differ, see row 34 |
 | 10 | Query 2 ranks frontend, cart, recommendation, checkout, shipping, payment | Verified | 8-minute window; re-check on a full window |
 | 11 | ES|QL commands can continue on a PROMQL result (filter, sort, stats) | Verified | Query 2 |
 | 12 | Prometheus reports 18 services | Verified | Legend screenshot |
@@ -111,8 +111,12 @@ Every spoken or written claim in Module 1 should trace to a row here. Status: **
 | 26 | Exemplar queries are not supported (HTTP API) | Docs | Limitations page. Untested |
 | 27 | Time buckets align to fixed calendar boundaries, which can cause slight differences from Prometheus | Docs, version-dependent | Limitations page says this; a merged docs fix (elastic/elasticsearch PR 160789) says it applies to 9.4 only, with query-start alignment from 9.5. Our Serverless project's behavior is unknown. A possible second cause of the small-service gaps in R6 (the timing-noise explanation in row 20 remains an inference) |
 | 28 | The Prometheus-compatible `/api/v1/query` endpoint is implemented as a five-minute range query ending at the evaluation time | Docs | Limitations page. Applies to the HTTP API and the Grafana route, not to the ES\|QL PROMQL command |
-| 29 | Elastic's `=~` is fully anchored and `!=` behaves as in Prometheus | Open | Prometheus behavior is verified (https://next.prometheus.io/docs/querying/basics). Elastic's Label matching operators page is unread; Lab R2 tests it |
+| 29 | Elastic's `=~` is fully anchored and `!=` behaves as in Prometheus | Verified | Lab R2 (Oct 21): `frontend-proxy` absent on both sides; `!=` removed exactly the 16 ERROR series on both sides. Prometheus behavior: https://next.prometheus.io/docs/querying/basics. Elastic's Label matching operators page remains unread |
 | 30 | Elastic's marketing wording is "minimal changes"; our wording stays "most everyday expressions" | Decision | Elastic's what-is-PromQL page. Keep our narration at the strength of the limitations page |
 | 31 | The `offset` modifier is supported | Open | The limitations page text mentions `offset` in a way that was ambiguous when retrieved. Read the reference page or test before any claim |
+| 32 | A division between two aggregated results drops services that have no series on the left side, in both systems | Verified | Lab R8 (Oct 21): the same 8 services returned by both sides; the same 10 absent. The reason (unmatched elements are dropped) is standard Prometheus behavior; no source linked yet |
+| 33 | Whole-system `sum(rate(...))`, `sum by (...) (...) * 60` and the two-aggregate ratio agree between Prometheus and Elastic | Verified | Lab R5 (relative gap about 7.0e-10), R7 (about 7.9e-11), R8 (about 1e-14 on the two nonzero rows). Instant queries, picker 1 hour, run back to back |
+| 34 | Remote-write failures on the Oct 21 desktop run | Observed | `samples_failed_total` was 38122 at every reading (16:01 to 16:29 UTC). Container started 2026-10-20T05:51:17Z. The log holds two HTTP 429 errors (05:51:40 and 05:52:40 UTC) accounting for 629 samples; the other 37,493 are unexplained. No sample failed during the lab runs (counter 38122 at 16:03:12 and at 16:29:44 UTC) |
+| 35 | Payment shows a nonzero error ratio with `paymentFailure` off | Observed | Lab R8: 0 at 11:22:53 CDT, 0.03125 at 11:26 CDT on Oct 21. Interval of these episodes is still unmeasured (see row 13) |
 
 **Sources retrieved Oct 21, 2026:** https://www.elastic.co/docs/reference/query-languages/promql/promql-limitations (fetched in full); https://www.elastic.co/docs/reference/query-languages/promql; https://www.elastic.co/docs/reference/query-languages/promql/promql-grafana; https://www.elastic.co/docs/reference/query-languages/promql/promql-http-api; https://www.elastic.co/what-is/promql; https://next.prometheus.io/docs/querying/basics. The PROMQL command page was checked through the author's paste of its header, and through docs preview builds (not canonical).
