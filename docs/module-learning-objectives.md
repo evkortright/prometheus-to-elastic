@@ -1,7 +1,7 @@
 # PromQL → Elastic Migration — Training Curriculum
 
 **Instructional Design Reference**
-*Last updated: September 2026*
+*Last updated: October 2026*
 
 ---
 
@@ -65,15 +65,15 @@ Migration phase:      05
 
 #### Learning Objectives
 
-- **Recognize** which everyday PromQL query patterns — label selectors, aggregation, `rate()` / `increase()` on counters — carry over to Elastic with no syntax changes. *(Remember)*
+- **Recognize** which everyday PromQL patterns — label selectors, aggregation, `rate()` on counters — run in Elastic using the same PromQL expression. *(Remember)*
 
-- **Write and execute** PromQL queries — instant vectors, range vectors reduced by functions, aggregation, arithmetic, vector matching — against a live Elastic TSDS, reproducing results a Prometheus user would already expect. *(Apply)*
+- **Write and execute** PromQL against a live Elastic TSDS — instant vectors, range vectors reduced by functions, aggregation, and arithmetic between aggregated results — getting results a Prometheus user would already expect. *(Apply)*
 
-- **Identify** specific behavioral differences between Elastic's implementation and vanilla Prometheus — documented tech-preview gaps and any edge-case behavior at query boundaries. *(Analyze)*
+- **Identify** documented differences between Elastic's PromQL and Prometheus — unsupported constructs, behavior at query boundaries such as the date-picker window, and the feature's current status. *(Analyze)*
 
 #### Skills & Knowledge Gained
 
-PromQL syntax fluency on Elastic; TSDS conceptual grounding (series identity, dimensions, metric types); confidence that an existing Prometheus query maps over with its logic intact; an accurate, non-oversold picture of what's still incomplete.
+PromQL syntax fluency on Elastic; TSDS conceptual grounding (series identity, dimensions, metric types); confidence that most everyday Prometheus expressions carry over, and the ability to check your own against the documented limits; an accurate, non-oversold picture of what's still incomplete.
 
 ---
 
@@ -230,4 +230,6 @@ Validate that Elastic and Prometheus produce equivalent results for all critical
 
 **Track 2 requires Track 1 as a prerequisite.** A learner who attempts Track 2 without Track 1 experience is attempting a commitment without confidence. The parallel-running period is not optional ceremony — it's the confidence-building mechanism the whole curriculum depends on.
 
-**Deferred, not abandoned:** A cardinality/storage-economics deep dive and a dedicated limitations appendix were scoped and cut per stakeholder review — limitations discussion should wait until a learner raises it, not be surfaced proactively. Both can be reintroduced without rebuilding from scratch.
+**Deferred, not abandoned:** A cardinality/storage-economics deep dive and a standalone limitations appendix were scoped and cut per stakeholder review. Both can be reintroduced without rebuilding from scratch.
+
+**Limitations are not hidden.** Learners will find them anyway, so Module 01 introduces each limitation where the learner would meet it and covers the documented ones in its third video. Every limitation claim traces to Elastic's documentation or to a recorded test result.
