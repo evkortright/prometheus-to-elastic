@@ -11,7 +11,7 @@
 3. `docs/module1-query-lab.md`: the tested expressions and recorded results.
 4. `docs/module1-video1-run-sheet.md`: the screen steps and the voice-over for Video 1.
 5. `docs/module1-video1-outline.md`.
-6. `docs/module1-video2-outline.md`, if it exists in the repo. It was drafted on Oct 22 and may not be committed yet; ask.
+6. `docs/module1-video2-outline.md`: drafted and committed on Oct 22; the author has not yet reviewed its nine open decisions.
 7. `docs/slide-narrative-guidance.md`: the author's rules for slide narrations.
 8. `docs/module-learning-objectives.md`: the Module 01 section and the design notes.
 9. `docs/quickstart.md`: the reset section.
@@ -112,7 +112,7 @@ Also confirm the `paymentFailure` flag is off on the feature flags page.
 | 4 | Clean restart | Done (T0 above) |
 | 5 | Video 1 outline | Done (`edf75cf`) |
 | 6 | Video 1 run-sheet with voice-over iteration 1 | Done (`77f2204`); not yet heard through the speech engine |
-| 7 | Video 2 outline | Drafted (`video2-outline-2026-10-22.zip`); **not yet applied or committed by the author** |
+| 7 | Video 2 outline | Committed Oct 22 (see `git log`); the author has not yet reviewed its nine open decisions |
 | 8 | Speech-engine test of Video 1 and iteration 2 | Next (author, with fresh ears) |
 | 9 | Capture test and R1 rehearsal on the fresh dataset | Next (author) |
 | 10 | Opener slide regenerated from iteration 1 | To do (the existing slide came from the first draft) |
@@ -122,7 +122,7 @@ Also confirm the `paymentFailure` flag is off on the feature flags page.
 | 14 | Primer doc `docs/module1-promql-primer.md` | Not created; the glossary (section 10) is its seed |
 | 15 | Module description | Write last, after the three videos |
 
-**Commits so far (Oct 20 to 22):** `4ae9f7f` LO update; `f3f898a` register; `4a911b1` lab results; `edf75cf` Video 1 outline; `232f594` run-sheet v1; `2e0a9f9` voice-over v2; `77f2204` run-sheet v3.
+**Commits so far (Oct 20 to 22):** `4ae9f7f` LO update; `f3f898a` register; `4a911b1` lab results; `edf75cf` Video 1 outline; `232f594` run-sheet v1; `2e0a9f9` voice-over v2; `77f2204` run-sheet v3; `5b818e6` living handoff.
 
 ## 7. Decisions made (dated)
 
@@ -239,6 +239,7 @@ These came from reading Video 1's first draft as a viewer and iterating on it. T
 | Date (UTC) | Update |
 |---|---|
 | 2026-10-22 | File created. Captures the working agreements, repo routine, stack state after the clean restart (T0 00:41:00 UTC, +70 min readings), decisions, narrative lessons, glossary, traps, and the parked list. |
+| 2026-10-22 | Video 2 outline committed. Commit `5b818e6` added to the list. Read order and tracker row 7 updated. |
 
 ## 15. Starter prompt for the next chat
 
