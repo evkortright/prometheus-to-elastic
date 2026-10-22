@@ -5,11 +5,14 @@
 **Supersedes:** `handoff-2026-10-20-module1-continuation.md`. Keep that file as history only; section 13 lists what in it is now out of date.
 **This file is updated, not rewritten.** Add to it at every milestone (section 14 says how). If it disagrees with an older document, this file wins, unless the claims register says otherwise.
 
+**Who changes the repo:** this chat owns the repo (decided Oct 22, after the first handoff). Only changes delivered here are applied. The author applies, checks, commits and pushes (section 3); the assistant states the expected result first and checks the pasted output. The earlier chat is a reference for what was done before.
+
 **Read in this order:**
 1. This file.
 2. `docs/module1-status-2026-10-19.md`: section 2 (state), section 3 (open items), section 4 (claims register). The file name keeps its old date; do not rename it.
 3. `docs/module1-query-lab.md`: the tested expressions and recorded results.
-4. `docs/module1-video1-run-sheet.md`: the screen steps and the voice-over for Video 1. **This is the source of truth for the narration.**
+4. `docs/module1-video1-run-sheet.md`: the screen steps and the voice-over for Video 1. **This stays the source of truth for the narration until the narrative file (4a) is approved.**
+4a. `docs/module1-video1-narrative.md`: Video 1 as one continuous narrative, draft v1 (Oct 22, commit `8f6f186`). Awaiting the author's listening test. Once approved it becomes the source for the voice-over, and the run-sheet and the story document are regenerated from it.
 5. `docs/module1-video1-story.md`: the reading version of Video 1, generated from the run-sheet (for hearing it aloud and for peer review).
 6. `docs/module1-video1-outline.md` and `docs/module1-video2-outline.md` (Video 2 is committed; the author has not yet reviewed its nine open decisions).
 7. `docs/slide-narrative-guidance.md`: the author's rules for slide narrations.
@@ -40,6 +43,7 @@
 10. **Verification.** Claims trace to Elastic or Prometheus docs (link them) or to a recorded test. Third-party sources are flagged as such. Search results can be docs preview builds (`docs-v3-preview.elastic.dev`), which are not canonical.
 11. **Plain language.** Define a term the first time. A term the author hasn't met goes in the glossary with a source.
 12. **The assistant's sandbox has no network for shell commands in this setup.** Use web search and web fetch (fetch works only for URLs that already appeared in results).
+13. **Repo ownership (Oct 22).** This chat is the only source of repo changes. The assistant cannot run git, and a zip made with `git archive` has no `.git`, so the sync check is `git fetch` and `git status -sb` on the laptop (section 3, step 1).
 
 ## 3. The repo-update routine
 
@@ -47,7 +51,7 @@ Laptop (macOS), repo at `/Users/enriquekortright/personal/projects/prometheus-to
 
 | Step | Command | Expect |
 |---|---|---|
-| 1. Apply | `cd /Users/enriquekortright/personal/projects/prometheus-to-elastic`, then `unzip -o ~/Downloads/<name>.zip`, then `git status -sb` | ` M <file>` for an edited file, `?? <file>` for a new one |
+| 1. Apply | `cd /Users/enriquekortright/personal/projects/prometheus-to-elastic`, then `git fetch`, then `unzip -o ~/Downloads/<name>.zip`, then `git status -sb` | First line `## main...origin/main` (clean and in sync), then ` M <file>` for an edited file or `?? <file>` for a new one. Anything else means the repo and the assistant's copy have drifted: stop and ask for a fresh archive |
 | 2. Check | `git diff --stat`. For a **new** file: `git add <file> && git diff --cached --stat` | The exact insertions and deletions the assistant stated in advance |
 | 2b. Safety grep | `grep -rn "OFQtLV9[K]" . --include="*.yaml" --include="*.md" --include="*.sh" \| grep -v opentelemetry-demo` | Nothing at all |
 | 3. Commit and push | Edited files: `git commit -am "<message>" && git push`. New files (already added): `git commit -m "<message>" && git push` | A commit line with the same stat, then `main -> main` |
@@ -71,14 +75,15 @@ Laptop (macOS), repo at `/Users/enriquekortright/personal/projects/prometheus-to
   - It ran the stack until the morning of Oct 22. Its repo clone is at `~/personal/projects/prometheus-to-elastic`, with the demo in `opentelemetry-demo`. The previous run's evidence is in `~/evidence-2026-10-21/`.
   - Its time zone was set to Central on Oct 22 (zone only; the clocks agreed with the laptop). Sleep on AC was verified as never.
   - The incident (restarts, Malwarebytes findings, glitching screen) is in section 5. The author is investigating it in a **separate chat**.
-  - **Until the old API key is revoked, its containers (if they restarted) may still send data to Elastic** (inferred).
-- **Elastic:** Serverless project **`prometheus-to-elastic`**, Azure Central US (Iowa). The earlier Azure project was deleted by the author. Data stream **`metrics-generic.prometheus-default`**, in time series mode, created from the template `metrics-prometheus@template`. The write-only API key (`auto_configure`, `create_doc`) is in `.env.elastic`. A write-only key cannot delete or read the cluster root; deleting data needs Kibana Dev Tools under the author's own login.
+  - **Resolved (Oct 22, author):** the old project is deleted and the desktop is not sending data any more.
+- **Elastic (Oct 22, after the incident): a new Serverless project and a new write-only key are to be created.** The old project (`prometheus-to-elastic`, Azure Central US) was **deleted by the author**, so the old key no longer matters. **Project name, region and endpoint: record them here when the project exists** (never the key). Project type: Observability Complete (README). Data stream **`metrics-generic.prometheus-default`**, in time series mode, from the template `metrics-prometheus@template`; the name and the automatic re-creation were verified on the old project, and the same is expected on the new one (confirm). The new key has the same privileges (`auto_configure`, `create_doc` on `metrics-*`) and lives only in `.env.elastic`. A write-only key cannot delete or read the cluster root; deleting data needs Kibana Dev Tools under the author's own login.
 - **Stack:** `docker compose -f compose.yaml -f compose.observability.yaml` is required (the base file lacks Prometheus and Grafana). 25 services run. Prometheus reports 18 `service_name` values. The Prometheus container runs as user `nobody` (uid 65534).
-- **Parked: a Mac Mini as an always-on server** (the author's idea, for later). It would separate the stack from the recording machine.
+- **Narration voice:** Qwen3 TTS, with a voice the author created from a prompt and a favorite output used as the reference. Editing a line and regenerating the audio is the point (it replaces human re-recording). How it reads `prom-Q-L`, `E-S-Q-L` and `S-L-Os` is untested; the listening test will say.
+- **Lowest priority, not tracked further:** a Mac Mini as an always-on server (the author's idea; the author will raise it).
 
 ## 5. Current state (update me)
 
-**As of Oct 22 afternoon, no stack is known to be running.** The desktop is out, and the laptop is not set up yet.
+**As of the second half of Oct 22, no stack is running.** The desktop is out and its project is deleted; the laptop is not set up yet. The plan is a fresh start: a new Serverless project, a new key, a new local stack, then a warm-up (length not decided).
 
 **What the desktop run established.** The stack was fully reset using the quickstart's reset section on the desktop. **T0 = 2026-10-22 00:41:00 UTC** (7:41 PM CDT on Oct 21). The architecture ran cleanly for about 70 minutes before any trouble was logged.
 
@@ -109,12 +114,12 @@ Also confirm the `paymentFailure` flag is off on the feature flags page.
 - **Windows event log (System, last 24 hours), local time, Central assumed:** no unexpected shutdowns and no sleep events overnight. At 9:37:12 AM event 41 (unexpected restart; 6008 says the previous shutdown at 9:08:16 AM was unexpected). At 9:38:51 AM `winlogon.exe` started a power off, then sleep (event 42, reason "Application API") and resume (107) one second apart. At 9:55:33 AM event 41 again (6008: previous shutdown at 9:37:16 AM). At 10:17:30 AM a restart started by `RuntimeBroker.exe` for user Enrique, then a clean shutdown (6006). No stop-error code appears in the messages. A four-second power-button hold also logs event 41, so a crash cannot be told from a forced power-off here.
 - **Malwarebytes (trial) at 10:09 AM** quarantined five items within 5 seconds: `PUP.Optional.BrowserHijack`, three `PUP.Optional.SearchShield` entries (file, folder, registry value) and `PUP.Optional.PulseBrowser` (a scheduled-task folder). PUP means potentially unwanted program; by their names these look like adware or browser hijackers, not password stealers (inferred). The author deleted the detected apps. Other entries in the list may exist.
 - **Cause of the glitching is unknown.** A graphics driver or Chrome hardware acceleration are plausible (inferred). The author is investigating security and the glitch in a **separate chat**.
-- **State of the desktop stack is unknown** after the reboots, with a data gap in Elastic from about 9 AM.
+- **State of the desktop stack:** moot. The old project is deleted and the desktop is not sending data (author, Oct 22).
 
-**Migration plan: key rotation, then the laptop (in this order).** The author owns each step; the assistant gives expected output first.
-1. **Create a new API key** in Kibana Dev Tools using the README's "Create the Elastic credentials" call (privileges `auto_configure` and `create_doc` on `metrics-*`, name it differently from the old one). Copy the `encoded` value (shown once). **Never paste it in chat.** The key in `.env.elastic` belongs to the live project `prometheus-to-elastic`, so the old key is not moot; the "old key" that is moot is the one in git history, whose project was deleted.
-2. **Revoke the old key.** This should cut off anything the desktop's containers still send (inferred).
-3. **Delete the data stream** for a clean slate: `GET _data_stream/metrics-generic.prometheus-default` first, then `DELETE` with the exact name (the quickstart's reset section). The stream recreates itself when the first samples arrive (verified on Oct 22).
+**Migration plan (replaced on Oct 22): a fresh start on the laptop, in this order.** The author owns each step; the assistant gives expected output first. The earlier plan (create a new key, revoke the old key, delete the data stream) is superseded because the old project is deleted.
+1. **Account checks (proposed; the author has not yet confirmed them),** listed below. They come before any new credentials: a new key does not help if the account that issues it is compromised. This is a precaution, not a diagnosis.
+2. **Create the new Serverless project** (Observability Complete, per the README). Record its name, region and endpoint in section 4.
+3. **Create the new write-only API key** in Kibana Dev Tools with the README's "Create the Elastic credentials" call (privileges `auto_configure` and `create_doc` on `metrics-*`; give it a clear name). Copy the `encoded` value (shown once). **Never paste it in chat.**
 4. **Laptop readiness check** (read-only), from the repo root:
 ```
 sysctl -n hw.memsize | awk '{printf "%.0f GB RAM\n", $1/1024/1024/1024}'
@@ -122,16 +127,17 @@ docker info --format 'Docker has {{.MemTotal}} bytes and {{.NCPU}} CPUs'
 ls -ld opentelemetry-demo .env.elastic
 ```
    The README wants at least 12 GB and 4 CPUs for Docker. The last line shows whether the demo folder and `.env.elastic` exist; it does not print the file.
-5. **Set up the stack** per the README's "Local setup": clone the demo at the pinned version if missing, create `.env.elastic` from `config/.env.example` with the new key, run `scripts/apply-config.sh`, start with both compose files. If Prometheus logs "permission denied", `chmod 644` the generated config and `docker restart prometheus`.
-6. **Warm up at least 45 minutes** (the lab's rule) with `caffeinate` running, then run the pre-roll checks.
-7. **Then:** probes P1 to P8, the R1 rehearsal and the capture test.
+5. **Set up the stack** per the README's "Local setup": clone the demo at the pinned version if missing, create `.env.elastic` from `config/.env.example` with the new endpoint and key (replace any stale file), run `scripts/apply-config.sh`, start with both compose files. If Prometheus logs "permission denied", `chmod 644` the generated config and `docker restart prometheus`.
+6. **Warm up** with `caffeinate` running. The lab's rule is at least 45 minutes. The author wants enough data for testing and demos, and a longer run (for example overnight) would also answer questions the desktop run left open: whether the overlapping-blocks warning appears at the first compaction, how often the organic payment errors occur, and whether the sample rate settles. **Length not decided.**
+7. **Then:** the pre-roll checks, probes P1 to P8, the R1 rehearsal and the capture test.
 
-**Account checks, from the laptop:** GitHub security log, SSH keys and tokens; Kibana's API keys list for keys the author did not create; passwords typed in that Chrome while the symptoms were active.
+**Account checks, from the laptop (proposed; to be confirmed by the author):** GitHub security log, SSH keys and tokens; the Elastic Cloud account's active sessions and any API keys the author did not create; passwords typed in that Chrome while the symptoms were active.
 
 **What happened on the previous run (Oct 20 and 21), for context:**
 - `samples_failed_total` was 38,122. Two log lines (HTTP 429, "rejected execution of coordinating operation", at 05:51:40 and 05:52:40 UTC on Oct 20) account for 629 of them. **The other 37,493 have no log line and remain unexplained.**
 - Before the 05:51:17 UTC restart, Prometheus logged 24 "permission denied" errors reading its config (05:34:41 to 05:50:06). Cause, very likely: `scripts/apply-config.sh` runs `chmod 600` on the generated file, and the container user `nobody` cannot read a mode-600 file owned by the author. The author fixed it by hand (the file is now mode 644). **Do not re-run `apply-config.sh` until the script is fixed.** The quickstart's last paragraph tells people to re-run it and restart Prometheus, which would trigger the same failure.
 - Nine "overlapping blocks" warnings appeared in Prometheus's local storage (cause not investigated).
+- The old project is deleted, so these observations can no longer be investigated. They stay in the claims register as observations from the old project.
 
 ## 6. Work tracker (update me)
 
@@ -140,17 +146,17 @@ ls -ld opentelemetry-demo .env.elastic
 | 1 | LO wording | Done (`4ae9f7f`) |
 | 2 | Claims register update | Done (`f3f898a`) |
 | 3 | Lab results R2, R5, R7, R8 | Done, all Same (`4a911b1`) |
-| 4 | Clean restart on the desktop | Done (T0 in section 5); to be repeated on the laptop |
+| 4 | Clean restart on the desktop | Done on the desktop (T0 in section 5); to be repeated on the laptop as a fresh start with a new project |
 | 5 | Video 1 outline | Done (`edf75cf`) |
-| 6 | Video 1 run-sheet v4 with voice-over iteration 1 and two fixes | Done (`48717fa`); not yet heard through the speech engine |
-| 7 | Video 1 story document (reading version, generated from the run-sheet) | Done (`48717fa`) |
+| 6 | Video 1 run-sheet v4 with voice-over iteration 1 and two fixes | Done (`48717fa`); not yet heard through the speech engine; its voice-over is to be regenerated from the narrative file (row 24) once that is approved |
+| 7 | Video 1 story document (reading version, generated from the run-sheet) | Done (`48717fa`); to be regenerated from the narrative file once approved |
 | 8 | Video 2 outline | Committed (`1770043`); the author has not yet reviewed its nine open decisions |
-| 9 | Speech-engine test of Video 1, then iteration 2 | **Next (author, with fresh ears)** |
+| 9 | Listening test of the Video 1 narrative (row 24), with Qwen3 or the author's own voice, then iteration 2 | **Next (author):** bring timestamps for where it drags or sings, and how the spellings read |
 | 10 | Security investigation and glitch diagnosis on the desktop | In progress, separate chat (author) |
-| 11 | Key rotation, revoke the old key, delete the data stream | Author; plan in section 5; not yet done |
-| 12 | Laptop readiness check and stack setup | Author with the assistant; not yet started |
+| 11 | Key rotation, revoke the old key, delete the data stream | **Superseded Oct 22:** the old project is deleted; a new project and a new key replace this (section 5, steps 2 and 3) |
+| 12 | Account checks, new project and key, laptop readiness check and stack setup | Author with the assistant; not yet started |
 | 13 | Capture test and R1 rehearsal on the laptop | After 12 and a warm-up |
-| 14 | Opener slide regenerated from iteration 1 | To do (the existing slide came from the first draft) |
+| 14 | Opener and recap slide narrations, derived from the narrative file with an explicit shape for the slide generator | To do, after the narrative is approved |
 | 15 | Real take for Video 1, then narration against the footage | After 9 and 13 |
 | 16 | Housekeeping delivery: register rows for the clean start and the incident, the lab file's outdated "Feeds" header, the quickstart paragraph, and the `apply-config.sh` fix | To do |
 | 17 | Probes P1 to P8 and the R4 re-run, then the Video 3 outline | After 12 |
@@ -159,9 +165,10 @@ ls -ld opentelemetry-demo .env.elastic
 | 20 | Voice-over style guide (repo file), later a skill | After the listening test and Video 2's script |
 | 21 | Primer doc `docs/module1-promql-primer.md` | Not created; the glossary (section 10) is its seed |
 | 22 | Module description | Write last |
-| 23 | Mac Mini always-on server | Parked idea |
+| 23 | Mac Mini always-on server | Lowest priority; not tracked further |
+| 24 | Video 1 narrative draft v1 ("find the seam"; the introduction opens Video 1; every number spoken) | Delivered (`8f6f186`). Awaiting the listening test (row 9) |
 
-**Commits so far (Oct 20 to 22):** `4ae9f7f` LO update; `f3f898a` register; `4a911b1` lab results; `edf75cf` Video 1 outline; `232f594` run-sheet v1; `2e0a9f9` voice-over v2; `77f2204` run-sheet v3; `5b818e6` living handoff; `1770043` Video 2 outline and handoff update; `48717fa` run-sheet v4 and Video 1 story document.
+**Commits so far (Oct 20 to 22):** `4ae9f7f` LO update; `f3f898a` register; `4a911b1` lab results; `edf75cf` Video 1 outline; `232f594` run-sheet v1; `2e0a9f9` voice-over v2; `77f2204` run-sheet v3; `5b818e6` living handoff; `1770043` Video 2 outline and handoff update; `48717fa` run-sheet v4 and Video 1 story document; `1dc45af` (the parent of the next commit; its contents were not checked in this chat); `8f6f186` Video 1 narrative draft v1.
 
 ## 7. Decisions made (dated)
 
@@ -181,17 +188,29 @@ ls -ld opentelemetry-demo .env.elastic
 - **Oct 22: hold the Video 2 and Video 3 story scripts** until the evidence and the open decisions exist. The three-act spine (Video 1 asks whether the expressions run, Video 2 builds something real, Video 3 shows where it differs) is a note, not a plan.
 - **Oct 22: the story document is generated from the run-sheet.** If they differ, the run-sheet wins and the story is regenerated.
 - **Oct 22: two fixes to Video 1's narration:** Clip B2's last sentence no longer contradicts itself ("that's only display; the only thing we changed is the wrapper"), and "Two tabs" became "Two screens."
+- **Oct 22: this chat owns the repo.** Only changes from this chat reach it; the author applies, checks, commits and pushes. The other chat stays available for reference.
+- **Oct 22: a fresh start** replaces the rotate, revoke and delete plan. The old project is deleted and the desktop is not sending data (author). A new Serverless project, a new write-only key and a new local stack, then a warm-up long enough for testing and demos (length not decided).
+- **Oct 22: the Video 1 narrative is rewritten as one continuous piece** (`module1-video1-narrative.md`). Its spine is "find the seam": the viewer watches the expression and tries to catch it changing, and the reveal is that only the wrapper is new. Each rung exists because the previous one left a problem. The author's reaction: it "feels very good", pending the listening test.
+- **Oct 22: the introduction opens Video 1** (option A). It names the investment (scrape configs, dashboards, PromQL) and the fear (rebuilding it all), then hands over to the game. A separate Module 1 introduction can be added later, written after the three videos are scripted. From the author's earlier sample we kept the structure, and did not carry over "runs unchanged", "single remote-write block" or "I want to show you". We say "one remote-write block added to its config", and "we" and "you".
+- **Oct 22: every number is spoken, none is captioned.** TTS makes edits cheap, and the narration is the only place a number lives, so a re-capture means refilling the placeholder table and regenerating the audio. The author is not the final video editor, and captions would be a second thing to keep in sync. Each result keeps its 4-second hold so the viewer sees what is said. A spoken form for the numbers (rounding, words) is to be tested with Qwen3.
+- **Oct 22: the narrative file becomes the source of truth once the author approves it.** Until then the run-sheet wins. This amends the earlier decision that the story document is generated from the run-sheet: after approval the run-sheet's voice-over blocks and the story document are regenerated from the narrative.
+- **Oct 22: no hard word or length rules** (about five minutes per video, since each is a part of Module 1). The slide guidance does not constrain the narrative: slide narrations may tell the generator which shape to use.
+- **Oct 22: the Mac Mini is the lowest item.** Not tracked further; the author will raise it.
 
 ## 8. Open decisions and parked items
 
 **Open decisions (author's call):**
+- Warm-up length: the lab's 45 minutes, or longer (for example overnight).
+- Account checks (section 5): the author has not yet confirmed them.
+- How Qwen3 reads the spellings (`prom-Q-L` or `PromQL`, `E-S-Q-L` or `ESQL`, `S-L-Os`), and the spoken form of the numbers.
+- Shapes for the opener and recap slides, to give the slide generator explicitly.
 - Video 2's through-line (per-service error ratio) and the other eight open decisions in its outline.
-- Opener closing line: "you can judge the match yourself" (iteration 1) or "observe essentially the same results".
+- Opener closing line: superseded on Oct 22 by the narrative's opening, which ends on the game (watch the expression and try to catch it changing).
 - Copy-across idea for rung 1 (copy the expression from Prometheus and paste it into a staged Elastic skeleton).
 - Recorder on the laptop: macOS's built-in recording or OBS. Test clip: cursor visible? text readable? resolution?
 - Browser zoom level. (The address bar is hidden in full-screen, so the project ID is not visible; confirm in the test clip.)
 - Where the run-sheet is displayed during a take (one machine).
-- A Mac Mini as an always-on server (later).
+- A Mac Mini as an always-on server (lowest priority; the author will raise it).
 - Remote-write endpoint: Elastic's docs recommend the Managed Prometheus Remote Write endpoint for Serverless; this track uses the direct one. Matters for Module 2.
 - Instruqt setup script (still unrestricted key, plain `docker compose up`).
 - Incident demo (the spike and baseline are unmeasured; no "real-time detection" claims until tested).
@@ -224,6 +243,7 @@ ls -ld opentelemetry-demo .env.elastic
 | `PROMQL` command | An ES\|QL source command: `PROMQL [option=value ...] [result_name=](expression)` | Lab setup section (from the command docs) |
 | `index=` | The data stream to query: `metrics-generic.prometheus-default` | Lab |
 | `time=?_tend` | Makes an instant query at the end of the date picker's range; leave it out for a range query with a chart | Lab (command docs) and Kibana docs for `?_tend`: https://www.elastic.co/docs/explore-analyze/query-filter/languages/esql-where |
+| Wrapper | Our narration's word for everything around the expression in Elastic: the `PROMQL` command, its options (`index`, `time`) and the result name. It answers three questions: where this runs, when it is evaluated, and what the answer is called | Our term, not Elastic's; the pieces are from the command docs (see `PROMQL` command above) |
 | Date picker | PROMQL reads only data inside its range, so a window longer than the picker sees less data (lab R4: 9,391 versus 18,925 versus Prometheus 18,960 for `increase(...[30m])`) | Tested |
 | ES\|QL | Elasticsearch Query Language | Verified (Kibana docs) |
 | Remote write | How Prometheus sends its data to Elastic in this demo | Verified (register row 9) |
@@ -254,6 +274,10 @@ These came from reading Video 1's first draft as a viewer and iterating on it. T
 16. **Check each sentence against the one before it,** and the words against the picture. A full-screen recording hides the tab strip, so "two tabs" became "two screens."
 17. **The aspiration** (the author's): the level of a great lecturer, patient and building intuition, with motivations and "whys" stated, honest about edges, technically energized, little drama. The author's reaction to iteration 1: it "feels right"; they like the motivations on the surface and conclusions that follow from explicit statements. They believe engineers enjoy playing with concepts they already know.
 18. **The iteration loop:** the author listens through the speech engine and notes timestamps (where it drags, mispronunciations, pauses); the assistant revises the run-sheet blocks; the story document is regenerated.
+19. **Why the first draft felt choppy (the author's reaction, Oct 22; the diagnosis was agreed):** every sentence short and declarative, so the rhythm never changed; the same three items announced in the opener, the ladder sentence and the recap; no tension, because the opener gave the answer away; lab-report phrasing in speech (differences in percent, seconds between runs); rungs bolted together instead of caused by each other.
+20. **What fixed it:** a spine (the "find the seam" game), long building sentences followed by short landing ones, each rung created by a problem the previous one left (series, then a counter that only climbs, then one number that does not say which service), and a reveal that answers the opening question.
+21. **Open with the viewer's fear:** the investment, and the question "would I have to rebuild all of it?" The author's earlier module introduction was the model; its absolutes were not carried over.
+22. **Say "we" and "you";** avoid "I want to show you". The viewer is the investigator, not the audience of a pitch.
 
 **How the story document is built.** A short script reads the run-sheet and pulls each spoken block with this pattern, then places it in viewing order (opener, Clips A, B1, B2, C1, C2, D1, D2, recap) with an italic note on what is on screen, followed by reviewer questions, a claims table and the open items:
 ````
@@ -279,6 +303,8 @@ After building, check that every quoted line appears verbatim in the run-sheet.
 - **Words that disagree with the picture** (tabs versus full screen).
 - **The run-sheet still describes the desktop, the Game Bar and WSL commands.** Update it after the laptop setup and the capture test.
 - **Don't over-read Windows event 41.** A forced power-off and a crash look the same.
+- **A zip made with `git archive` has no `.git`,** so the assistant cannot check commits or sync from it. Use `git fetch` and `git status -sb` on the laptop.
+- **Count words with a script,** not by eye: the narrative draft was guessed at "roughly 700" words and counted 670.
 
 ## 13. What in the Oct 20 handoff is now out of date
 
@@ -304,6 +330,7 @@ After building, check that every quoted line appears verbatim in the run-sheet.
 | 2026-10-22 | Video 2 outline committed. Commit `5b818e6` added to the list. Read order and tracker row 7 updated. |
 | 2026-10-22 | Desktop incident recorded (unexpected restarts, Malwarebytes PUPs, glitch persists). Key rotation plan and permission step added. Commit `1770043` added. Tracker rows 16 to 19 added. |
 | 2026-10-22 | Combined update before handing off to a new chat: the laptop is now the stack host and the recording machine; migration plan (rotate key, revoke old key, delete the data stream, set up the laptop); story document and run-sheet v4 (`48717fa`); decisions, tracker, open items and narrative lessons refreshed; section 16 (anticipated questions) added. |
+| 2026-10-22 | Update from this chat (it takes ownership of the repo): the fresh-start plan (new project, new key, new stack, warm-up) replaces the rotation plan; decisions on the narrative approach, the introduction, spoken numbers and the narrative file as the future source of truth; tracker row 24; glossary entry Wrapper; narrative lessons 19 to 22; two traps; four anticipated questions. Commit `8f6f186` added. |
 
 ## 15. Starter prompt for the next chat
 
@@ -330,3 +357,7 @@ To make a fresh archive on the laptop, from the repo root, after the last commit
 | Why not re-run `apply-config.sh`? | It sets mode 600 on the generated config, which the Prometheus container could not read on the desktop. It may be fine on macOS (inferred). Test on the laptop; fix the script in the housekeeping delivery. |
 | How fast does the author want to go? | Not in a rush. Tiny steps, quality over speed, and everything explained. |
 | How should I spell terms for the speech engine? | `prom-Q-L` and `E-S-Q-L` in voice-over; metric names as words. The slide generator turned `prom-Q-L` back into PromQL correctly. |
+| Why does this chat own the repo? | The author decided on Oct 22 that only changes from this chat reach the repo, so nothing drifts. The author applies, checks, commits and pushes; the assistant states the expected result first. |
+| Why are all the numbers spoken, not captioned? | TTS makes editing cheap: change the text, regenerate. A number that lives only in the narration is refilled in one place after a re-capture. A caption would be a second place to keep in sync, in the video editor. |
+| Why was the narrative rewritten? | The first draft was choppy: uniform short sentences, the same list announced three times, no tension, and report-style numbers. The new draft has a spine (find the seam), each rung caused by the last, and an opening that names the viewer's fear. See section 11, items 19 to 22. |
+| Why a new project instead of rotating the key? | The author deleted the old project and the desktop no longer sends data, so a new project, a new key and a new local stack are a cleaner start than rotating. |
