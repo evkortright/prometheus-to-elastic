@@ -1,7 +1,7 @@
 # Module 1, Video 1 — Run-sheet (screen capture)
 
 **Video:** Your PromQL, running in Elastic (three rungs: label selector, `rate()`, `sum by`)
-**Status:** Draft v2, Oct 22, 2026. Follows the outline (`module1-video1-outline.md`, commit `edf75cf`). v2 adds the voice-over: the opener is the author's draft, kept verbatim; the demo-beat voice-over is a first draft in the same style.
+**Status:** Draft v3, Oct 22, 2026. Follows the outline (`module1-video1-outline.md`, commit `edf75cf`). v3 carries voice-over iteration 1: reordered (selector, rate, `sum by`), the setup moved into Clip A, a ladder sentence added, and `SORT` dropped from the Elastic command for rung 3. Not yet heard through the speech engine.
 **Commands:** taken from the query lab (R1, R3, R6). They were verified on Oct 20 and Oct 21 on the previous dataset. **Run C1 to C6 once as a rehearsal on the current stack before the real take.**
 **Recording:** Windows Game Bar on the desktop. Narration is added afterwards, so record without audio.
 
@@ -14,7 +14,7 @@
 - The commands are at the end of this file (C1 to C6). Open this same file on the desktop in a **second window** to copy from. Never record that window.
 - Markers: **▶ START** and **■ STOP** are Win + Alt + R. **HOLD n s** means stay still, mouse included. **✂ CUT** means stop recording, copy the command, click back into the recorded window, start again. Each clip joins in DaVinci Resolve.
 - **Method: PASTE (default).** Reasons: the lines are long; pasting keeps the gap between the Prometheus run and the Elastic run short, and short gaps gave much tighter agreement in the lab (an inference, not a tested rule); and code editors can auto-close brackets and quotes while you type (not verified for this editor). Switch to typing only if you decide to after the capture test.
-- **Timing rule:** run Prometheus first, then Elastic **within about 15 seconds**.
+- **Timing rule:** run Prometheus first, then Elastic **within about 15 seconds**. To make that possible, **stage the Elastic line first**: paste it into Tab 2 and don't run it, then record the Prometheus clip, then run Elastic right away. Each rung says when.
 - Holds matter. The narration is placed over them. Give every result a 4-second hold.
 
 ---
@@ -69,29 +69,33 @@ Browser and screen:
 
 ## Beat 1 — Opener slide (no capture)
 
-Author's draft of Oct 22, kept verbatim (a double space was removed). The slide generator reads this block.
+Narration iteration 1 (Oct 22), built on the author's draft. The slide generator reads this block.
+
+**Narration: opener slide** (96 words)
 
 <details><summary>Show narration</summary>
 
 ```
 Most common promQL expressions run unchanged in Elastic.
 
-Elastic's promQL command, part of the Elasticsearch Query Language, evaluates a promQL expression against metrics stored in Elastic. The expression stays the same. What you add is an ESQL command wrapper and parameters, such as the index to query.
+Elastic's promQL command, part of the Elasticsearch Query Language, evaluates a promQL expression against metrics stored in Elastic. The expression is the same text you'd run in Prometheus. What you add is a wrapper: the ESQL command and a few parameters.
 
-In this demo, Prometheus sends its data to Elastic through remote write, so both systems hold the same metrics. We'll run three expressions you likely use already, first in Prometheus, then in Elastic.
+We'll test that with three expressions you likely use already, first in Prometheus, then in Elastic.
 
 First, select series with a label selector.
 
-Second, aggregate with sum by.
+Second, take the rate of a counter.
 
-Third, take the rate of a counter. Then we compare the output and observe essentially the same results.
+Third, aggregate with sum by.
+
+Then we compare the output, and you can judge the match yourself.
 ```
 
-Notes:
-- "Most common ... run unchanged" follows Elastic's limitations page (the majority of expressions run unchanged; claims register row 1). The next paragraph explains the wrapper, so "unchanged" refers to the expression.
-- "Part of the Elasticsearch Query Language": verified in the Kibana docs (Elasticsearch Query Language, ES|QL).
-- "Observe essentially the same results" is a claim about the footage. **Confirm it against the take log; if a rung differs, change the sentence.**
-- Test the TTS spelling of `promQL` and `ESQL`. If they are misread, use `prom-Q-L` and `E-S-Q-L`.
+Claims check:
+- Changes from the author's draft: (1) items reordered to match the demo (selector, rate, `sum by`), because `sum by` builds on `rate`; (2) "run unchanged" and "stays the same" merged into "The expression is the same text you'd run in Prometheus"; (3) the remote-write sentence moved to Clip A; (4) the closing line is "you can judge the match yourself". The author's original closing, "observe essentially the same results", is the alternative if the take supports it.
+- "Most common ... run unchanged": Elastic's limitations page says the majority of expressions run unchanged (register row 1). The next paragraph explains the wrapper, so "unchanged" refers to the expression.
+- "Part of the Elasticsearch Query Language": verified in the Kibana docs.
+- Test the speech-engine spelling of `promQL` and `ESQL`. If misread, use `prom-Q-L` and `E-S-Q-L`.
 
 </details>
 
@@ -105,17 +109,17 @@ Notes:
 
 Nothing to verify here. The claim that both systems hold the same metrics is shown at rung 1.
 
-**Voice-over: Clip A** (62 words)
+**Voice-over: Clip A** (80 words)
 
 <details><summary>Show voice-over</summary>
 
 ```
-Here's the setup. This is Prometheus, on the Table tab, with an empty expression box: the same place you'd run an expression today. And this is Kibana's Discover, in E-S-Q-L mode, looking at the metrics Prometheus sent over. One thing to notice: the date picker is set to the last hour. Keep it wide like this. Video 3 explains why it matters.
+Two tabs. In one, Prometheus, on the Table tab, with an empty expression box: the place you'd run an expression today. In the other, Kibana's Discover, in E-S-Q-L mode, pointed at the same metrics. In this demo, Prometheus sends them to Elastic through remote write, so both systems hold the same data. One setting to notice: the date picker is set to the last hour. The prom-Q-L command reads only the data inside that range, so we're keeping it wide.
 ```
 
 Claims check:
-- "Metrics Prometheus sent over": remote write, verified (register row 9).
-- "Keep it wide ... Video 3 explains why it matters": the picker effect was tested (lab R4); the mechanism is deliberately left for Video 3. **Decision: keep this line or cut it.**
+- "Prometheus sends them through remote write": verified (register row 9).
+- "Reads only the data inside that range": the lab's setup section, and tested in lab R4 (about half the Prometheus value when the picker was narrower than the window). The consequences are left for Video 3.
 
 </details>
 
@@ -125,50 +129,52 @@ Claims check:
 
 Expression: `traces_span_metrics_calls_total{service_name="frontend"}`
 
-**Clip B1 (Prometheus)**
-1. Tab 1. **✂ CUT:** copy **C1**. Click into the query box. **▶ START.**
-2. Paste C1. Click **Execute**. Wait for the rows.
-3. HOLD 4 s with the "N results" line in view. **Write down N.**
-4. Move the cursor slowly under the expression. HOLD 3 s.
-5. **■ STOP.**
+**Before Clip B1 (off camera):** in Tab 2, paste **C2** into the editor and **do not run it**. Then copy **C1**.
 
-**Clip B2 (Elastic)**
-1. Tab 2. **✂ CUT:** copy **C2**. Click into the editor. **▶ START.**
-2. Paste C2. Run it. HOLD 4 s with the rows in view.
-3. Move the cursor slowly under the expression, which is the part inside the parentheses. HOLD 3 s.
-4. **First rung only.** Move the cursor over the extra words, in this order, 2 s on each: `PROMQL`, `index=metrics-generic.prometheus-default`, `time=?_tend`, `calls=(` and the closing `)`.
+**Clip B1 (Prometheus)**
+1. Tab 1. Click into the expression box. **▶ START.**
+2. Paste C1. Don't execute yet. Move the cursor slowly under the metric name (2 s), then under `{service_name="frontend"}` (2 s).
+3. Click **Execute**. HOLD 4 s with the "N results" line in view. **Write down N.**
+4. **■ STOP.** Go straight to Clip B2.
+
+**Clip B2 (Elastic), C2 already staged in Tab 2**
+1. Tab 2. **▶ START.**
+2. Cursor slowly under the expression, the part inside the parentheses. HOLD 3 s.
+3. Cursor over the wrapper, in this order, 2 s on each: `PROMQL`, `index=metrics-generic.prometheus-default`, `time=?_tend`, `calls=`.
+4. Run it. HOLD 4 s with the rows in view.
 5. If Discover shows no row count: **✂ CUT**, copy **C2b**, paste, run, and HOLD 4 s on `series = N`. **Write down N.**
 6. **■ STOP.**
 
 Notes: the rows will not appear in the same order on the two sides, and Elastic holds the labels in a `_timeseries` column. Point at the count and at one label set, not at row order.
 
-**Voice-over: Clip B1** (53 words)
+**Voice-over: Clip B1** (67 words)
 
 <details><summary>Show voice-over</summary>
 
 ```
-Rung one: a label selector. We start with the metric name, traces span metrics calls total. It's a counter of calls, generated from traces by the OpenTelemetry Collector. Then, in curly braces, we filter by label: service name equals frontend. Run it. Prometheus returns {{N_PROM}} series, each with its own set of labels.
+We'll climb a short ladder: three expressions, simplest first, each checked in both places. Rung one: a label selector. Our metric is traces span metrics calls total, a counter of calls that the OpenTelemetry Collector generates from traces. Add curly braces and a label matcher, service name equals frontend, and we've selected just that service's series. Run it. {{N_PROM}} series, each with its own set of labels.
 ```
 
 Claims check:
-- Metric derived from traces by the Collector: `docs/otel-collector-reference.md`.
+- The ladder sentence is new: it introduces "rung" once, and it sets up Video 2.
+- Metric derived from traces by the Collector: `docs/otel-collector-reference.md`. "Counter": Prometheus's metric types page (a cumulative metric that only increases or resets to zero on restart).
 - `{{N_PROM}}`: from the take log.
 
 </details>
 
-**Voice-over: Clip B2** (86 words)
+**Voice-over: Clip B2** (106 words)
 
 <details><summary>Show voice-over</summary>
 
 ```
-Now the same expression in Elastic. Run it: {{N_ELASTIC}} series. Prometheus gave {{N_PROM}}. Look inside the parentheses. That's exactly the expression we ran in Prometheus. Around it is what you add. The prom-Q-L command. Index, which names the data stream that holds the metrics. Time, the end of the date picker's range, so the expression is evaluated once, at that moment, just like the Table tab. And calls, a name for the result. One difference in presentation: the labels sit in a column instead of inline.
+Now Elastic. Look inside the parentheses: that's the expression we just ran in Prometheus. The rest is the wrapper. The line starts with the prom-Q-L command, and three parameters answer three questions. Where should this run? That's index, the data stream that holds the metrics. When? That's time: the end of the date picker's range, so the expression is evaluated once, like the Table tab. And what do we call the answer? That's calls, the name of the result. Run it. {{N_ELASTIC}} series, against {{N_PROM}} in Prometheus. The labels sit in a column instead of inline, but for this expression, the wrapper is everything that's new.
 ```
 
 Claims check:
-- `?_tend` is the end of the date picker's range: Kibana docs (the `?_tstart` and `?_tend` parameters sync with the time filter).
-- "Evaluated once, at that moment, like the Table tab": tested (one `step` value per row, equal to the run time; Prometheus's Table tab is an instant query per its docs). The PROMQL command's own wording for `time` is not yet read.
-- "Labels in a column": lab R1 (`_timeseries`).
-- **Confirm in the take that the label sets match** before keeping the sentence about the presentation difference.
+- Where, when, what to call it: the lab's syntax section (`index=`, `time=`, result name). `?_tend` is the end of the date picker's range: Kibana docs.
+- "Evaluated once, like the Table tab": the lab's setup section (from the PROMQL command docs) and tested (one `step` value per row, equal to the run time).
+- "Labels in a column": lab R1 (`_timeseries`). **Confirm in the take that the label sets match** before keeping the sentence.
+- "For this expression, the wrapper is everything that's new": every expression in the lab ran inside the same wrapper. Confirm against the take.
 
 </details>
 
@@ -178,40 +184,42 @@ Claims check:
 
 Expression: `sum(rate(traces_span_metrics_calls_total{service_name="frontend"}[5m]))`
 
-**Clip C1 (Prometheus)**
-1. Tab 1. **✂ CUT:** copy **C3**. Click into the query box (clear it first). **▶ START.**
-2. Paste C3. **Execute.** HOLD 4 s with the single value in view. **Write down the value and the time.**
-3. Cursor under the expression. HOLD 3 s.
-4. **■ STOP.** Then go straight to Clip C2.
+**Before Clip C1 (off camera):** in Tab 2, clear the editor, paste **C4**, and **do not run it**. Then copy **C3**. Clear Tab 1's box.
 
-**Clip C2 (Elastic), within about 15 s of the Prometheus run**
-1. Tab 2. **✂ CUT:** copy **C4**. **▶ START.**
-2. Clear the editor, paste C4, run. HOLD 4 s with `frontend_rate` in view. **Write down the value.**
-3. Cursor under the expression. HOLD 3 s.
-4. **■ STOP.**
+**Clip C1 (Prometheus)**
+1. Tab 1. **▶ START.**
+2. Paste C3. Don't execute yet. Cursor under `[5m]` (2 s), then under `sum(` (2 s).
+3. Click **Execute.** HOLD 4 s with the single value in view. **Write down the value and the time.**
+4. **■ STOP.** Go straight to Clip C2.
+
+**Clip C2 (Elastic), C4 already staged in Tab 2** (within about 15 s of the Prometheus run)
+1. Tab 2. **▶ START.**
+2. Cursor on `frontend_rate=` (2 s). Run it. HOLD 4 s with `frontend_rate` in view. **Write down the value.**
+3. **■ STOP.**
 
 Notes: Prometheus shows `{}` for the empty label set, and Elastic returns only `frontend_rate` and `step`. Don't point this out unless the narration needs it.
 
-**Voice-over: Clip C1** (51 words)
+**Voice-over: Clip C1** (72 words)
 
 <details><summary>Show voice-over</summary>
 
 ```
-Rung two: the rate of a counter. Rate takes a counter and returns its per-second average rate of increase over the range in square brackets, here five minutes. This metric has many series, so we wrap it in sum to get one number: the frontend's calls per second. Run it. {{PROM_VALUE}}.
+Rung two: the rate of a counter. On its own, a counter just climbs: it counts every call since the start. What you usually want is how fast. Rate takes the counter over a window, here five minutes in square brackets, and returns its per-second average rate of increase. This metric has many series, so we wrap it in sum to get one number: the frontend's calls per second. Run it. {{PROM_VALUE}}.
 ```
 
 Claims check:
+- Counter definition: Prometheus's metric types page. "What you usually want is how fast" is a judgment.
 - `rate`: per-second average rate of increase of the series in the range vector (Elastic's range vector functions page).
-- "Counter" is used but not defined; the official Prometheus definition is still to be fetched.
+- The number: from the take log.
 
 </details>
 
-**Voice-over: Clip C2** (34 words)
+**Voice-over: Clip C2** (35 words)
 
 <details><summary>Show voice-over</summary>
 
 ```
-Same expression in Elastic, same wrapper. Only the result name changes, now frontend rate. {{ELASTIC_VALUE}}. Prometheus said {{PROM_VALUE}}. They agree to within about {{PCT_C}} percent, and the two runs were about {{SECONDS_C}} seconds apart.
+Same expression in Elastic, same wrapper. Only the result name changes, now frontend rate. {{ELASTIC_VALUE}}, against {{PROM_VALUE}} in Prometheus. The two runs were about {{SECONDS_C}} seconds apart, and the values differ by about {{PCT_C}} percent.
 ```
 
 Claims check:
@@ -226,47 +234,51 @@ Claims check:
 
 Expression: `sum by (service_name) (rate(traces_span_metrics_calls_total[5m]))`
 
-**Clip D1 (Prometheus)**
-1. Tab 1. **✂ CUT:** copy **C5**. Clear the box. **▶ START.**
-2. Paste C5. **Execute.** HOLD 4 s. The table has one row per service. **Write down the row count.**
-3. Cursor on the **frontend** row. HOLD 3 s. **Write down its value.**
-4. **■ STOP.** Then go straight to Clip D2.
+**Before Clip D1 (off camera):** in Tab 2, clear the editor, paste **C6**, and **do not run it**. Then copy **C5**. Clear Tab 1's box.
 
-**Clip D2 (Elastic), within about 15 s of the Prometheus run**
-1. Tab 2. **✂ CUT:** copy **C6**. **▶ START.**
-2. Clear the editor, paste C6, run. HOLD 4 s. **Write down the row count.**
-3. Cursor on the **frontend** row. HOLD 3 s. **Write down its value.**
-4. **■ STOP.**
+**Clip D1 (Prometheus)**
+1. Tab 1. **▶ START.**
+2. Paste C5. Don't execute yet. Cursor under `sum by (service_name)` (3 s).
+3. Click **Execute.** HOLD 4 s. The table has one row per service. **Write down the row count.**
+4. Cursor on the **frontend** row. HOLD 3 s. **Write down its value.**
+5. **■ STOP.** Go straight to Clip D2.
+
+**Clip D2 (Elastic), C6 already staged in Tab 2** (within about 15 s of the Prometheus run)
+1. Tab 2. **▶ START.** Run it. HOLD 4 s. **Write down the row count.**
+2. Cursor on the **frontend** row. HOLD 3 s. **Write down its value.**
+3. **■ STOP.**
 
 Notes:
 - Point at **frontend** (or another busy service), not at a low-traffic one. In the lab, low-traffic services differed by up to about 13%, which looked like timing noise (an inference).
+- Neither side's rows are guaranteed to be in the same order. Find the frontend row on each.
 - Zero-traffic services show 0 on both sides.
+- **C6 no longer has `| SORT service_name`.** The lab ran this line with the sort appended, and R7 and R8 ran without one, but this exact line has not been run. It is part of the rehearsal.
 
-**Voice-over: Clip D1** (38 words)
+**Voice-over: Clip D1** (53 words)
 
 <details><summary>Show voice-over</summary>
 
 ```
-Rung three: aggregate by a label. Sum by service name adds up the rates for each service, so instead of one number we get one row per service. Prometheus returns {{ROWS_PROM}} rows. Here's frontend: {{PROM_FRONTEND}} calls per second.
+Rung three: aggregate by a label. So far we have one number for the whole frontend, but the question you ask is usually per service. Sum by service name keeps that label and adds up the rest, so we get one row per service. Run it. {{ROWS_PROM}} rows. Frontend: {{PROM_FRONTEND}} calls per second.
 ```
 
 Claims check:
 - `sum by`: aggregation operators combine one instant vector into fewer elements; the `by` clause preserves the named label (Prometheus operators page).
+- "The question you ask is usually per service" is a judgment about the audience.
 
 </details>
 
-**Voice-over: Clip D2** (44 words)
+**Voice-over: Clip D2** (27 words)
 
 <details><summary>Show voice-over</summary>
 
 ```
-Same expression in Elastic. After the pipe, the sort is plain E-S-Q-L. It just puts the services in a readable order. {{ROWS_ELASTIC}} rows, and frontend reads {{ELASTIC_FRONTEND}}, against {{PROM_FRONTEND}} in Prometheus. That's within about {{PCT_D}} percent, with the two runs about {{SECONDS_D}} seconds apart.
+Same expression in Elastic, same wrapper. {{ROWS_ELASTIC}} rows. Frontend reads {{ELASTIC_FRONTEND}}, against {{PROM_FRONTEND}} in Prometheus: within about {{PCT_D}} percent, with the two runs about {{SECONDS_D}} seconds apart.
 ```
 
 Claims check:
-- The pipe and `SORT` are ES|QL, not PromQL: ES|QL commands can continue after the PROMQL command (register row 11).
-- Prometheus's table order is not alphabetical, so the narration does not say the rows line up.
 - Values and gap: from the take log.
+- C6 (without the sort) is still to be rehearsed.
 
 </details>
 
@@ -274,7 +286,31 @@ Claims check:
 
 ## Beat 6 — Recap slide (no capture)
 
-Pending. The earlier recap draft was written in the old style. It will be rewritten in the author's style after the demo voice-over is approved. It must keep the honest sentence (most, but not all; Video 3 looks at the edges) and the claim about the values, which depends on the take log.
+Narration iteration 1 (Oct 22). The slide generator reads this block.
+
+**Narration: recap slide** (83 words)
+
+<details><summary>Show narration</summary>
+
+```
+Three everyday promQL expressions, and each one ran in both places.
+
+A label selector chooses which series you look at.
+
+The rate of a counter tells you how fast it's climbing.
+
+Sum by collapses the series into one row per label value, such as one per service.
+
+Most, but not all, of promQL runs this way. Next, we build a real expression from these pieces: an error ratio for each service. And later in the module, we look at where the edges are.
+```
+
+Claims check:
+- "Each one ran in both places": confirm against the take log.
+- "Most, but not all": Elastic's limitations page and the PROMQL command page.
+- "Next, we build ... an error ratio for each service": depends on the Video 2 outline being approved (`module1-video2-outline.md`, not yet committed). Change this line if Video 2's through-line changes.
+- "Later in the module, we look at where the edges are": the Video 3 plan.
+
+</details>
 
 ---
 
@@ -350,9 +386,9 @@ PROMQL index=metrics-generic.prometheus-default time=?_tend frontend_rate=(sum(r
 sum by (service_name) (rate(traces_span_metrics_calls_total[5m]))
 ```
 
-**C6** — Elastic, rung 3 (sorted so it lines up with Prometheus)
+**C6** — Elastic, rung 3 (rehearse: the lab's version had `| SORT service_name` appended)
 ```
-PROMQL index=metrics-generic.prometheus-default time=?_tend request_rate=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m]))) | SORT service_name
+PROMQL index=metrics-generic.prometheus-default time=?_tend request_rate=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m])))
 ```
 
 ---
@@ -364,6 +400,7 @@ PROMQL index=metrics-generic.prometheus-default time=?_tend request_rate=(sum by
 - Browser zoom level.
 - Whether Game Bar records the mouse cursor (check in the test clip).
 - Grafana as a second data source is untested, so nothing in this video may imply it.
-- Clip A: keep or cut the "keep the date picker wide, Video 3 explains why" line.
-- Narration style: first draft; expect rewrites after the first take.
-- Recap slide narration: rewrite in the author's style after the demo voice-over is approved.
+- Copy-across idea for rung 1: copy the expression out of Prometheus's box and paste it between the parentheses of a staged Elastic skeleton, so the same text visibly moves across. Not adopted; it would change the rung 1 steps only.
+- Opener closing: "judge the match yourself" (iteration 1) or the author's "observe essentially the same results".
+- Narration: iteration 1 is awaiting the speech-engine test; expect iteration 2.
+- Video 2's through-line (the error ratio) is referenced in the recap and is not yet approved.
