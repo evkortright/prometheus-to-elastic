@@ -1,9 +1,10 @@
 # Module 1, Video 1 — Run-sheet (screen capture)
 
 **Video:** Your PromQL, running in Elastic (three rungs: label selector, `rate()`, `sum by`)
-**Status:** Draft v3, Oct 22, 2026. Follows the outline (`module1-video1-outline.md`, commit `edf75cf`). v3 carries voice-over iteration 1: reordered (selector, rate, `sum by`), the setup moved into Clip A, a ladder sentence added, and `SORT` dropped from the Elastic command for rung 3. Not yet heard through the speech engine.
+**Status:** Draft v4, Oct 22, 2026. Follows the outline (`module1-video1-outline.md`, commit `edf75cf`). v3 carries voice-over iteration 1: reordered (selector, rate, `sum by`), the setup moved into Clip A, a ladder sentence added, and `SORT` dropped from the Elastic command for rung 3. Not yet heard through the speech engine. v4 fixes a contradiction in the last sentence of Clip B2 and changes "Two tabs" to "Two screens" for the full-screen recording.
 **Commands:** taken from the query lab (R1, R3, R6). They were verified on Oct 20 and Oct 21 on the previous dataset. **Run C1 to C6 once as a rehearsal on the current stack before the real take.**
 **Recording:** Windows Game Bar on the desktop. Narration is added afterwards, so record without audio.
+**Story version for reading and review:** `module1-video1-story.md`, generated from this sheet. If they differ, this sheet wins; regenerate the story.
 
 ---
 
@@ -114,12 +115,13 @@ Nothing to verify here. The claim that both systems hold the same metrics is sho
 <details><summary>Show voice-over</summary>
 
 ```
-Two tabs. In one, Prometheus, on the Table tab, with an empty expression box: the place you'd run an expression today. In the other, Kibana's Discover, in E-S-Q-L mode, pointed at the same metrics. In this demo, Prometheus sends them to Elastic through remote write, so both systems hold the same data. One setting to notice: the date picker is set to the last hour. The prom-Q-L command reads only the data inside that range, so we're keeping it wide.
+Two screens. In one, Prometheus, on the Table tab, with an empty expression box: the place you'd run an expression today. In the other, Kibana's Discover, in E-S-Q-L mode, pointed at the same metrics. In this demo, Prometheus sends them to Elastic through remote write, so both systems hold the same data. One setting to notice: the date picker is set to the last hour. The prom-Q-L command reads only the data inside that range, so we're keeping it wide.
 ```
 
 Claims check:
 - "Prometheus sends them through remote write": verified (register row 9).
 - "Reads only the data inside that range": the lab's setup section, and tested in lab R4 (about half the Prometheus value when the picker was narrower than the window). The consequences are left for Video 3.
+- "Two screens", not "two tabs": the recording is full-screen, which hides the tab strip.
 
 </details>
 
@@ -162,19 +164,19 @@ Claims check:
 
 </details>
 
-**Voice-over: Clip B2** (106 words)
+**Voice-over: Clip B2** (108 words)
 
 <details><summary>Show voice-over</summary>
 
 ```
-Now Elastic. Look inside the parentheses: that's the expression we just ran in Prometheus. The rest is the wrapper. The line starts with the prom-Q-L command, and three parameters answer three questions. Where should this run? That's index, the data stream that holds the metrics. When? That's time: the end of the date picker's range, so the expression is evaluated once, like the Table tab. And what do we call the answer? That's calls, the name of the result. Run it. {{N_ELASTIC}} series, against {{N_PROM}} in Prometheus. The labels sit in a column instead of inline, but for this expression, the wrapper is everything that's new.
+Now Elastic. Look inside the parentheses: that's the expression we just ran in Prometheus. The rest is the wrapper. The line starts with the prom-Q-L command, and three parameters answer three questions. Where should this run? That's index, the data stream that holds the metrics. When? That's time: the end of the date picker's range, so the expression is evaluated once, like the Table tab. And what do we call the answer? That's calls, the name of the result. Run it. {{N_ELASTIC}} series, against {{N_PROM}} in Prometheus. The labels appear in a column instead of inline, but that's only display. The only thing we changed is the wrapper.
 ```
 
 Claims check:
 - Where, when, what to call it: the lab's syntax section (`index=`, `time=`, result name). `?_tend` is the end of the date picker's range: Kibana docs.
 - "Evaluated once, like the Table tab": the lab's setup section (from the PROMQL command docs) and tested (one `step` value per row, equal to the run time).
 - "Labels in a column": lab R1 (`_timeseries`). **Confirm in the take that the label sets match** before keeping the sentence.
-- "For this expression, the wrapper is everything that's new": every expression in the lab ran inside the same wrapper. Confirm against the take.
+- "The only thing we changed is the wrapper": every expression in the lab ran inside the same wrapper (the result name is part of it). Confirm against the take.
 
 </details>
 
@@ -404,3 +406,4 @@ PROMQL index=metrics-generic.prometheus-default time=?_tend request_rate=(sum by
 - Opener closing: "judge the match yourself" (iteration 1) or the author's "observe essentially the same results".
 - Narration: iteration 1 is awaiting the speech-engine test; expect iteration 2.
 - Video 2's through-line (the error ratio) is referenced in the recap and is not yet approved.
+- **Recording machine changed to the laptop on Oct 22.** This sheet still describes the desktop, the Game Bar and WSL commands. Update it after the laptop setup and the capture test. A full-screen recording hides both the tab strip and the address bar.
