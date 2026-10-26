@@ -44,6 +44,7 @@
 11. **Plain language.** Define a term the first time. A term the author hasn't met goes in the glossary with a source.
 12. **The assistant's sandbox has no network for shell commands in this setup.** Use web search and web fetch (fetch works only for URLs that already appeared in results).
 13. **Repo ownership (Oct 22).** The root chat (this one) is the only source of changes to shared files; video chats (planned) own only their own video's files. The assistant cannot run git, and a zip made with `git archive` has no `.git`, so the sync check is `git fetch` and `git status -sb` on the laptop (section 3, step 1).
+14. **Authority (Oct 26).** A video chat is the source of truth for its video's files and state. It verifies the author's pasted output for its own deliveries (base hash, expected stat, commit) and keeps a video log (`docs/module1-videoN-log.md`). The root reviews only if the author asks, and otherwise handles the shared files, decisions that cross videos, the one-time setup, the voice guide and the final arc review.
 
 ## 3. The repo-update routine
 
@@ -61,7 +62,7 @@ Laptop (macOS), repo at `/Users/enriquekortright/personal/projects/prometheus-to
 - **Delivery format:** a zip of the changed files with repo-relative paths, presented as a file. Browsers drop files that start with a dot, so deliver those as commands.
 - The author asked for commit and push to be **one combined step** once the check matches.
 - On the desktop, pull with `git pull --ff-only`.
-- **Deliveries from a video chat:** run `unzip -l <zip>` first. It should list only that video's own files (`docs/module1-videoN-...`, never the contract, the handoff, the register, the lab or the map). If it lists anything else, do not unzip: paste the listing to the root chat. Then use the base hash and the stat the video chat states. The root can review a delivery against its contract before the author commits it.
+- **Deliveries from a video chat:** run `unzip -l <zip>` first. It should list only that video's own files (`docs/module1-videoN-...`, never the contract, the handoff, the register, the lab or the map). If it lists anything else, do not unzip: paste the listing to the root chat. Then use the base hash and the stat the video chat states. The video chat that made the delivery checks the author's pasted output (base hash, stat, commit); the root reviews a delivery only if the author asks.
 
 ## 4. Environments
 
@@ -180,8 +181,9 @@ ls -ld opentelemetry-demo .env.elastic
 | 32 | Start the video chats, each from the prompt in its contract (section 15.2) | Video 1's chat started and its first delivery (the outline v2) was reviewed by the root and committed (`3e59f34`). Videos 2 and 3: the author starts them when ready |
 | 33 | `docs/README.md`, the one-page map of the repository | Delivered; the root updates it whenever a file is added, renamed or retired |
 | 34 | First run of the runbook on the laptop: Part A, then Part B once | **Next (author, with the assistant)**, after the optional account checks in step A0 |
+| 35 | Authority rules and video logs: the video chats are the source of truth for their videos | Recorded in this update. After the commit, the author gives the Video 1 chat the authority message; Videos 2 and 3 get the rules in their contract prompts |
 
-**Commits so far (Oct 20 to 22):** `4ae9f7f` LO update; `f3f898a` register; `4a911b1` lab results; `edf75cf` Video 1 outline; `232f594` run-sheet v1; `2e0a9f9` voice-over v2; `77f2204` run-sheet v3; `5b818e6` living handoff; `1770043` Video 2 outline and handoff update; `48717fa` run-sheet v4 and Video 1 story document; `1dc45af` (the parent of the next commit; its contents were not checked in this chat); `8f6f186` Video 1 narrative draft v1; `055718d` living handoff (this chat takes ownership, fresh-start plan, narrative decisions); `01ec577` root update (contracts plan, standalone rules, Video 2 decisions); `a15a869` video contract template and Video 1 contract; `6ded6e9` docs checks, the Video 1 phrase fix, the slides wording, and the "fulfilled" and package decisions; `3f10600` Video 2 contract and narrative seed, the seed-material rule, and handoff sections 11 and 12 in the starter prompts; `cb98c81` Video 3 contract, register rows 42 to 44, handoff rows 28 and 31; `dcbb48e` handoff section 15 (starter prompts by role); `8aaf08b` docs map (`docs/README.md`), the Video 1 contract set to Active, and the read-order fixes; `bafb5a4` reset runbook, quickstart correction, and the contracts, template and map pointing to it; `3e59f34` Video 1 outline v2.
+**Commits so far (Oct 20 to 22):** `4ae9f7f` LO update; `f3f898a` register; `4a911b1` lab results; `edf75cf` Video 1 outline; `232f594` run-sheet v1; `2e0a9f9` voice-over v2; `77f2204` run-sheet v3; `5b818e6` living handoff; `1770043` Video 2 outline and handoff update; `48717fa` run-sheet v4 and Video 1 story document; `1dc45af` (the parent of the next commit; its contents were not checked in this chat); `8f6f186` Video 1 narrative draft v1; `055718d` living handoff (this chat takes ownership, fresh-start plan, narrative decisions); `01ec577` root update (contracts plan, standalone rules, Video 2 decisions); `a15a869` video contract template and Video 1 contract; `6ded6e9` docs checks, the Video 1 phrase fix, the slides wording, and the "fulfilled" and package decisions; `3f10600` Video 2 contract and narrative seed, the seed-material rule, and handoff sections 11 and 12 in the starter prompts; `cb98c81` Video 3 contract, register rows 42 to 44, handoff rows 28 and 31; `dcbb48e` handoff section 15 (starter prompts by role); `8aaf08b` docs map (`docs/README.md`), the Video 1 contract set to Active, and the read-order fixes; `bafb5a4` reset runbook, quickstart correction, and the contracts, template and map pointing to it; `3e59f34` Video 1 outline v2; `a8f8d0c` root update (register row 45, rows 5 and 32, the video chat delivery rule).
 
 ## 7. Decisions made (dated)
 
@@ -225,6 +227,7 @@ ls -ld opentelemetry-demo .env.elastic
 - **Oct 25: `docs/README.md` added.** A one-page map of the repository (current files with owners, history files, code and configuration). The root updates it in the same delivery whenever a file is added, renamed or retired.
 - **Oct 26: the runbook is `docs/reset-runbook.md`.** It consolidates the README's local setup, the quickstart's reset section and the run-sheet's pre-roll into three parts (one-time setup, per-video reset, pre-roll), each step with its expected output. The contracts and the template now point to it. The quickstart's closing paragraph no longer advises re-running `apply-config.sh` without a permission check. `apply-config.sh` itself is unchanged: the fix is decided after the first laptop run shows whether the problem occurs on macOS.
 - **Oct 26: the first delivery from a video chat was reviewed and committed.** The Video 1 outline v2 was checked by the root against the contract, the approved narrative and the decisions (beats, capture machine, no status statement, spoken numbers, wrapper wording, forbidden words) and committed as `3e59f34`. One stale line (it says the runbook is not yet written) was left for the chat to fix in its next round, because the chat worked from an older archive. The chat's requests for the root were handled: the contract header and read-order items (`8aaf08b`), the span-metrics origin (register row 45, Oct 26), and the row 5 note. Still open from them: the slide shapes (the author and the Video 1 chat) and the 19 versus 18 service count (when the stack is up).
+- **Oct 26: the video chats are the source of truth for their videos.** The author observed that the root was involved in every step, which defeats the purpose of per-video chats. New rules: a video chat owns its video's files and state, verifies the author's pasted output for its own deliveries, and keeps a log (`docs/module1-videoN-log.md`) with the checklist state, confirmations and retrieval dates, probe results, the take log, and the decisions the author makes with it (such as the slide shapes). The root reviews only if the author asks, and handles shared files, decisions that cross videos, the one-time setup, the voice guide and the final arc review. Requests for the root are rare and batched: only for a shared file that truly needs a change, a decision across videos, or a milestone, and at most once per session. The author's test of the approach is the runbook and how well the author can use it.
 
 ## 8. Open decisions and parked items
 
@@ -237,7 +240,7 @@ ls -ld opentelemetry-demo .env.elastic
 - Warm-up length: set per video in each contract (Oct 25). The lab's 45 minutes is the floor to test.
 - Account checks (section 5): the author has not yet confirmed them.
 - How Qwen3 reads the spellings (`prom-Q-L` or `PromQL`, `E-S-Q-L` or `ESQL`, `S-L-Os`), and the spoken form of the numbers.
-- Shapes for the opener and recap slides, to give the slide generator explicitly. For Video 1 the Video 1 chat decides with the author, and the root records the outcome. The narrative's opening block names no items, so the outline's shape A (a list of three) needs the slide narration to name the three patterns.
+- Shapes for the opener and recap slides, to give the slide generator explicitly. For Video 1 the Video 1 chat decides with the author, and the decision is recorded in the Video 1 log. The narrative's opening block names no items, so the outline's shape A (a list of three) needs the slide narration to name the three patterns.
 - Video 2's decisions 3 (series slide, waits for the TSDS docs check), 5 (range chart) and 7 (percent form), both waiting for a rehearsal.
 - Opener closing line: superseded on Oct 22 by the narrative's opening, which ends on the game (watch the expression and try to catch it changing).
 - Copy-across idea for rung 1 (copy the expression from Prometheus and paste it into a staged Elastic skeleton).
@@ -254,7 +257,7 @@ ls -ld opentelemetry-demo .env.elastic
 
 ## 9. Claims discipline
 
-- Every spoken or written claim traces to a row in the claims register (status doc, section 4). Statuses: **Verified** (seen here), **Docs**, **Observed**, **Open**, **Retired**, plus **Decision**. Say "inferred" in conversation when something is.
+- Every spoken or written claim traces to a row in the claims register (status doc, section 4) or, until the root copies it over at a milestone, to an entry in the video's log. Statuses: **Verified** (seen here), **Docs**, **Observed**, **Open**, **Retired**, plus **Decision**. Say "inferred" in conversation when something is.
 - In narration: numbers come only from the take log, next to what they are compared with; agreement statements carry the gap in seconds between the two runs; no bare percentages; placeholders `{{LIKE_THIS}}` stay until the numbers are real.
 - If a number disagrees with a sentence, rewrite the sentence; don't bend the number.
 - Docs change often. Re-read the limitations page before each recording and record the retrieval date: `https://www.elastic.co/docs/reference/query-languages/promql/promql-limitations`. Its key sentence: the majority of PromQL expressions run unchanged.
@@ -381,6 +384,7 @@ After building, check that every quoted line appears verbatim in the run-sheet.
 | 2026-10-26 | Docs map and the Video 1 chat's first reply: `docs/README.md` added; the Video 1 contract set to Active; read-order items 4 and 4a corrected; commit `dcbb48e` added; tracker rows 32 and 33; the service-count item and the shape note added to section 8; two decisions; one anticipated question. |
 | 2026-10-26 | Runbook delivery: `docs/reset-runbook.md` added; the quickstart's closing paragraph corrected; the map, the template and the three contracts point to the runbook; commit `8aaf08b` added; tracker rows 12, 16 and 26 updated and row 34 added; one decision; one anticipated question. |
 | 2026-10-26 | Video 1 outline v2 committed and its requests handled: commits `bafb5a4` and `3e59f34` added; tracker rows 5 and 32 updated; section 3 gains the rule for video chat deliveries; register row 45 added; the Video 1 contract's checklist and claims table, and the map, updated; one decision; one anticipated question. |
+| 2026-10-26 | Authority rules recorded: the template, the three contracts, the starter prompts, handoff section 2 (item 14), section 3, section 9 and section 15.2, and the map; commit `a8f8d0c` added; tracker row 35; one decision; two anticipated questions. |
 
 ## 15. Starter prompts (by role)
 
@@ -392,10 +396,10 @@ After building, check that every quoted line appears verbatim in the run-sheet.
 
 ### 15.2 A video chat
 
-Each video's prompt is in section 11 of its contract: `docs/module1-video1-contract.md`, `docs/module1-video2-contract.md` and `docs/module1-video3-contract.md`. Copy it as is. It tells the chat to read the contract, then the files the contract lists, then handoff sections 1, 2, 3, 9, 10, 11 and 12 (read-only); to follow the working agreements; to ask the author first what to do with any seed material; and to end every turn with its requests for the root chat.
+Each video's prompt is in section 11 of its contract: `docs/module1-video1-contract.md`, `docs/module1-video2-contract.md` and `docs/module1-video3-contract.md`. Copy it as is. It tells the chat to read the contract, then the files the contract lists, then handoff sections 1, 2, 3, 9, 10, 11 and 12 (read-only); to follow the working agreements; to ask the author first what to do with any seed material; to act as the source of truth for its video's files and state (verifying the author's pasted output for its own deliveries and keeping a video log); and to send requests to the root chat only when its contract says to.
 
 - **What can start now, with no stack:** Video 1, checklist rows 2, 4, 5 and 6; Video 2, rows 3 to 6; Video 3, rows 2 to 6 (each contract's section 8). Rehearsals and takes wait for the one-time setup and a reset (tracker rows 12 and 26).
-- **Requests for the root:** the author pastes the video chat's list into the root chat, and the root turns it into a delivery (a register row, a glossary term, a lab result, a handoff update).
+- **Requests for the root:** rare. A video chat sends one only when a shared file truly needs a change, when a decision crosses videos, or at a milestone. The author pastes it into the root chat at most once per session, and the root turns it into a delivery (a register row, a glossary term, a lab result, a handoff update).
 
 ### 15.3 A fresh archive
 
@@ -435,4 +439,6 @@ From the repo root, after the last commit is pushed: `git archive --format=zip -
 | Where is the map of the repository? | `docs/README.md`: each file, its owner, and when to open it, plus the history files that current work does not use. |
 | Where are the setup and reset procedures? | `docs/reset-runbook.md`: Part A (one-time setup), Part B (the reset before every rehearsal and take) and Part C (pre-roll), each step with the output to expect. |
 | How do I check a video chat's delivery before applying it? | Run `unzip -l` on its zip first: only that video's own files should appear. Then use its base hash and stated stat, as for any delivery. You can also attach the zip to the root chat for a review against the contract before you commit. |
+| Who verifies the output of a video chat's delivery? | The video chat that made it: it states the base hash and the expected stat, and checks what you paste. The root reviews only if you ask. |
+| What is a video log? | `docs/module1-videoN-log.md`, created by the video chat with its first entry: the checklist state, claim confirmations with retrieval dates, probe results, the take log, and the decisions you make with that chat (such as the slide shapes). It is the truth about that video's state, ahead of the contract's checklist. |
 | Why are the pause-and-try questions separate clips? | The speech engine should not have to produce silence. The question and its answer are generated as two clips, and the 3-second pause is placed in the edit. |

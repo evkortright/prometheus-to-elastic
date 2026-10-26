@@ -9,6 +9,7 @@ A one-page map of this repository: which file is which, who owns it, and when to
 - **To start a video chat:** open that video's contract (`module1-video1-contract.md`, `module1-video2-contract.md` or `module1-video3-contract.md`), go to section 11, and copy the prompt. Attach a fresh archive to the new chat (`handoff-module1-living.md`, section 15.3, has the command).
 - **To see where the project stands:** `handoff-module1-living.md`, section 6 (the tracker) and section 7 (the decisions).
 - **To apply, check and commit a delivery:** `handoff-module1-living.md`, section 3 (the repo routine).
+- **To apply a video chat's delivery:** ask that chat for the steps; it verifies your pasted output. Run `unzip -l` on the zip first (handoff section 3). The root reviews only if you ask.
 
 ## Current working files (in `docs/`)
 
@@ -27,6 +28,7 @@ Owner key: **Root** = the root chat; **V1**, **V2**, **V3** = the chat for that 
 | `module1-video1-story.md` | The reading version of Video 1's old narrative (to be regenerated) | V1 | Rarely; the narrative file replaces it |
 | `module1-video2-narrative.md` | A **seed** narrative for Video 2, written by the root. The V2 chat decides with you whether to use it | V2 | You listen to it, or the V2 chat starts |
 | `module1-video2-outline.md` | Video 2's outline and its decisions | V2 | The V2 chat works on it |
+| `module1-video1-log.md`, `module1-video2-log.md`, `module1-video3-log.md` | A video's working log: checklist state, claim confirmations with retrieval dates, probe results, the take log, and the decisions the author makes with that chat. Created by the chat with its first entry | V1, V2, V3 | You want the state of one video. The log is the truth about it, ahead of the contract's checklist |
 | `module1-query-lab.md` | The tests (R1 to R8, P1 to P8) and the recorded results | Root | You run a rehearsal |
 | `module1-status-2026-10-19.md` | The claims register (section 4) and an older status. The file name keeps its old date; do not rename it | Root | You check a claim |
 | `module-learning-objectives.md` | The curriculum and the learning objectives. The author approves any change | Root | You check a learning objective |
