@@ -6,7 +6,7 @@
 **Target length:** flexible, about 7 to 10 minutes.
 **Format:** slides plus a live demo, with TTS narration, recorded screen first (same workflow as Video 1).
 
-**Status:** Outline only, drafted Oct 22, 2026. Nothing recorded. Narration and the run-sheet come after you approve this outline.
+**Status:** Outline only, drafted Oct 22, 2026. Nothing recorded. Narration and the run-sheet come after you approve this outline. Decisions 1, 2, 4, 6, 8 and 9 approved Oct 25, and a new decision 10 added and approved; 3, 5 and 7 are open.
 
 ---
 
@@ -69,20 +69,22 @@ Rungs map to the lab: R2, R5, R7 and R8 are the new ones. R1, R3 and R6 from Vid
 
 ## Open decisions
 
-1. **Through-line.** Build toward the per-service error ratio (R8). Recommended: it is the question an SRE asks, and every earlier rung contributes a piece.
-2. **Which rungs to show.** Recommended: R2, R5, R7, R8 in full, and R1, R3, R6 as one-sentence reminders from Video 1.
+1. **Through-line.** Build toward the per-service error ratio (R8). Recommended: it is the question an SRE asks, and every earlier rung contributes a piece. **Approved Oct 25.**
+2. **Which rungs to show.** Recommended: R2, R5, R7, R8 in full, and R1, R3, R6 as one-sentence reminders from Video 1. **Approved Oct 25.**
 3. **Series slide (beat 2).** Include only if the TSDS docs support the wording. Otherwise it moves to a later module or a short slide in Video 3.
-4. **Nonzero values.** In the Oct 21 R8 run, six of eight services showed a ratio of exactly 0, so agreement is trivial for those rows. Options: wait for a natural error episode, or turn `paymentFailure` on for a controlled one. Recommended: measure the flag's effect first.
+4. **Nonzero values.** In the Oct 21 R8 run, six of eight services showed a ratio of exactly 0, so agreement is trivial for those rows. Options: wait for a natural error episode, or turn `paymentFailure` on for a controlled one. Recommended: measure the flag's effect first. **Decided Oct 25:** use the controlled `paymentFailure` flag, after measuring its effect on a fresh stack. Every video starts from a reset, so we cannot wait for a natural error episode.
 5. **Range query and chart (beat 7).** Include if the rehearsal shows a clear chart on both sides.
-6. **Pause-and-try prompts.** Recommended: two (beats 3 and 5), matching the Apply level. They cost a few seconds each.
+6. **Pause-and-try prompts.** Recommended: two (beats 3 and 5), matching the Apply level. They cost a few seconds each. **Approved Oct 25.**
 7. **A percent form.** `* 100` on the ratio is untested. Test in the rehearsal, or keep `* 60` from R7.
-8. **Length.** Flexible. Cut the optional beats first if it runs long.
-9. **Same recording workflow as Video 1.** The run-sheet is drafted after you approve this outline.
+8. **Length.** Flexible. Cut the optional beats first if it runs long. **Approved Oct 25.**
+9. **Same recording workflow as Video 1.** The run-sheet is drafted after you approve this outline. **Approved Oct 25.**
+10. **Strictly standalone (Oct 25).** The video restates what it needs in about 20 seconds before the first rung: how Elastic's `PROMQL` command wraps an expression, and which metric we query. Any pointer to Video 1 or Video 3 is a courtesy that can be cut without loss. The contract lists this as the video's entry knowledge. **Approved Oct 25.**
 
 ## Dependencies
 
 - Query lab verdicts for R2, R5, R7 and R8: **done Oct 21**, on the previous dataset. Re-run them on the fresh stack in a rehearsal.
 - The Elastic row counts for R7 and R8 were not recorded in the lab; record them in the rehearsal.
-- Nonzero values at record time (decision 4).
+- Nonzero values at record time (decision 4): the controlled flag, with its effect measured first.
 - TSDS docs check, if beat 2 stays.
 - Before every recording: uptime, `paymentFailure` state, and `samples_failed_total`.
+- A reset before the rehearsal and before the take (the reset runbook, handoff tracker row 26).

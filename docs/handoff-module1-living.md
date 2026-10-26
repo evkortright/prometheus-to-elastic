@@ -5,7 +5,7 @@
 **Supersedes:** `handoff-2026-10-20-module1-continuation.md`. Keep that file as history only; section 13 lists what in it is now out of date.
 **This file is updated, not rewritten.** Add to it at every milestone (section 14 says how). If it disagrees with an older document, this file wins, unless the claims register says otherwise.
 
-**Who changes the repo:** this chat owns the repo (decided Oct 22, after the first handoff). Only changes delivered here are applied. The author applies, checks, commits and pushes (section 3); the assistant states the expected result first and checks the pasted output. The earlier chat is a reference for what was done before.
+**Who changes the repo:** this chat is the **root chat** (it took ownership on Oct 22; the root role was agreed on Oct 25). It owns every shared file and is the only source of changes to them; the author is the oversight. The author applies, checks, commits and pushes (section 3); the assistant states the expected result first and checks the pasted output. Planned per-video chats own only their own video's files and send the root a list of requests for shared files (section 7, Oct 25). The first chat is a reference for what was done before.
 
 **Read in this order:**
 1. This file.
@@ -43,7 +43,7 @@
 10. **Verification.** Claims trace to Elastic or Prometheus docs (link them) or to a recorded test. Third-party sources are flagged as such. Search results can be docs preview builds (`docs-v3-preview.elastic.dev`), which are not canonical.
 11. **Plain language.** Define a term the first time. A term the author hasn't met goes in the glossary with a source.
 12. **The assistant's sandbox has no network for shell commands in this setup.** Use web search and web fetch (fetch works only for URLs that already appeared in results).
-13. **Repo ownership (Oct 22).** This chat is the only source of repo changes. The assistant cannot run git, and a zip made with `git archive` has no `.git`, so the sync check is `git fetch` and `git status -sb` on the laptop (section 3, step 1).
+13. **Repo ownership (Oct 22).** The root chat (this one) is the only source of changes to shared files; video chats (planned) own only their own video's files. The assistant cannot run git, and a zip made with `git archive` has no `.git`, so the sync check is `git fetch` and `git status -sb` on the laptop (section 3, step 1).
 
 ## 3. The repo-update routine
 
@@ -118,8 +118,8 @@ Also confirm the `paymentFailure` flag is off on the feature flags page.
 
 **Migration plan (replaced on Oct 22): a fresh start on the laptop, in this order.** The author owns each step; the assistant gives expected output first. The earlier plan (create a new key, revoke the old key, delete the data stream) is superseded because the old project is deleted.
 1. **Account checks (proposed; the author has not yet confirmed them),** listed below. They come before any new credentials: a new key does not help if the account that issues it is compromised. This is a precaution, not a diagnosis.
-2. **Create the new Serverless project** (Observability Complete, per the README). Record its name, region and endpoint in section 4.
-3. **Create the new write-only API key** in Kibana Dev Tools with the README's "Create the Elastic credentials" call (privileges `auto_configure` and `create_doc` on `metrics-*`; give it a clear name). Copy the `encoded` value (shown once). **Never paste it in chat.**
+2. **Create the new Serverless project** (one-time; all three videos reuse it) (Observability Complete, per the README). Record its name, region and endpoint in section 4.
+3. **Create the new write-only API key** (one-time) in Kibana Dev Tools with the README's "Create the Elastic credentials" call (privileges `auto_configure` and `create_doc` on `metrics-*`; give it a clear name). Copy the `encoded` value (shown once). **Never paste it in chat.**
 4. **Laptop readiness check** (read-only), from the repo root:
 ```
 sysctl -n hw.memsize | awk '{printf "%.0f GB RAM\n", $1/1024/1024/1024}'
@@ -128,8 +128,10 @@ ls -ld opentelemetry-demo .env.elastic
 ```
    The README wants at least 12 GB and 4 CPUs for Docker. The last line shows whether the demo folder and `.env.elastic` exist; it does not print the file.
 5. **Set up the stack** per the README's "Local setup": clone the demo at the pinned version if missing, create `.env.elastic` from `config/.env.example` with the new endpoint and key (replace any stale file), run `scripts/apply-config.sh`, start with both compose files. If Prometheus logs "permission denied", `chmod 644` the generated config and `docker restart prometheus`.
-6. **Warm up** with `caffeinate` running. The lab's rule is at least 45 minutes. The author wants enough data for testing and demos, and a longer run (for example overnight) would also answer questions the desktop run left open: whether the overlapping-blocks warning appears at the first compaction, how often the organic payment errors occur, and whether the sample rate settles. **Length not decided.**
+6. **Warm up** with `caffeinate` running, for the time the video's contract states (Oct 25: warm-up is a per-video field, not a global rule). The lab's rule of thumb is at least 45 minutes. A longer run (for example overnight) would answer questions the desktop run left open: whether the overlapping-blocks warning appears at the first compaction, how often the organic payment errors occur, and whether the sample rate settles.
 7. **Then:** the pre-roll checks, probes P1 to P8, the R1 rehearsal and the capture test.
+
+**From the second video on (Oct 25):** the plan above is the one-time setup. Each video starts from a **reset runbook** (tracker row 26): stop the stack, delete the data stream in Kibana Dev Tools under the author's own login (the write-only key cannot), clear Prometheus's local data, start fresh, warm up, and run the pre-roll checks. Elastic recreates the data stream automatically (verified on the old project). The runbook is not written yet.
 
 **Account checks, from the laptop (proposed; to be confirmed by the author):** GitHub security log, SSH keys and tokens; the Elastic Cloud account's active sessions and any API keys the author did not create; passwords typed in that Chrome while the symptoms were active.
 
@@ -150,25 +152,30 @@ ls -ld opentelemetry-demo .env.elastic
 | 5 | Video 1 outline | Done (`edf75cf`) |
 | 6 | Video 1 run-sheet v4 with voice-over iteration 1 and two fixes | Done (`48717fa`); not yet heard through the speech engine; its voice-over is to be regenerated from the narrative file (row 24) once that is approved |
 | 7 | Video 1 story document (reading version, generated from the run-sheet) | Done (`48717fa`); to be regenerated from the narrative file once approved |
-| 8 | Video 2 outline | Committed (`1770043`); the author has not yet reviewed its nine open decisions |
-| 9 | Listening test of the Video 1 narrative (row 24), with Qwen3 or the author's own voice, then iteration 2 | **Next (author):** bring timestamps for where it drags or sings, and how the spellings read |
+| 8 | Video 2 outline | Committed (`1770043`). Decisions 1, 2, 4, 6, 8 and 9 approved Oct 25 and recorded in the outline (delivered with this update). Decisions 3, 5 and 7 are open, and a new decision 10 (strictly standalone) is approved |
+| 9 | Listening test of the Video 1 narrative (row 24) | Done (author, Oct 25). No changes requested, so v1 stands as the narrative of record |
 | 10 | Security investigation and glitch diagnosis on the desktop | In progress, separate chat (author) |
 | 11 | Key rotation, revoke the old key, delete the data stream | **Superseded Oct 22:** the old project is deleted; a new project and a new key replace this (section 5, steps 2 and 3) |
-| 12 | Account checks, new project and key, laptop readiness check and stack setup | Author with the assistant; not yet started |
+| 12 | One-time setup: account checks, new project and key, laptop readiness check, first stack setup | Author with the assistant; not yet started |
 | 13 | Capture test and R1 rehearsal on the laptop | After 12 and a warm-up |
 | 14 | Opener and recap slide narrations, derived from the narrative file with an explicit shape for the slide generator | To do, after the narrative is approved |
 | 15 | Real take for Video 1, then narration against the footage | After 9 and 13 |
 | 16 | Housekeeping delivery: register rows for the clean start and the incident, the lab file's outdated "Feeds" header, the quickstart paragraph, and the `apply-config.sh` fix | To do |
-| 17 | Probes P1 to P8 and the R4 re-run, then the Video 3 outline | After 12 |
-| 18 | Video 2 and Video 3 story scripts | Held until the evidence and the decisions exist |
+| 17 | Video 3 outline (from LO3, the lab's probe list and the register). Probes P1 to P8 and the R4 re-run belong to Video 3's own rehearsal | Outline: to do. Probes: after 12 |
+| 18 | Video 2 and Video 3 narratives, drafted with placeholders like Video 1 | Hold lifted Oct 25. Video 2: after row 25. Video 3: after its outline (row 17) |
 | 19 | Peer-review package (the story documents, the reviewers' questions, the claims appendix) | After Video 1's take; Videos 2 and 3 when they have evidence |
 | 20 | Voice-over style guide (repo file), later a skill | After the listening test and Video 2's script |
 | 21 | Primer doc `docs/module1-promql-primer.md` | Not created; the glossary (section 10) is its seed |
 | 22 | Module description | Write last |
 | 23 | Mac Mini always-on server | Lowest priority; not tracked further |
-| 24 | Video 1 narrative draft v1 ("find the seam"; the introduction opens Video 1; every number spoken) | Delivered (`8f6f186`). Awaiting the listening test (row 9) |
+| 24 | Video 1 narrative draft v1 ("find the seam"; the introduction opens Video 1; every number spoken) | Delivered (`8f6f186`). Listening test done Oct 25; v1 stands. To do: regenerate the run-sheet voice-over and the story document from it (rows 6 and 7) |
+| 25 | Video contract template, then the contracts for Videos 1, 2 and 3; revise section 15 (starter prompts) for the root and video chats | **Next (assistant):** template first, then Video 1 |
+| 26 | Reset runbook (stop, delete the data stream, clear Prometheus data, restart, warm up, pre-roll checks) | To do (needs the clean-restart notes in section 5) |
+| 27 | Arc review file `docs/module1-story-arc.md`: the three narratives end to end with the hand-overs marked | After the Video 2 and Video 3 narratives are drafted |
+| 28 | Docs checks: the TSDS wording for Video 2 beat 2, and for Video 3 the feature's current status and the unsupported constructs | To do (assistant, web search) |
+| 29 | Video 1 narrative: fix the header line breaks | With the next change to that file |
 
-**Commits so far (Oct 20 to 22):** `4ae9f7f` LO update; `f3f898a` register; `4a911b1` lab results; `edf75cf` Video 1 outline; `232f594` run-sheet v1; `2e0a9f9` voice-over v2; `77f2204` run-sheet v3; `5b818e6` living handoff; `1770043` Video 2 outline and handoff update; `48717fa` run-sheet v4 and Video 1 story document; `1dc45af` (the parent of the next commit; its contents were not checked in this chat); `8f6f186` Video 1 narrative draft v1.
+**Commits so far (Oct 20 to 22):** `4ae9f7f` LO update; `f3f898a` register; `4a911b1` lab results; `edf75cf` Video 1 outline; `232f594` run-sheet v1; `2e0a9f9` voice-over v2; `77f2204` run-sheet v3; `5b818e6` living handoff; `1770043` Video 2 outline and handoff update; `48717fa` run-sheet v4 and Video 1 story document; `1dc45af` (the parent of the next commit; its contents were not checked in this chat); `8f6f186` Video 1 narrative draft v1; `055718d` living handoff (this chat takes ownership, fresh-start plan, narrative decisions).
 
 ## 7. Decisions made (dated)
 
@@ -185,7 +192,7 @@ ls -ld opentelemetry-demo .env.elastic
 - **Handoff is a living file** (this one).
 - **Oct 22, after the incident:** rotate the live Elastic API key; treat the desktop as unreliable and do not use it; investigate the security incident in a separate chat.
 - **Oct 22: the laptop hosts the stack too.** Keep it awake with `caffeinate`; run the stack for a couple of hours while capturing.
-- **Oct 22: hold the Video 2 and Video 3 story scripts** until the evidence and the open decisions exist. The three-act spine (Video 1 asks whether the expressions run, Video 2 builds something real, Video 3 shows where it differs) is a note, not a plan.
+- **Oct 22: hold the Video 2 and Video 3 story scripts** until the evidence and the open decisions exist. The three-act spine (Video 1 asks whether the expressions run, Video 2 builds something real, Video 3 shows where it differs) is a note, not a plan. **Lifted Oct 25** (see below).
 - **Oct 22: the story document is generated from the run-sheet.** If they differ, the run-sheet wins and the story is regenerated.
 - **Oct 22: two fixes to Video 1's narration:** Clip B2's last sentence no longer contradicts itself ("that's only display; the only thing we changed is the wrapper"), and "Two tabs" became "Two screens."
 - **Oct 22: this chat owns the repo.** Only changes from this chat reach it; the author applies, checks, commits and pushes. The other chat stays available for reference.
@@ -196,15 +203,22 @@ ls -ld opentelemetry-demo .env.elastic
 - **Oct 22: the narrative file becomes the source of truth once the author approves it.** Until then the run-sheet wins. This amends the earlier decision that the story document is generated from the run-sheet: after approval the run-sheet's voice-over blocks and the story document are regenerated from the narrative.
 - **Oct 22: no hard word or length rules** (about five minutes per video, since each is a part of Module 1). The slide guidance does not constrain the narrative: slide narrations may tell the generator which shape to use.
 - **Oct 22: the Mac Mini is the lowest item.** Not tracked further; the author will raise it.
+- **Oct 25: the root structure (option A).** This chat is the root and owns the shared files (this handoff, the claims register, the glossary, the query lab, the environment notes, the voice guide). The author is the oversight. Each video gets its own chat, started from a contract handoff. A video chat owns only its own files and ends each turn with a short list of requests for shared files. Proposed, to be confirmed in the contract template: a video is fulfilled when its script is approved, its claims are verified against its own take log, its run-sheet is done, its narration is generated, and the author has captured the footage (editing in the video editor is the author's).
+- **Oct 25: self-contained production.** No long-running or shared data between videos. One Serverless project and one key are reused. Each video starts from a reset (section 5, tracker row 26), and its contract states its own warm-up and stack state. Only one stack runs at a time, because all videos write to the same data stream: scripting can run in parallel, rehearsal and capture run one at a time.
+- **Oct 25: the videos are strictly standalone.** Each restates what it needs (about 20 seconds; for example Video 2 recaps the wrapper and the metric) and teaches the date-picker rule itself in Video 3. A pointer to another video is a courtesy that can be cut without loss. Each contract lists its "entry knowledge". The learning objectives need no rewording (the assistant's reading: each is achievable alone, and the Remember, Apply, Analyze ladder is a design, not a prerequisite chain); the author may ask for edits.
+- **Oct 25: Video 2's decisions.** Approved: 1 (the through-line is the per-service error ratio), 2 (R2, R5, R7 and R8 in full; R1, R3 and R6 as one-sentence reminders), 6 (two pause-and-try prompts), 8 (flexible length; optional beats are cut first), 9 (the same workflow as Video 1), and a new 10 (strictly standalone). Decided: 4 (nonzero values) uses the controlled `paymentFailure` flag, after its effect is measured on a fresh stack, because every video starts from a reset and we cannot wait for a natural error episode. Open: 3 (series slide, waits for the TSDS docs check), 5 (range chart) and 7 (percent form), both waiting for a rehearsal.
+- **Oct 25: the hold on the Video 2 and Video 3 scripts is lifted.** They are drafted with placeholders and a claims-to-confirm table, as Video 1 was. This amends the Oct 22 hold.
 
 ## 8. Open decisions and parked items
 
 **Open decisions (author's call):**
-- Warm-up length: the lab's 45 minutes, or longer (for example overnight).
+- Arc idea (suggested Oct 25, not decided): the "find the seam" game from Video 1 returns in Video 3, where the viewer finally catches the expression changing. It must stay a bonus, because the videos are standalone.
+- The wording of "a video is fulfilled when..." (proposed in section 7, Oct 25), to be settled in the contract template.
+- Warm-up length: set per video in each contract (Oct 25). The lab's 45 minutes is the floor to test.
 - Account checks (section 5): the author has not yet confirmed them.
 - How Qwen3 reads the spellings (`prom-Q-L` or `PromQL`, `E-S-Q-L` or `ESQL`, `S-L-Os`), and the spoken form of the numbers.
 - Shapes for the opener and recap slides, to give the slide generator explicitly.
-- Video 2's through-line (per-service error ratio) and the other eight open decisions in its outline.
+- Video 2's decisions 3 (series slide, waits for the TSDS docs check), 5 (range chart) and 7 (percent form), both waiting for a rehearsal.
 - Opener closing line: superseded on Oct 22 by the narrative's opening, which ends on the game (watch the expression and try to catch it changing).
 - Copy-across idea for rung 1 (copy the expression from Prometheus and paste it into a staged Elastic skeleton).
 - Recorder on the laptop: macOS's built-in recording or OBS. Test clip: cursor visible? text readable? resolution?
@@ -244,6 +258,8 @@ ls -ld opentelemetry-demo .env.elastic
 | `index=` | The data stream to query: `metrics-generic.prometheus-default` | Lab |
 | `time=?_tend` | Makes an instant query at the end of the date picker's range; leave it out for a range query with a chart | Lab (command docs) and Kibana docs for `?_tend`: https://www.elastic.co/docs/explore-analyze/query-filter/languages/esql-where |
 | Wrapper | Our narration's word for everything around the expression in Elastic: the `PROMQL` command, its options (`index`, `time`) and the result name. It answers three questions: where this runs, when it is evaluated, and what the answer is called | Our term, not Elastic's; the pieces are from the command docs (see `PROMQL` command above) |
+| Contract | The handoff for one video chat: the learning objective, audience, through-line, entry and exit sentences, entry knowledge, allowed and forbidden claims, the evidence and stack state needed, acceptance checks, deliverables and the files the chat owns | Our term (Oct 25) |
+| Reset | The per-video procedure that clears all data and restarts the stack, so no video depends on another's data | Our term (Oct 25); the runbook is tracker row 26 |
 | Date picker | PROMQL reads only data inside its range, so a window longer than the picker sees less data (lab R4: 9,391 versus 18,925 versus Prometheus 18,960 for `increase(...[30m])`) | Tested |
 | ES\|QL | Elasticsearch Query Language | Verified (Kibana docs) |
 | Remote write | How Prometheus sends its data to Elastic in this demo | Verified (register row 9) |
@@ -278,6 +294,7 @@ These came from reading Video 1's first draft as a viewer and iterating on it. T
 20. **What fixed it:** a spine (the "find the seam" game), long building sentences followed by short landing ones, each rung created by a problem the previous one left (series, then a counter that only climbs, then one number that does not say which service), and a reveal that answers the opening question.
 21. **Open with the viewer's fear:** the investment, and the question "would I have to rebuild all of it?" The author's earlier module introduction was the model; its absolutes were not carried over.
 22. **Say "we" and "you";** avoid "I want to show you". The viewer is the investigator, not the audience of a pitch.
+23. **Strictly standalone means restating, not referring.** Each video spends about 20 seconds on what it needs, and any pointer to another video can be cut without loss. The production rule follows: nothing carries over between videos, so every number comes from that video's own take.
 
 **How the story document is built.** A short script reads the run-sheet and pulls each spoken block with this pattern, then places it in viewing order (opener, Clips A, B1, B2, C1, C2, D1, D2, recap) with an italic note on what is on screen, followed by reviewer questions, a claims table and the open items:
 ````
@@ -305,6 +322,8 @@ After building, check that every quoted line appears verbatim in the run-sheet.
 - **Don't over-read Windows event 41.** A forced power-off and a crash look the same.
 - **A zip made with `git archive` has no `.git`,** so the assistant cannot check commits or sync from it. Use `git fetch` and `git status -sb` on the laptop.
 - **Count words with a script,** not by eye: the narrative draft was guessed at "roughly 700" words and counted 670.
+- **All videos write to one data stream name** (`metrics-generic.prometheus-default`), so two stacks running at once would mix their data. Only one stack runs at a time.
+- **The assistant's sandbox runs on UTC,** so a file timestamp can show a day ahead of the author's local date (the evening of Oct 25 local was Oct 26 UTC).
 
 ## 13. What in the Oct 20 handoff is now out of date
 
@@ -331,6 +350,7 @@ After building, check that every quoted line appears verbatim in the run-sheet.
 | 2026-10-22 | Desktop incident recorded (unexpected restarts, Malwarebytes PUPs, glitch persists). Key rotation plan and permission step added. Commit `1770043` added. Tracker rows 16 to 19 added. |
 | 2026-10-22 | Combined update before handing off to a new chat: the laptop is now the stack host and the recording machine; migration plan (rotate key, revoke old key, delete the data stream, set up the laptop); story document and run-sheet v4 (`48717fa`); decisions, tracker, open items and narrative lessons refreshed; section 16 (anticipated questions) added. |
 | 2026-10-22 | Update from this chat (it takes ownership of the repo): the fresh-start plan (new project, new key, new stack, warm-up) replaces the rotation plan; decisions on the narrative approach, the introduction, spoken numbers and the narrative file as the future source of truth; tracker row 24; glossary entry Wrapper; narrative lessons 19 to 22; two traps; four anticipated questions. Commit `8f6f186` added. |
+| 2026-10-25 | Root-chat update: the root structure and the contracts plan, the self-contained and strictly standalone rules, the reset runbook (steps 2 and 3 of the plan are now one-time), Video 2 decisions approved, the script hold lifted, tracker rows 8, 9, 12, 17, 18 and 24 updated and rows 25 to 29 added, commit `055718d` added, glossary entries Contract and Reset, lesson 23, two traps, three anticipated questions. The Video 2 outline was updated in the same delivery. |
 
 ## 15. Starter prompt for the next chat
 
@@ -361,3 +381,6 @@ To make a fresh archive on the laptop, from the repo root, after the last commit
 | Why are all the numbers spoken, not captioned? | TTS makes editing cheap: change the text, regenerate. A number that lives only in the narration is refilled in one place after a re-capture. A caption would be a second place to keep in sync, in the video editor. |
 | Why was the narrative rewritten? | The first draft was choppy: uniform short sentences, the same list announced three times, no tension, and report-style numbers. The new draft has a spine (find the seam), each rung caused by the last, and an opening that names the viewer's fear. See section 11, items 19 to 22. |
 | Why a new project instead of rotating the key? | The author deleted the old project and the desktop no longer sends data, so a new project, a new key and a new local stack are a cleaner start than rotating. |
+| Why one Serverless project for all the videos? | Each video starts from a reset that deletes the data stream and restarts the local stack, so a new project per video adds nothing. The project and the write-only key are one-time setup. |
+| Why must every video be strictly standalone? | The author does not want production to depend on data, uptime or recording order from another video, and a viewer may start anywhere. Each video restates what it needs; pointers to other videos are cuttable. |
+| Who edits the shared files once there are per-video chats? | Only the root chat. A video chat owns its own video's files and sends the root a list of requests for the handoff, the claims register, the glossary, the query lab and the environment notes. |
