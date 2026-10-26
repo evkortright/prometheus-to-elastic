@@ -1,8 +1,11 @@
 # Module 1, Video 1 — Narrative (draft v1)
 
 **Working title:** Your PromQL, running in Elastic
-**Status:** Draft v1, October 22, 2026. For listening and reading aloud. Not yet the source of truth: until you approve a version, the voice-over in `module1-video1-run-sheet.md` stays authoritative. Once approved, the run-sheet's voice-over blocks and the story document are regenerated from this file.
+
+**Status:** Draft v1, October 22, 2026. For listening and reading aloud. Not yet the source of truth: until you approve a version, the voice-over in `module1-video1-run-sheet.md` stays authoritative. Once approved, the run-sheet's voice-over blocks and the story document are regenerated from this file. **Revision, Oct 25:** one phrase changed in rung 1 ("the wrapper only answers three questions" became "here it makes just three choices") after the docs check of the PROMQL command page, which lists more options than the three we set. The spoken length is unchanged.
+
 **Length:** about 670 spoken words, with the placeholders counted as one word each. The target is around five minutes with the pauses on screen (an estimate, not measured).
+
 **The spine:** the viewer plays "find the seam": watch the expression and try to catch it changing. Each rung is another look. The reveal is that the expression never changed; only the wrapper is new.
 
 ## How to read this
@@ -45,7 +48,7 @@ First move: choose which series you're looking at. Our metric is traces span met
 *Elastic: the wrapper is already in the editor. The cursor underlines the expression, then the command, index, time and result name. Then Run.*
 
 ```
-Now, Elastic. Look inside the parentheses. That's the expression, the same text we just ran. Everything around it is a wrapper, and the wrapper only answers three questions. Where does this run? That's index: the data stream that holds our metrics. When? That's time: the end of the date picker's range, so the expression is evaluated once, just like the Table tab. And what do we call the answer? That's the name out front: calls.
+Now, Elastic. Look inside the parentheses. That's the expression, the same text we just ran. Everything around it is a wrapper, and here it makes just three choices. Where does this run? That's index: the data stream that holds our metrics. When? That's time: the end of the date picker's range, so the expression is evaluated once, just like the Table tab. And what do we call the answer? That's the name out front: calls.
 
 Run it. {{N_ELASTIC}} series, against {{N_PROM}}. The labels sit in a column instead of inline, but they're the same series. So, did you catch the expression changing? No. Only the wrapper is new.
 ```
@@ -116,6 +119,7 @@ Rule: if a number disagrees with a sentence, rewrite the sentence. Rung 2 says "
 | "Elastic's prom-Q-L command reads only the data inside that range" | Lab R4; re-read the limitations page and record the retrieval date |
 | "One remote-write block added to its config" | `remote_write` block in `config/prometheus-config.yaml` (URL, name, API key and queue settings in one block). The repo also patches the compose file, so keep the wording at "added to its config" |
 | "Most, though, not all" | The limitations page: the majority of expressions run unchanged |
+| "Everything around it is a wrapper, and here it makes just three choices" | The command page lists more options (index, step, buckets, start, end, time, scrape_interval, and an optional result name); we set three. Register row 36 | Docs (Oct 25) |
 | "Next, we build ... which services are failing" | Video 2's through-line, which is not yet approved |
 
 ## Listening notes (fill in)

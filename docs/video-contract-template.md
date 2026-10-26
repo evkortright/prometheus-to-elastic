@@ -95,7 +95,7 @@ The video is strictly standalone. It restates what it needs in about 20 seconds,
 ## 9. Package for the second editor
 
 - The exported first-pass video.
-- The slide files.
+- The slide files: the slide generator produces a `.pptx`; the author uploads it to Google Drive, opens it as Google Slides, and gives the second editor the link.
 
 This follows what worked on an earlier project: the second editor took the author's DaVinci Resolve export plus the slides, animated the slides, and used the demo and audio straight from the video, and asked for no transcripts. Everything else (take log, narrative, run-sheet, audio files, claims appendix) stays in the repo. **This section changes only if something changes on the author's side.**
 

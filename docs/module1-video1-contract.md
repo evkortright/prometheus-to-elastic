@@ -41,7 +41,7 @@ The contract is fulfilled when the author, as the first video editor, has assemb
 ## 4. Story
 
 - **Through-line:** "find the seam." The viewer watches the expression and tries to catch it changing. In three rungs it never does; only the wrapper is new.
-- **Narrative file:** `docs/module1-video1-narrative.md` (draft v1, commit `8f6f186`). The author listened to it and asked for no changes on Oct 25, so v1 stands as the narrative of record.
+- **Narrative file:** `docs/module1-video1-narrative.md` (draft v1, commit `8f6f186`, with one phrase changed on Oct 25 after the docs check). The author listened to it and asked for no changes on Oct 25, so v1 stands as the narrative of record.
 
 | Beat | What | Capture clips | Target on screen |
 |---|---|---|---|
@@ -59,21 +59,22 @@ The contract is fulfilled when the author, as the first video editor, has assemb
 - **Wording rules:** as in the template. In addition: no `increase()`, no `topk`, no statement about the feature's status (Video 3 covers status), no claims about alerting or "real time".
 - **Forbidden for this video:** "runs unchanged" as an absolute; "single remote-write block" (say "one remote-write block added to its config"); "I want to show you"; any percentage without the seconds between the runs; "can't be done in PromQL".
 - **Claims-register rows used** (status doc, section 4): 1 (most, not all), 2 (the expression body is identical), 18 (`rate()` values agree back to back), 19 (the date picker's range), 20 (grouped `rate()` agrees), 29 (`=~` and `!=` behavior, if the matcher is mentioned), 30 (our wording is "most everyday expressions").
+- **Known edge (Oct 25):** Elastic's porting advice is to omit range selectors so the window adapts to the time range, and to use a fixed window only when you need exactly that window (register row 39). Video 1 keeps `[5m]` on purpose: with `time=?_tend` it is the rate over the last five minutes, and it makes the "same expression" point. Video 3 explains the difference. Do not say anything in Video 1 that contradicts Elastic's advice.
 
 | Sentence | Confirm against | Status |
 |---|---|---|
-| "The labels sit in a column instead of inline, but they're the same series" (rung 1) | The label sets on both sides match, not only the counts (take) | Open |
+| "The labels sit in a column instead of inline, but they're the same series" (rung 1) | Docs support the column claim: a result without a cross-series aggregation returns the labels in one `_timeseries` column as JSON (register row 38). The "same series" part needs the label sets on both sides to match (take) | Open (the take) |
 | "Only the wrapper is new" (rung 1) | The Elastic line's expression is character for character the Prometheus text (take) | Open |
 | "The only thing we touch is the name of the answer" (rung 2) | The two commands differ only in the result name and the expression text (take) | Open |
-| "The wrapper only answers three questions": index, time, and the result name | The `PROMQL` command reference. The command has other options, so "only" may overclaim; if it does, change the sentence to say these are the three things we set here | Open |
-| "evaluated once, just like the Table tab" (time = the end of the picker's range) | The command reference for `time`, and Prometheus's instant-evaluation behavior | Open |
+| "Everything around it is a wrapper, and here it makes just three choices" (index, time, result name) | The `PROMQL` command page lists more options (index, step, buckets, start, end, time, scrape_interval, and an optional result name), so "three choices" is true and "only three questions" was not. Register row 36, retrieved Oct 25 | Docs (Oct 25) |
+| "evaluated once, just like the Table tab" (time = the end of the picker's range) | The command page: `time` evaluates the expression once, and `?_tend` is the end of the date picker's range. Register row 37, retrieved Oct 25 | Docs (Oct 25) |
 | "Elastic's prom-Q-L command reads only the data inside that range" | Register row 19 (effect verified in lab R4; mechanism consistent with the docs). Re-read the docs wording and record the retrieval date | Open |
 | "Kibana's Discover, in E-S-Q-L mode ... has a command for running prom-Q-L" | The command page; register row 3. Record the retrieval date | Docs |
 | "traces span metrics calls total is a counter ... the OpenTelemetry Collector builds from traces" | `docs/otel-collector-reference.md` (the `spanmetrics` connector) and the Collector config | Docs |
 | "Prometheus ships its data to Elastic with one remote-write block added to its config" | The `remote_write` block in `config/prometheus-config.yaml`; the pre-roll counters (failed is 0 or unchanged) | Docs |
 | "Both are looking at the same metrics" | The pre-roll counters, and the agreement of the series counts in rung 1 | Open |
 | "rate ... returns the per-second average rate of increase" | Prometheus's documentation for `rate()` | Docs |
-| "Most, though, not all" | Register row 1 and the limitations page | Docs |
+| "Most, though, not all" | Register row 1; the command page says the command supports most, but not all, of PromQL (register row 36 notes, retrieved Oct 25) | Docs (Oct 25) |
 
 ## 6. Evidence plan
 
@@ -104,7 +105,7 @@ As in the template. Two decisions for Video 1 specifically:
 |---|---|---|---|
 | 1 | Learning objective | Author | Done (approved Oct 21) |
 | 2 | Outline, updated to match the narrative (it still names the desktop as the capture machine and says the narration is written against the footage) | Video chat | To do |
-| 3 | Narrative approved | Author | Done (v1 stands, Oct 25) |
+| 3 | Narrative approved | Author | Done (v1 stands, Oct 25; one phrase changed and approved the same day) |
 | 4 | Slide narrations for the opening and the reveal, with explicit shapes | Video chat | To do |
 | 5 | Run-sheet final: the voice-over regenerated from the narrative, and the screen steps adapted to the laptop (the recorder is a decision; the pre-roll commands drop WSL) | Video chat | To do |
 | 6 | Story document regenerated from the narrative | Video chat | To do |
@@ -119,14 +120,14 @@ As in the template. Two decisions for Video 1 specifically:
 ## 9. Package for the second editor
 
 - The exported first-pass video.
-- The slide files.
+- The slide files: the slide generator produces a `.pptx`; the author uploads it to Google Drive, opens it as Google Slides, and gives the second editor the link.
 
 The second editor took the author's DaVinci Resolve export plus the slides on an earlier project, animated the slides, and used the demo and audio straight from the video. Everything else stays in the repo. **This section changes only if something changes on the author's side.**
 
 ## 10. Ownership and change rules
 
 - **The Video 1 chat owns:** `docs/module1-video1-outline.md`, `docs/module1-video1-run-sheet.md`, `docs/module1-video1-story.md` and `docs/module1-video1-narrative.md`.
-- **Shared files belong to the root** (see the template, section 10). Known requests for the root at the start: add claims-register rows for the wrapper wording ("only three questions"), the "evaluated once" wording and the spanmetrics origin once they are confirmed; fix the header line breaks in the narrative file with the next change to it.
+- **Shared files belong to the root** (see the template, section 10). Requests for the root: the claims-register rows for the wrapper wording, the `time` option and the labels column were added on Oct 25 (rows 36 to 39); still to add once confirmed: the spanmetrics origin.
 
 ## 11. Video chat routine and starter prompt
 
