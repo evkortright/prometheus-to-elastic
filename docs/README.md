@@ -22,10 +22,10 @@ Owner key: **Root** = the root chat; **V1**, **V2**, **V3** = the chat for that 
 | `module1-video1-contract.md` | Video 1's job description and its starter prompt | Root | You start or check the Video 1 chat |
 | `module1-video2-contract.md` | The same for Video 2 | Root | You start or check the Video 2 chat |
 | `module1-video3-contract.md` | The same for Video 3 | Root | You start or check the Video 3 chat |
-| `module1-video1-narrative.md` | Video 1's narrative. Approved: the narrative of record | V1 | You listen to it or change a claim |
+| `module1-video1-narrative.md` | Video 1's narrative of record (the demo clips). The opening and reveal slide narrations live in the run-sheet (v5.1) | V1 | You listen to it or change a claim |
 | `module1-video1-outline.md` | Video 1's outline, v2 (matches the approved narrative and the contract) | V1 | The V1 chat works on it |
-| `module1-video1-run-sheet.md` | Video 1's screen steps and voice-over blocks (stale: to be rewritten from the narrative and adapted to the laptop) | V1 | You prepare a take, once it is rewritten |
-| `module1-video1-story.md` | The reading version of Video 1's old narrative (to be regenerated) | V1 | Rarely; the narrative file replaces it |
+| `module1-video1-run-sheet.md` | Video 1's screen steps, voice-over blocks and slide narrations (v5.1, adapted to the laptop; the recorder-dependent steps wait for the capture test) | V1 | You prepare a take |
+| `module1-video1-story.md` | The reading version of Video 1's spoken text, regenerated from the narrative and the run-sheet | V1 | You want to read the whole narration in order |
 | `module1-video2-narrative.md` | A **seed** narrative for Video 2, written by the root. The V2 chat decides with you whether to use it | V2 | You listen to it, or the V2 chat starts |
 | `module1-video2-outline.md` | Video 2's outline and its decisions | V2 | The V2 chat works on it |
 | `module1-video1-log.md`, `module1-video2-log.md`, `module1-video3-log.md` | A video's working log: checklist state, claim confirmations with retrieval dates, probe results, the take log, and the decisions the author makes with that chat. Created by the chat with its first entry | V1, V2, V3 | You want the state of one video. The log is the truth about it, ahead of the contract's checklist |
