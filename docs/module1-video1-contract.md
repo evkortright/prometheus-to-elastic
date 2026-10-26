@@ -70,7 +70,7 @@ The contract is fulfilled when the author, as the first video editor, has assemb
 | "evaluated once, just like the Table tab" (time = the end of the picker's range) | The command page: `time` evaluates the expression once, and `?_tend` is the end of the date picker's range. Register row 37, retrieved Oct 25 | Docs (Oct 25) |
 | "Elastic's prom-Q-L command reads only the data inside that range" | Register row 19 (effect verified in lab R4; mechanism consistent with the docs). Re-read the docs wording and record the retrieval date | Open |
 | "Kibana's Discover, in E-S-Q-L mode ... has a command for running prom-Q-L" | The command page; register row 3. Record the retrieval date | Docs |
-| "traces span metrics calls total is a counter ... the OpenTelemetry Collector builds from traces" | `docs/otel-collector-reference.md` (the `spanmetrics` connector) and the Collector config | Docs |
+| "traces span metrics calls total is a counter ... the OpenTelemetry Collector builds from traces" | `docs/otel-collector-reference.md` and the upstream spanmetrics connector README (register row 45, Oct 26). The demo's own Collector config is not in the repo archive | Docs (partly) |
 | "Prometheus ships its data to Elastic with one remote-write block added to its config" | The `remote_write` block in `config/prometheus-config.yaml`; the pre-roll counters (failed is 0 or unchanged) | Docs |
 | "Both are looking at the same metrics" | The pre-roll counters, and the agreement of the series counts in rung 1 | Open |
 | "rate ... returns the per-second average rate of increase" | Prometheus's documentation for `rate()` | Docs |
@@ -104,7 +104,7 @@ As in the template. Two decisions for Video 1 specifically:
 | # | Deliverable | Owner | State |
 |---|---|---|---|
 | 1 | Learning objective | Author | Done (approved Oct 21) |
-| 2 | Outline, updated to match the narrative (it still names the desktop as the capture machine and says the narration is written against the footage) | Video chat | To do |
+| 2 | Outline, updated to match the narrative | Video chat | Done (v2, `3e59f34`). One stale line (the runbook "not yet written") is for the chat to fix in its next round |
 | 3 | Narrative approved | Author | Done (v1 stands, Oct 25; one phrase changed and approved the same day) |
 | 4 | Slide narrations for the opening and the reveal, with explicit shapes | Video chat | To do |
 | 5 | Run-sheet final: the voice-over regenerated from the narrative, and the screen steps adapted to the laptop (the recorder is a decision; the pre-roll commands drop WSL) | Video chat | To do |
@@ -128,7 +128,7 @@ The second editor took the author's DaVinci Resolve export plus the slides on an
 
 - **The Video 1 chat owns:** `docs/module1-video1-outline.md`, `docs/module1-video1-run-sheet.md`, `docs/module1-video1-story.md` and `docs/module1-video1-narrative.md`.
 - **Material written before this chat:** the Video 1 narrative (v1) was written by the root before this chat existed, and the author approved it on Oct 25. It is approved material, not a seed: this chat changes it only to fix a claim (section 5) or with the author's approval.
-- **Shared files belong to the root** (see the template, section 10). Requests for the root: the claims-register rows for the wrapper wording, the `time` option and the labels column were added on Oct 25 (rows 36 to 39); still to add once confirmed: the spanmetrics origin.
+- **Shared files belong to the root** (see the template, section 10). Requests for the root: the claims-register rows for the wrapper wording, the `time` option and the labels column were added on Oct 25 (rows 36 to 39); the spanmetrics origin was added as row 45 (Oct 26).
 
 ## 11. Video chat routine and starter prompt
 
