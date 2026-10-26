@@ -1,11 +1,11 @@
 # Module 1, Video 1 — Run-sheet (screen capture)
 
 **Video:** Your PromQL, running in Elastic (three rungs: label selector, `rate()`, `sum by`)
-**Status:** Draft v5, Oct 26, 2026. Rewritten from the approved narrative (`module1-video1-narrative.md`, v1, commit `8f6f186`, with one phrase changed on Oct 25 after the docs check). It replaces v4 (`48717fa`), whose voice-over was iteration 1 and whose screen steps were written for the desktop, Game Bar and WSL. The voice-over blocks below are copied from the narrative by script, so they match it character for character. **If this sheet and the narrative differ, the narrative wins; regenerate the sheet.**
+**Status:** Draft v5.1, Oct 26, 2026. v5 is commit `7edfc3f`; this revision adds the two slide narrations (opening: Shape D, decided by the author Oct 26; reveal: Shape C, proposed, awaiting approval). v5 was rewritten from the approved narrative (`module1-video1-narrative.md`, v1, commit `8f6f186`, with one phrase changed on Oct 25 after the docs check). It replaces v4 (`48717fa`), whose voice-over was iteration 1 and whose screen steps were written for the desktop, Game Bar and WSL. The seven clip voice-over blocks below are copied from the narrative by script, so they match it character for character. The two slide narrations are derived from the narrative's Opening and Reveal blocks, as the contract requires. **If this sheet and the narrative differ, the narrative wins; regenerate the sheet.**
 **Commands:** C1 to C6 at the end of this file, taken from the query lab (R1, R3, R6). They were verified on Oct 20 on the previous dataset. **Run C1 to C6 once as a rehearsal on the freshly reset stack before the real take** (contract, deliverable 9).
 **Recording:** the laptop (macOS), which also hosts the stack. The recorder is not decided yet (macOS's built-in recording or OBS); the capture test decides it. Narration is generated afterwards, so record without audio.
 **Story version for reading and review:** `module1-video1-story.md`. It is stale until it is regenerated from the narrative (contract, deliverable 6).
-**Slides:** the opening and the reveal are slides with their own narrations, which do not exist yet (contract, deliverable 4). Their beats below say so.
+**Slides:** the opening and the reveal are slides with their own narrations (beats 1 and 6), written to the shapes in the log (contract, deliverable 4). The slide generator reads those two blocks.
 
 ---
 
@@ -63,7 +63,36 @@
 
 ## Beat 1 — Opening (slide, no capture)
 
-The narrative's Opening block is the source. **The slide narration does not exist yet** (contract, deliverable 4): it is derived from that block with an explicit shape for the slide generator, and the shape is waiting for the author's decision. Nothing to capture.
+The narration below is derived from the narrative's Opening block. **Shape D** (three parallel steps, with a lead-in), decided with the author on Oct 26. The slide generator reads this block. Nothing to capture.
+
+**Narration: opener slide** (127 words)
+
+<details><summary>Show narration</summary>
+
+```
+You've spent years on your monitoring, and the real question about Elastic isn't whether it's powerful. It's whether you'd have to rebuild what you've already built.
+
+prom-Q-L is the language you use to ask Prometheus questions about your metrics, and an expression is one line of it.
+
+Three expressions, run twice. You probably know each one by heart, and we'll run each first in Prometheus, then in Elastic.
+
+First, a label matcher. It narrows a metric to the series you name, such as one service.
+
+Second, rate. It turns a counter that keeps climbing into a rate per second.
+
+Third, sum by. It adds those rates up and keeps one row for each service.
+
+Your job is simple: watch the expression, and try to catch it changing.
+```
+
+Claims check:
+- **Shape D:** a hook, one definition sentence, a lead-in of about 25 words that carries the planted title phrase ("Three expressions, run twice"), then exactly three steps in the demo's order ("First", "Second", "Third"), then one closing sentence. The title phrase does not give away the ending.
+- **What changed from the narrative's Opening block:** the fear is kept ("years on your monitoring", "rebuild what you've already built"; "all of it" and "everything" were dropped so no absolute is used). The three expressions are now named, because Shape D needs countable items, and the narrative's block named none. Scrape configs and dashboards around S-L-Os were cut for length.
+- "A counter that keeps climbing" is deliberately softer than "only goes up": a counter can reset when a service restarts (Prometheus's metric types page).
+- Step 3: "adds those rates up and keeps one row for each service" is what `sum by (service_name)` does (Prometheus's operators page; register row 20 for the lab).
+- No numbers, no placeholders, no status statement, no "unchanged", no visual references.
+
+</details>
 
 ---
 
@@ -266,9 +295,37 @@ Claims check:
 
 ## Beat 6 — The reveal (slide, no capture)
 
-The narrative's Reveal block is the source. **The slide narration does not exist yet** (contract, deliverable 4); it waits for the shape decision. Nothing to capture.
+The narration below is derived from the narrative's Reveal block. **Shape C** (peer cards), **proposed** on Oct 26 and awaiting the author's approval, together with one wording change (see the claims check). The slide generator reads this block. Nothing to capture.
 
-One sentence in the source needs a claims decision when the slide narration is written: "now you know all of it" (the wrapper). The command has more options than the three we set (register row 36), so "all of it" is the same kind of absolute that "only answers three questions" was. The narrative is approved material, so any change goes to the author first.
+**Narration: recap slide** (130 words)
+
+<details><summary>Show narration</summary>
+
+```
+Three expressions, and the expression never changed. What changed is the wrapper: everything around the expression when you run it in Elastic, which is the command, its options and a result name.
+
+Here, the wrapper makes just three choices.
+
+Where it runs. The index option names the data to read.
+
+When it's evaluated. The time option sets the moment, here the end of the date picker's range.
+
+What the answer is called. A result name labels the value that comes back.
+
+There's also a catch. Most, though not all, of prom-Q-L runs in Elastic: a few things don't run yet, and a few behave differently at the edges.
+
+So take an expression you use every day, drop it between the parentheses, and most of the time, that's all it takes.
+```
+
+Claims check:
+- **Shape C:** a hook, one definition sentence (the wrapper), a scoping sentence that carries the planted title phrase ("Here, the wrapper makes just three choices"), three peer cards (where it runs, when it's evaluated, what the answer is called), one signposted caveat ("There's also a catch"), then one closing sentence. No ordinals and no dependency language, as Shape C requires.
+- **Proposed wording change, needs the author's approval:** the narrative says "now you know all of it". This block says "Here, the wrapper makes just three choices" instead. The command has more options than the three we set (register row 36), so "all of it" is an absolute; "here" and "just three" are scoped and match the Clip B2 voice-over. If approved, I update the narrative's line in a later delivery so the two agree; until then the narrative keeps its approved text.
+- "The expression never changed": the same claim as the narrative. The text check in this file shows the Elastic line's expression is character for character the Prometheus text; confirm in the take.
+- Cards: the `index` option names the data to read, and `?_tend` is the end of the date picker's range (register rows 36 and 37, retrieved Oct 25). The result name labels what comes back (the result column, as in C2 and C4).
+- "Most, though not all, of prom-Q-L runs in Elastic: a few things don't run yet, and a few behave differently at the edges" keeps the narrative's strength and Elastic's own framing (register row 1 and the limitations rows). It states nothing about the feature's status. Re-read the limitations page and record the retrieval date before the take.
+- The narrative's pointer to Video 2 ("which services are failing, and how often") is not in this block: it was a courtesy that could be cut without loss, and the slide holds one idea. It can go in the voice-over at assembly if you want it.
+
+</details>
 
 ---
 
@@ -308,7 +365,9 @@ One sentence in the source needs a claims decision when the slide narration is w
 - In C2, C4 and C6, the text between the parentheses is character for character the text of C1, C3 and C5. C2 and C4 differ only in the result name and the expression.
 - C1, C3 and C5 match the lab's R1, R3 and R6 Prometheus lines. C2, C4 and C6 match the lab's Elastic lines, except that C6 drops the lab's `| SORT service_name`.
 
-This checks the text of the commands. It does not show that they run.
+- The two slide narrations were checked against the guidance by script on Oct 26: word counts (127 and 130, inside the 90 to 180 range), no sentence over 150 characters, no number or placeholder, and none of the forbidden words. The only watch-list hit is "never changed" in the recap, which is the narrative's own claim.
+
+This checks the text of the commands and the narrations. It does not show that the commands run.
 
 ---
 
@@ -368,6 +427,7 @@ PROMQL index=metrics-generic.prometheus-default time=?_tend request_rate=(sum by
 - **How to read the seconds between the runs:** a clock kept in view, or another source. Decide at the capture test.
 - **Type or paste:** default is paste. Decide after the capture test.
 - **Kibana address bar:** hidden by full screen, or crop or blur it. Confirm in the test clip.
-- **The reveal's "now you know all of it"** (Beat 6): to be decided with the author.
+- **The reveal's "now you know all of it"** (Beat 6): replaced in the recap narration by "Here, the wrapper makes just three choices". Waiting for the author's approval; the narrative line changes only if approved.
+- **The reveal's shape** (Shape C): proposed, waiting for the author's approval with the narration.
 - **Copy-across idea for rung 1** (copy the expression out of Prometheus's box and paste it between the parentheses of a staged Elastic skeleton, so the same text visibly moves across). Not adopted; it would change the rung 1 steps only.
 - **Grafana as a second data source** is untested, so nothing in this video may imply it.
