@@ -71,7 +71,7 @@ The video is strictly standalone. It restates what it needs in about 20 seconds,
 ## 6. Evidence plan
 
 - **Lab items or probes this video runs:** `<list>`
-- **Stack state required:** a freshly reset stack (reset runbook, handoff tracker row 26); warm-up of at least `<minutes>`; `paymentFailure` `<on/off>`; pre-roll checks passed.
+- **Stack state required:** a freshly reset stack (`docs/reset-runbook.md`, Part B); warm-up of at least `<minutes>`; `paymentFailure` `<on/off>`; pre-roll checks passed.
 - **Take log fields:** `<fields>`
 
 | Placeholder | Meaning | Source |

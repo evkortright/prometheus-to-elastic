@@ -69,7 +69,7 @@ The claims-to-confirm table lives in the narrative file (section "Claims to conf
 
 - **Lab items this video runs:** R2, R5, R7 and R8 (verified Same on Oct 21 on the old dataset); rerun on the fresh stack as the rehearsal. The rehearsal must also record the Elastic row counts for R7 and R8, which the lab never captured.
 - **The flag (decision 4):** before the take, measure what the `paymentFailure` flag does to payment's ratio on the fresh stack, and how long after switching it on the ratio shows it (register row 14). Do not write any claim about the size of the effect until that is measured.
-- **Stack state required:** a freshly reset stack (reset runbook, handoff tracker row 26; not yet written); warm-up of at least 45 minutes (the Video 1 rule, which the author may raise); the flag state as measured; the pre-roll checks passed (uptime, remote-write counters, flags page, browser and screen).
+- **Stack state required:** a freshly reset stack (`docs/reset-runbook.md`, Part B); warm-up of at least 45 minutes (the Video 1 rule, which the author may raise); the flag state as measured; the pre-roll checks passed (uptime, remote-write counters, flags page, browser and screen).
 - **Rehearsal extras, only if the optional beats stay:** the range-query chart on both sides (decision 5), and a mapping check that shows how the data stream marks dimensions (decision 3, register row 41).
 - **Take log fields:** per idea, the Prometheus value or count with its time, the Elastic value or count with its time, the seconds between the runs, and retakes and notes.
 
@@ -91,7 +91,7 @@ As in the template. For Video 2 specifically:
 | 4 | Narrative approved | Author | Not started |
 | 5 | Slide narrations for the hook and the recap, with explicit shapes | Video chat | To do |
 | 6 | Run-sheet written from the approved narrative | Video chat | To do |
-| 7 | One-time setup and a stack reset (tracker rows 12 and 26) | Root and author | Not started |
+| 7 | One-time setup and a stack reset (`docs/reset-runbook.md`, Parts A and B) | Root and author | Not started |
 | 8 | The flag measured (decision 4); decisions 3, 5 and 7 settled | Video chat guides, author runs | Not started |
 | 9 | Rehearsal of R2, R5, R7 and R8 on the fresh stack; claims confirmed | Video chat guides, author runs | Not started |
 | 10 | The take: footage and the take log | Author | Not started |

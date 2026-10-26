@@ -68,7 +68,7 @@ The claims-to-confirm table lives in the narrative file, once it exists.
 ## 6. Evidence plan
 
 - **Lab items this video runs:** probes P1 to P8, and R4 re-run (the picker-width test: a 15-minute picker, then a 1-hour picker, against a 30-minute `increase()` window). The lab holds the expressions. The take log records the **exact error text** Elastic returns for P1 to P4, and the Prometheus result for each, including whether Prometheus rejects any of them.
-- **Stack state required:** a freshly reset stack (reset runbook, handoff tracker row 26; not yet written). Warm-up of at least 45 minutes: the R4 comparison needs the 30-minute window to be fully covered by data when the picker is set to one hour, which 45 minutes allows (confirm in the rehearsal). `paymentFailure` off. The pre-roll checks passed.
+- **Stack state required:** a freshly reset stack (`docs/reset-runbook.md`, Part B). Warm-up of at least 45 minutes: the R4 comparison needs the 30-minute window to be fully covered by data when the picker is set to one hour, which 45 minutes allows (confirm in the rehearsal). `paymentFailure` off. The pre-roll checks passed.
 - **Not run, by design:** native histograms, the HTTP API, and staleness. Say so in the video, and do not claim results for them.
 - **Status check:** at script time, the author reads the "applies to" badges on the PROMQL command page and the limitations page in a browser and reports them to the chat. The chat records them as a register request for the root (row 44).
 - **Take log fields:** per probe, the Prometheus result, the Elastic result (the exact error text where there is one), the seconds between the runs where a value is compared, and retakes and notes.
@@ -91,7 +91,7 @@ As in the template. For Video 3 specifically:
 | 4 | Narrative approved | Author | Not started |
 | 5 | Slide narrations, with explicit shapes | Video chat | Not started |
 | 6 | Run-sheet written from the approved narrative | Video chat | Not started |
-| 7 | One-time setup and a stack reset (tracker rows 12 and 26) | Root and author | Not started |
+| 7 | One-time setup and a stack reset (`docs/reset-runbook.md`, Parts A and B) | Root and author | Not started |
 | 8 | Probes P1 to P8 and the R4 re-run, with exact error texts | Video chat guides, author runs | Not started |
 | 9 | The feature's status read from the live pages in a browser | Author | Not started |
 | 10 | Claims confirmed against the docs and the take | Video chat | Not started |

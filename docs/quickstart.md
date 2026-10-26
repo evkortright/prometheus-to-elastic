@@ -178,4 +178,4 @@ docker compose -f compose.yaml -f compose.observability.yaml up --detach
 ```
 The data stream is expected to be recreated automatically when the first new samples arrive (the key has the `auto_configure` privilege). Confirm with the Step 4 and Step 5 checks, then allow about 45 minutes before recording.
 
-If you only changed credentials and did not delete the data, you do not need this section. Re-run `./scripts/apply-config.sh` and `docker restart prometheus` instead.
+If you only changed credentials and did not delete the data, you do not need this section. Re-run `./scripts/apply-config.sh`, then `docker restart prometheus`, then check that Prometheus can read the new file: `docker logs prometheus --tail 20 2>&1 | grep -i "permission denied"` should print nothing. If it prints lines, run `chmod 644 opentelemetry-demo/src/prometheus/prometheus-config.yaml` and `docker restart prometheus` again. The script sets mode 600, which the container's user very likely could not read on the desktop; this has not been tested on the laptop. For the full setup and reset procedures, with the expected output of each step, see `docs/reset-runbook.md`.

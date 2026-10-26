@@ -79,7 +79,7 @@ The contract is fulfilled when the author, as the first video editor, has assemb
 ## 6. Evidence plan
 
 - **Lab items this video runs:** R1 (rung 1), R3 (rung 2), R6 (rung 3). They were verified on the old dataset; they are rerun on the fresh stack as the rehearsal. R4 belongs to Video 3.
-- **Stack state required:** a freshly reset stack (reset runbook, handoff tracker row 26; not yet written); warm-up of at least 45 minutes (the run-sheet's existing rule, which the author may raise); `paymentFailure` off; the pre-roll checks passed (uptime, the remote-write counters, the flags page, browser and screen).
+- **Stack state required:** a freshly reset stack (`docs/reset-runbook.md`, Part B); warm-up of at least 45 minutes (the run-sheet's existing rule, which the author may raise); `paymentFailure` off; the pre-roll checks passed (uptime, the remote-write counters, the flags page, browser and screen).
 - **Take log fields:** per rung, the Prometheus value or count and time, the Elastic value or count and time, the seconds between the runs, and retakes and notes (as in the run-sheet's take log).
 
 | Placeholder | Meaning | Source |
@@ -109,7 +109,7 @@ As in the template. Two decisions for Video 1 specifically:
 | 4 | Slide narrations for the opening and the reveal, with explicit shapes | Video chat | To do |
 | 5 | Run-sheet final: the voice-over regenerated from the narrative, and the screen steps adapted to the laptop (the recorder is a decision; the pre-roll commands drop WSL) | Video chat | To do |
 | 6 | Story document regenerated from the narrative | Video chat | To do |
-| 7 | One-time setup and a stack reset (tracker rows 12 and 26) | Root and author | Not started |
+| 7 | One-time setup and a stack reset (`docs/reset-runbook.md`, Parts A and B) | Root and author | Not started |
 | 8 | Capture test on the laptop (recorder, cursor, readable text, resolution) | Author | Not started |
 | 9 | Rehearsal of R1, R3 and R6 on the fresh stack; claims in section 5 confirmed | Video chat guides, author runs | Not started |
 | 10 | The take: footage and the take log | Author | Not started |
