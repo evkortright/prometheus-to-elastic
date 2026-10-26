@@ -102,6 +102,7 @@ This follows what worked on an earlier project: the second editor took the autho
 ## 10. Ownership and change rules
 
 - **The video chat owns only this video's files:** `<list>`.
+- **Seed material:** the root may hand a video chat work it built before the chat existed (a draft narrative, a claims table). It is a proposal, not a decision. The contract lists it, the video chat asks the author at the start whether to use it, rewrite it or ignore it, and from then on the file belongs to the video chat. Approved material is not a seed: the chat changes it only to fix a claim, or with the author's approval.
 - **Shared files belong to the root:** the living handoff, the claims register (status doc), the glossary, the query lab, the environment notes, the voice guide, the learning objectives. A video chat reads them and never edits them.
 - **Requests for shared files:** every turn ends with a short list of the changes the video chat needs in shared files (a register row, a glossary term, a lab result). The author passes the list to the root.
 - **Changes after submission:** if the second editor or a reviewer finds a wrong claim, number or mispronunciation, the fix goes through the video chat (text and claims) and the author (re-export). The root then updates the shared files.
@@ -109,12 +110,12 @@ This follows what worked on an earlier project: the second editor took the autho
 
 ## 11. Video chat routine
 
-1. At the start: read the contract, then the files it lists, then handoff sections 1, 2, 3, 9 and 10. Report (a) the current state, (b) what is needed, and (c) the one next step.
+1. At the start: read the contract, then the files it lists, then handoff sections 1, 2, 3, 9, 10, 11 and 12 (sections 11 and 12 hold the narrative lessons and the traps, until a voice guide exists). If the contract lists seed material, ask the author whether to use it, rewrite it or ignore it. Report (a) the current state, (b) what is needed, and (c) the one next step.
 2. Follow the working agreements in handoff section 2: tiny steps, expected output before each step, one question at a time, and never ask for or paste secrets.
 3. At the end of every turn: a short "where we are" list, then "requests for the root" (or "none").
 
 ## 12. Starter prompt for a video chat
 
 ```
-I'm the author of a Prometheus-to-Elastic training track, and this chat produces one video of Module 1. Please read docs/<this video's contract file> first, then the files it lists, then sections 1, 2, 3, 9 and 10 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files; end each turn with your requests for the root chat.
+I'm the author of a Prometheus-to-Elastic training track, and this chat produces one video of Module 1. Please read docs/<this video's contract file> first, then the files it lists, then sections 1, 2, 3, 9, 10, 11 and 12 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files; end each turn with your requests for the root chat. If the contract lists seed material, ask me first whether to use it, rewrite it, or ignore it.
 ```
