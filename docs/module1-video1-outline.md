@@ -6,7 +6,7 @@
 **Target length:** about five minutes (an estimate, not a measurement; no hard limit).
 **Format:** slides plus a live demo, with TTS narration.
 
-**Status:** Outline v2, Oct 25, 2026. Updated to match the approved narrative (`module1-video1-narrative.md`, v1, commit `8f6f186`) and the contract (`module1-video1-contract.md`). Where this outline and the contract disagree, the contract wins. v1 of this outline (Oct 21, commit `edf75cf`) assumed the narration would be written against the footage and that the desktop was the capture machine; both are superseded below.
+**Status:** Outline v2, Oct 25, 2026. Updated to match the approved narrative (`module1-video1-narrative.md`, v1, commit `8f6f186`, with one phrase changed on Oct 25 after the docs check) and the contract (`module1-video1-contract.md`). Where this outline and the contract disagree, the contract wins. v1 of this outline (Oct 21, commit `edf75cf`) assumed the narration would be written against the footage and that the desktop was the capture machine; both are superseded below. Oct 26: the pointer to the reset runbook was fixed (it now exists).
 
 ---
 
@@ -76,6 +76,6 @@ Each rung repeats the same rhythm: say why the move is wanted, show it in Promet
 ## Dependencies
 
 - Query lab verdicts: R1, R3 and R6 Same (Oct 20), recorded on the old dataset. They are rerun on a freshly reset stack as the rehearsal. R4 belongs to Video 3.
-- **Stack state required (contract, section 6):** a freshly reset stack (reset runbook, handoff tracker row 26, not yet written); a warm-up of at least 45 minutes (the run-sheet's existing rule, which the author may raise); `paymentFailure` off; the pre-roll checks passed (uptime, the remote-write counters, the flags page, browser and screen).
-- The one-time setup (new Serverless project and key, laptop readiness check, first start) comes first (handoff tracker row 12).
+- **Stack state required (contract, section 6):** a freshly reset stack (`docs/reset-runbook.md`, Part B); a warm-up of at least 45 minutes (the run-sheet's existing rule, which the author may raise); `paymentFailure` off; the pre-roll checks passed (Part C of the runbook: uptime, the remote-write counters, the flags page; plus the browser and screen steps in the run-sheet).
+- The one-time setup (new Serverless project and key, laptop readiness check, first start) comes first (`docs/reset-runbook.md`, Part A).
 - Re-read the limitations page and record the retrieval date before the take; docs change often.
