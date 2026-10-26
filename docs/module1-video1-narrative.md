@@ -2,7 +2,7 @@
 
 **Working title:** Your PromQL, running in Elastic
 
-**Status:** Draft v1, October 22, 2026. For listening and reading aloud. Not yet the source of truth: until you approve a version, the voice-over in `module1-video1-run-sheet.md` stays authoritative. Once approved, the run-sheet's voice-over blocks and the story document are regenerated from this file. **Revision, Oct 25:** one phrase changed in rung 1 ("the wrapper only answers three questions" became "here it makes just three choices") after the docs check of the PROMQL command page, which lists more options than the three we set. The spoken length is unchanged.
+**Status:** Draft v1, October 22, 2026. Approved by the author on Oct 25: the narrative of record. For listening and reading aloud. The run-sheet's voice-over blocks and the story document are regenerated from this file. **Revision, Oct 25:** one phrase changed in rung 1 ("the wrapper only answers three questions" became "here it makes just three choices") after the docs check of the PROMQL command page, which lists more options than the three we set. The spoken length is unchanged. **Revision, Oct 26:** one phrase changed in the reveal ("and now you know all of it" became "and here it makes just three choices"), approved by the author, because "all of it" is an absolute and the command has more options than the three we set (register row 36). The reveal now says what rung 1 says. The spoken length is unchanged (the reveal block is 107 words before and after).
 
 **Length:** about 670 spoken words, with the placeholders counted as one word each. The target is around five minutes with the pauses on screen (an estimate, not measured).
 
@@ -19,7 +19,7 @@
 
 ## Opening
 
-*Slide: the opener. Its own slide narration is derived from this block later, with an explicit shape for the generator.*
+*Slide: the opener. Its own slide narration, derived from this block (Shape D, decided Oct 26), is in `module1-video1-run-sheet.md`, beat 1.*
 
 ```
 You've spent years on this. Scrape configs tuned to your infrastructure, dashboards built around your S-L-Os, and prom-Q-L you could write in your sleep. So when someone says "that runs in Elastic too," the question isn't whether Elastic is powerful. It's whether you'd have to rebuild everything you've already built.
@@ -83,10 +83,10 @@ Elastic, same again. {{ROWS_ELASTIC}} rows, and frontend reads {{ELASTIC_FRONTEN
 
 ## The reveal
 
-*Slide: the recap. Its own slide narration is derived from this block later.*
+*Slide: the recap. Its own slide narration, derived from this block (Shape C, approved Oct 26), is in `module1-video1-run-sheet.md`, beat 6.*
 
 ```
-So, did you catch it? Three expressions, and the expression never changed. What changed is the wrapper, and now you know all of it: where it runs, when it's evaluated, and what to call the answer. Take an expression you use every day, drop it between the parentheses, and most of the time, that's all it takes.
+So, did you catch it? Three expressions, and the expression never changed. What changed is the wrapper, and here it makes just three choices: where it runs, when it's evaluated, and what to call the answer. Take an expression you use every day, drop it between the parentheses, and most of the time, that's all it takes.
 
 Most, though, not all. A few things in prom-Q-L don't run in Elastic yet, and a few behave differently at the edges. We'll get to those. First, let's put these pieces to work. Next, we build the question you actually get paged about: which services are failing, and how often.
 ```
@@ -120,6 +120,7 @@ Rule: if a number disagrees with a sentence, rewrite the sentence. Rung 2 says "
 | "One remote-write block added to its config" | `remote_write` block in `config/prometheus-config.yaml` (URL, name, API key and queue settings in one block). The repo also patches the compose file, so keep the wording at "added to its config" |
 | "Most, though, not all" | The limitations page: the majority of expressions run unchanged |
 | "Everything around it is a wrapper, and here it makes just three choices" | The command page lists more options (index, step, buckets, start, end, time, scrape_interval, and an optional result name); we set three. Register row 36 | Docs (Oct 25) |
+| "Here it makes just three choices" (the reveal, changed Oct 26) | The same row 36 evidence as rung 1: the command page lists more options than the three we set | Docs (Oct 25) |
 | "Next, we build ... which services are failing" | Video 2's through-line, which is not yet approved |
 
 ## Listening notes (fill in)
@@ -134,6 +135,6 @@ Rule: if a number disagrees with a sentence, rewrite the sentence. Rung 2 says "
 
 - Hear it through the speech engine (Qwen3), then revise (iteration 2).
 - Whether Qwen3 needs the hyphenated spellings (`prom-Q-L`, `E-S-Q-L`, `S-L-Os`).
-- Slide narrations for the opener and the recap, derived from this piece with an explicit shape for the generator.
-- Update the run-sheet voice-over and the story document once this is approved.
+- Slide narrations for the opener and the recap: written (run-sheet beats 1 and 6). The reveal's wording and shape are approved; the opener's wording awaits the author's reading or listening test. The recap narration omits the pointer to Video 2 that this block still has.
+- ~~Update the run-sheet voice-over and the story document once this is approved.~~ Done: run-sheet v5 and v5.1, story regenerated Oct 26.
 - The reveal's pointer to an error ratio depends on Video 2's through-line.
