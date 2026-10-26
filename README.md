@@ -84,6 +84,8 @@ The OTel demo is cloned inside this folder as `opentelemetry-demo/` and is gitig
 
 ## Local setup
 
+> The step-by-step version of this section, with the expected output of every step, is `docs/reset-runbook.md`. If the two differ, the runbook wins.
+
 ### Prerequisites
 
 - Docker Desktop (Apple Silicon) with **≥12 GB RAM** allocated
@@ -100,8 +102,9 @@ cd ~/projects/prometheus-to-elastic
 git clone --depth 1 --branch 3.0.0 \
   https://github.com/open-telemetry/opentelemetry-demo.git
 
-# Confirm the pin — the payment service fails to start on "latest"
-grep -n "DEMO_VERSION" opentelemetry-demo/.env   # expect DEMO_VERSION=3.0.0
+# Pin the version: a fresh clone reads DEMO_VERSION=latest, and the payment service fails to start on "latest"
+sed -i '' 's/^DEMO_VERSION=latest/DEMO_VERSION=3.0.0/' opentelemetry-demo/.env
+grep -n "^DEMO_VERSION" opentelemetry-demo/.env   # expect 4:DEMO_VERSION=3.0.0
 ```
 
 ### 2. Create the Elastic credentials
@@ -127,7 +130,7 @@ Copy the `encoded` value from the response; it is shown only once. Then, from th
 ```bash
 cp config/.env.example .env.elastic
 nano .env.elastic
-# ES_ENDPOINT=https://<project-id>.es.<region>.<cloud>.elastic.cloud   (base URL: no path, no port)
+# ES_ENDPOINT=https://<project-id>.es.<region>.<cloud>.elastic.cloud   (base URL: no path; the port is optional)
 # ES_API_KEY=<your-encoded-api-key>
 ```
 

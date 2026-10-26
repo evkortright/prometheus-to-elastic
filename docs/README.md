@@ -34,7 +34,7 @@ Owner key: **Root** = the root chat; **V1**, **V2**, **V3** = the chat for that 
 | `module-learning-objectives.md` | The curriculum and the learning objectives. The author approves any change | Root | You check a learning objective |
 | `slide-narrative-guidance.md` | The author's guidance for writing slide narrations | Root | You write or check a slide narration |
 | `otel-collector-reference.md` | What the OpenTelemetry Collector does in the demo, and where the span metrics come from | Root | A claim concerns where a metric comes from |
-| `reset-runbook.md` | The one-time setup (Part A), the per-video reset (Part B) and the pre-roll checks (Part C), each step with the output to expect | Root | You set up the stack, reset it for a video, or prepare a take |
+| `reset-runbook.md` | The setup, reset and pre-roll runbook, v2 (Oct 26): the one-time setup (Part A), the per-video reset (Part B) and the pre-roll checks (Part C), each step with the output to expect, and the facts about this laptop | Root | You set up the stack, reset it for a video, or prepare a take |
 | `retro-runbook-first-run.md` | The facts and the findings (81 entries) from the runbook's first run on Oct 26, and the grouped plan for revising the runbook | Root | You revise the runbook, or want the first run's numbers |
 | `quickstart.md` | Daily stack launch and verification. Its closing paragraph was corrected; the full setup and reset procedures are in `reset-runbook.md` | Root | You start the stack |
 | `environment-setup-guide.md` | The environment plan: the local stack with Elastic Serverless, and the Instruqt sandbox | Root | You want setup background |
