@@ -11,8 +11,8 @@
 |---|---|
 | Video | 1, "Your PromQL, running in Elastic" (working title) |
 | Contract version and date | v1, October 25, 2026 |
-| Contract status | Draft |
-| Chat | Not started yet |
+| Contract status | Active |
+| Chat | The Video 1 chat, started after commit `dcbb48e`. Its first reply was checked by the root and passed |
 | Root handoff | `docs/handoff-module1-living.md` (read-only for the video chat) |
 
 ## 1. The finish line
