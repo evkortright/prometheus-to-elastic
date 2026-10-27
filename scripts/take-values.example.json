@@ -1,0 +1,13 @@
+{
+  "_note": "EXAMPLE: the Oct 26 rehearsal numbers. Replace every value with the take's own. Keep full precision as printed (the script keeps them as text); counts and seconds are whole numbers.",
+  "n_prom": 41,
+  "n_elastic": 41,
+  "prom_value": 14.995958299652495,
+  "elastic_value": 14.995958290594942,
+  "seconds_c": 8,
+  "rows_prom": 18,
+  "rows_elastic": 18,
+  "prom_frontend": 13.921645429316712,
+  "elastic_frontend": 13.921645425776056,
+  "seconds_d": 10
+}

@@ -83,8 +83,9 @@ The video is strictly standalone. It restates what it needs in about 20 seconds,
 - **Voice:** Qwen3 TTS with the author's voice. Editing the text and regenerating the audio is the revision method.
 - **Spellings:** `prom-Q-L`, `E-S-Q-L`, `S-L-Os`, metric names as words, unless the listening test says otherwise.
 - **Numbers:** spoken, never captioned. Each result keeps a 4-second hold on screen.
-- **Slide narrations:** derived from the narrative file, with an explicit shape for the slide generator. The slide guidance does not limit the narrative.
-- **Voice-over style guide:** `<file, when it exists>`
+- **Slide narrations:** derived from the narrative file, with an explicit shape for the slide generator. The slide guidance binds only the slide-shape version, not the narrative.
+- **Voice-over style guide:** `docs/narration-voice-guide.md`. On voice it wins; on factual rules the contract wins. Each narration has three versions: the informal outline, the normalized narration (the narrative of record), and the slide-shape version (derived).
+- **Review script (before recording):** once the narration is valid, the author may submit a plain-text review script, organized by slide, to reviewers. Build it with `scripts/make_review_script.py` (voice guide, section 10). The package for the second editor does not change.
 
 ## 8. Deliverables and acceptance checklist
 

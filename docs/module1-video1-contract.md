@@ -41,7 +41,7 @@ The contract is fulfilled when the author, as the first video editor, has assemb
 ## 4. Story
 
 - **Through-line:** "find the seam." The viewer watches the expression and tries to catch it changing. In three rungs it never does; only the wrapper is new.
-- **Narrative file:** `docs/module1-video1-narrative.md` (draft v1, commit `8f6f186`, with one phrase changed on Oct 25 after the docs check). The author listened to it and asked for no changes on Oct 25, so v1 stands as the narrative of record.
+- **Narrative file:** `docs/module1-video1-narrative.md`. v1 (`8f6f186`) was approved on Oct 25. **v2, the trainer-voice pass, was approved by the author on Oct 26 (`86f6c71`)** and is the narrative of record. The slide-shape versions of the opening (Shape A) and the recap (Shape C) are in the run-sheet. The video log (`docs/module1-video1-log.md`) holds the current state.
 
 | Beat | What | Capture clips | Target on screen |
 |---|---|---|---|
@@ -60,6 +60,8 @@ The contract is fulfilled when the author, as the first video editor, has assemb
 - **Forbidden for this video:** "runs unchanged" as an absolute; "single remote-write block" (say "one remote-write block added to its config"); "I want to show you"; any percentage without the seconds between the runs; "can't be done in PromQL".
 - **Claims-register rows used** (status doc, section 4): 1 (most, not all), 2 (the expression body is identical), 18 (`rate()` values agree back to back), 19 (the date picker's range), 20 (grouped `rate()` agrees), 29 (`=~` and `!=` behavior, if the matcher is mentioned), 30 (our wording is "most everyday expressions").
 - **Known edge (Oct 25):** Elastic's porting advice is to omit range selectors so the window adapts to the time range, and to use a fixed window only when you need exactly that window (register row 39). Video 1 keeps `[5m]` on purpose: with `time=?_tend` it is the rate over the last five minutes, and it makes the "same expression" point. Video 3 explains the difference. Do not say anything in Video 1 that contradicts Elastic's advice.
+
+The status of each claim below is kept in the video log (section 3), which is the truth. This table lists what must be confirmed.
 
 | Sentence | Confirm against | Status |
 |---|---|---|
@@ -86,18 +88,19 @@ The contract is fulfilled when the author, as the first video editor, has assemb
 |---|---|---|
 | `{{N_PROM}}`, `{{N_ELASTIC}}` | Rung 1 series counts | Clip B1, B2 |
 | `{{PROM_VALUE}}`, `{{ELASTIC_VALUE}}` | Frontend calls per second, rung 2 | Clip C1, C2 |
-| `{{SECONDS_C}}`, `{{PCT_C}}` | Seconds between the runs, and the relative difference in percent, rung 2 | Take log; computed |
+| `{{SECONDS_C}}`, `{{DIGITS_C}}` | Seconds between the runs, and how many leading digits the two rung 2 values share (the relative difference, about 6e-8 percent, cannot be spoken), rung 2 | Take log; computed (`scripts/fill_placeholders.py`) |
 | `{{ROWS_PROM}}`, `{{ROWS_ELASTIC}}` | Row counts, rung 3 | Clip D1, D2 |
 | `{{PROM_FRONTEND}}`, `{{ELASTIC_FRONTEND}}` | Frontend row values, rung 3 | Clip D1, D2 |
 | `{{SECONDS_D}}` | Seconds between the runs, rung 3 | Take log |
 
-`{{PCT_D}}` from the run-sheet is retired: the narrative does not use it.
+`{{PCT_D}}` (the run-sheet) and `{{PCT_C}}` (the percent form) are retired: the narration says the two rung 2 values agree to `{{DIGITS_C}}` digits.
 
 ## 7. Narration rules
 
 As in the template. Two decisions for Video 1 specifically:
 - The spellings `prom-Q-L`, `E-S-Q-L` and `S-L-Os` are the current default; the author's listening test asked for no changes.
-- The slide narrations (the opening and the reveal) are derived from the narrative file with an explicit shape for the slide generator. They do not exist yet.
+- The slide narrations exist: the spoken text of the opening and the reveal is in narrative v2, and the slide-shape versions (opener Shape A, recap Shape C) are in the run-sheet.
+- The voice is the trainer voice (objective first), and the three-version model applies: see `docs/narration-voice-guide.md`.
 
 ## 8. Deliverables and acceptance checklist
 
@@ -126,7 +129,7 @@ The second editor took the author's DaVinci Resolve export plus the slides on an
 
 ## 10. Ownership and change rules
 
-- **The Video 1 chat owns:** `docs/module1-video1-outline.md`, `docs/module1-video1-run-sheet.md`, `docs/module1-video1-story.md`, `docs/module1-video1-narrative.md` and `docs/module1-video1-log.md` (created with its first entry).
+- **The Video 1 chat owns:** `docs/module1-video1-outline.md`, `docs/module1-video1-run-sheet.md`, `docs/module1-video1-story.md`, `docs/module1-video1-narrative.md`, `docs/module1-video1-log.md` (created with its first entry), and its helper files `scripts/fill_placeholders.py`, `scripts/take-values.example.json` and `scripts/review-config.video1.json`.
 - **Material written before this chat:** the Video 1 narrative (v1) was written by the root before this chat existed, and the author approved it on Oct 25. It is approved material, not a seed: this chat changes it only to fix a claim (section 5) or with the author's approval.
 - **Shared files belong to the root** (see the template, section 10). Send the root a request only when a shared file truly needs a change, when a decision crosses videos, or at a milestone (a checklist row changes state); most turns say nothing about the root. Already handled: the claims-register rows for the wrapper wording, the `time` option and the labels column (rows 36 to 39, Oct 25) and the spanmetrics origin (row 45, Oct 26).
 - **Authority and the video log (Oct 26):** this chat is the source of truth for this video's files and for the video's state. It verifies the author's pasted output for its own deliveries (the base hash, the expected stat, the commit result) and does not route them through the root. It keeps `docs/module1-video1-log.md`, which it creates with its first entry: the checklist state, claim confirmations with their retrieval dates, probe results, the take log, and the decisions the author makes with this chat (for example the slide shapes). Once the log exists, it is the truth about the video's state, ahead of section 8 of this contract. The root reviews a delivery only if the author asks.

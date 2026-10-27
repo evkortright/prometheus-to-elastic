@@ -1,6 +1,7 @@
 # Module 1, Video 3 — Contract
 
 **Status:** Draft v1, October 25, 2026. Filled in from `docs/video-contract-template.md`. Owned by the root chat.
+**Under consideration (Oct 27):** the author is considering dropping Video 3. Nothing in this contract changes until the author decides (handoff, section 8).
 **Unlike Videos 1 and 2,** this video has no outline and no narrative yet. The Video 3 chat writes both. The candidate beats in section 4 and the facts in the claims register are seed material, not decisions (section 10).
 
 ---
@@ -78,6 +79,7 @@ The placeholder table lives in the narrative file, once it exists.
 ## 7. Narration rules
 
 As in the template. For Video 3 specifically:
+- The voice is the trainer voice, and the three-version model applies: see `docs/narration-voice-guide.md`.
 - Error texts are spoken as written on screen only if short and clean. Otherwise the narration says "a client error" and the screen shows the exact text, which is part of what the demo displays.
 - The slide narrations are derived from the narrative file with an explicit shape for the slide generator. A limitations table is a natural candidate for a peer-card or comparison shape; the chat decides with the author.
 

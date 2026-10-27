@@ -1,0 +1,17 @@
+{
+  "header": [
+    "PROMQL SUPPORT IN ELASTIC",
+    "Module 1, Video 2: (title)",
+    "Voice-over script, review draft, (date)",
+    "(Numbers in {{double braces}} are filled in from the recording.)"
+  ],
+  "title_narration": "WRITE THE TITLE NARRATION HERE: Welcome to ... In this lesson, you will ...",
+  "slides": [
+    {"name": "OPENING", "headings": ["Hook"]},
+    {"name": "DEMO",
+     "headings": ["Setup", "Idea 1: narrow the field", "Idea 2: how much, in total",
+                  "Idea 3: scale it with arithmetic", "Idea 4: divide one aggregate by another"]},
+    {"name": "RECAP", "headings": ["Recap"]}
+  ],
+  "include_optional": false
+}

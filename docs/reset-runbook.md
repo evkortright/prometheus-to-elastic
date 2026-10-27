@@ -1,6 +1,6 @@
-# Setup and reset runbook (v2)
+# Setup and reset runbook (v2.1)
 
-**Status:** v2, October 26, 2026. It applies the findings of the first run (`docs/retro-runbook-first-run.md`) except the automation track. Owned by the root chat (shared file). Video chats read it and never edit it.
+**Status:** v2.1, October 27, 2026. It applies the findings of the first run (`docs/retro-runbook-first-run.md`) except the automation track, plus what the Video 1 rehearsal found (the compaction warning and the weak `gap` check). Owned by the root chat (shared file). Video chats read it and never edit it.
 **How to read the marks:** every command here ran on the author's laptop on Oct 26 unless it carries the mark **(new)**, which means it is a new form that has not run yet. The next run tests those.
 **If something differs from what a step says to expect, stop and paste it to the root chat.**
 
@@ -387,7 +387,7 @@ date -u; docker ps --format '{{.Names}}: {{.Status}}' | grep -E 'prometheus|flag
 date -u; curl -s http://localhost:9090/metrics | sed 's/{[^}]*}//' | awk '/^prometheus_remote_storage_samples_failed_total/{f=$2} /^prometheus_remote_storage_samples_retried_total/{r=$2} /^prometheus_remote_storage_samples_pending/{p=$2} /^prometheus_remote_storage_samples_in_total/{i=$2} /^prometheus_remote_storage_samples_total/{t=$2} END{printf "failed %s | retried %s | pending %s | in %.0f | sent %.0f | gap %.0f\n", f, r, p, i, t, i-t}'; docker logs prometheus 2>&1 | grep -cE 'level=(WARN|ERROR)'
 ```
 
-**Expect:** `failed 0`, `retried 0`, a `gap` equal to `pending` (a few thousand), and a final count of `0` for warning and error lines. After 66 minutes, `sent` was about 11.8 million. The rate ramps from about 1,000 to about 3,000 a second, so do not expect a flat rate.
+**Expect:** `failed 0` and `retried 0` (these are the health checks), and `pending` and `gap` both small (a few thousand, up to about 10,000). **Do not require `gap` to equal `pending`:** it held on one of four readings. The final number counts warning and error lines in Prometheus's log. It is `0`, except for **one** `Overlapping blocks found during reloadBlocks` warning when Prometheus makes its first compaction, about 3 hours after the first sample (seen at 19:10:39 UTC). Remote write is unaffected (`failed` and `retried` stayed 0). The cause is a hypothesis (the 30-minute out-of-order window), and the desktop run's nine warnings are probably the same. After 66 minutes `sent` was about 11.8 million, and at 1 hour 40 minutes about 22.2 million (about 4,800 a second), so do not expect a flat rate.
 
 **C3. Restarts, and the rule for takes**
 
@@ -403,7 +403,7 @@ Capture the facts now. A container's console log can be empty (`checkout` writes
 
 **C4. The flag**
 
-At `http://localhost:8080/feature`, confirm `paymentFailure` matches the contract: off for Video 1, as measured for Video 2, off for Video 3.
+At `http://localhost:8080/feature`, confirm `paymentFailure` matches the contract: off for Video 1, as measured for Video 2, off for Video 3. (`http://localhost:8080/feature/advanced` returns the same flags as JSON, a candidate for a scripted check.)
 
 **After the take,** run C2 again. `failed` should be unchanged from before the take.
 
@@ -420,10 +420,12 @@ At `http://localhost:8080/feature`, confirm `paymentFailure` matches the contrac
 | Two minutes in | about 82,000 samples sent |
 | Seven minutes in | 386,321 documents in Elastic |
 | Four minutes after a reset | 201,506 documents |
-| Send rate | about 956 a second early, about 1,000 at two minutes, about 3,000 on average over 66 minutes |
-| 66 minutes in | `failed 0`, `retried 0`, `sent` 11,820,165, `pending` equal to the gap, 0 warnings or errors |
-| Restarts | `product-catalog` 15 seconds after T0 (startup race); `checkout` 5 minutes 40 seconds after T0 (cause unknown, accepted) |
-| Services reported by Prometheus | 17 distinct `service_name` values (the lab saw 18 on the desktop; the reference file says 19). No video states a service count |
+| Send rate | about 956 a second early, about 1,000 at two minutes, about 3,000 on average over 66 minutes, about 4,800 a second at 1 hour 40 minutes |
+| 66 minutes in | `failed 0`, `retried 0`, `sent` 11,820,165, 0 warnings or errors. `gap` equalled `pending` there, but only on one of four later readings, so it is not an invariant |
+| 1 h 40 min and 3 h 47 min | `failed 0`, `retried 0`; `sent` 22,220,532 and 60,049,606 |
+| About 3 hours in | One `Overlapping blocks found during reloadBlocks` WARN at Prometheus's first compaction (19:10:39 UTC, 3.0 hours after the first sample). Remote write unaffected |
+| Restarts | `product-catalog` 15 seconds after T0 (startup race); `checkout` 5 minutes 44 seconds after T0 (cause unknown, accepted) |
+| Services reported by Prometheus | 17 in one snapshot about 70 minutes in, 18 during the Video 1 rehearsal, 18 in the lab; the reference file says 19. No video states a service count |
 
 ## If something goes wrong
 
@@ -443,3 +445,4 @@ At `http://localhost:8080/feature`, confirm `paymentFailure` matches the contrac
 
 - **v1 (Oct 25):** the first runbook. Tested only on Linux for the pre-roll.
 - **v2 (Oct 26):** applies the first run on the laptop: the key after the file, a leftover-folder path, the version pin, Docker memory and disk guidance, the cleanup rules, a project-label volume check, the "still writing?" check, the uuid and restart-time proofs, and the restart rule for takes.
+- **v2.1 (Oct 27):** `gap` equal to `pending` is no longer required; the first-compaction warning is allowed; the `/feature/advanced` note; corrected restart timing and service count; later `sent` readings.

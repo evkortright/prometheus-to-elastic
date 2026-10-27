@@ -1,0 +1,19 @@
+{
+  "header": [
+    "PROMQL SUPPORT IN ELASTIC",
+    "Module 1, Video 1: Your PromQL, running in Elastic",
+    "Voice-over script, review draft, October 26, 2026",
+    "(Numbers in {{double braces}} are filled in from the recording.)"
+  ],
+  "title_narration": "Welcome to prom-Q-L Support in Elastic. In this lesson, you will see three prom-Q-L expressions you probably use every day run in Prometheus and in Elastic, and check for yourself what carries over.",
+  "slides": [
+    {"name": "OPENING", "headings": ["Opening"]},
+    {"name": "DEMO",
+     "headings": ["Setup", "Rung 1: pick out some series", "Rung 2: how fast", "Rung 3: which service?"],
+     "labels": ["[Setup]", "[Expression 1, in Prometheus]", "[Expression 1, in Elastic]",
+                "[Expression 2, in Prometheus]", "[Expression 2, in Elastic]",
+                "[Expression 3, in Prometheus]", "[Expression 3, in Elastic]"]},
+    {"name": "RECAP", "headings": ["The reveal"]}
+  ],
+  "include_optional": false
+}

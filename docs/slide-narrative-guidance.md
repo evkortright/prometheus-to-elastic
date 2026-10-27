@@ -1,6 +1,6 @@
 # Slide narrative guidance
 
-**Source:** Provided by the author and saved verbatim. This is the guidance for writing spoken narratives that the slide toolkit turns into animated slides. Use it for every slide narration in the track. Apply it as we build each video; do not rewrite existing narratives in bulk.
+**Source:** Provided by the author and saved verbatim. This is the guidance for writing spoken narratives that the slide toolkit turns into animated slides. Use it for every slide narration in the track. Apply it as we build each video; do not rewrite existing narratives in bulk. **Scope (Oct 27):** these rules bind only the slide-shape version of a narration. The normalized narration, which the instructor or the speech engine reads, is bound by `docs/narration-voice-guide.md` (section 2), and its length is free.
 
 **Placeholders at the end** (`[TOPIC AND SOURCE MATERIAL]` and `[OPTIONAL: ...]`) are where a request goes. The worked example below is the model.
 

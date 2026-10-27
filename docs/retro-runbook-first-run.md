@@ -19,7 +19,7 @@
 | Reset | `down --volumes` 11:04:15 to 11:04:29 (14 s). Data stream deleted (acknowledged). `up` 11:10:25 to 11:10:56 (31 s) |
 | Stack start 2 (the warm-up) | T0 **11:10:56**. The 45-minute warm-up ended 11:56 |
 | End-of-warm-up check | 12:16:52 (uptime 66 minutes): `failed 0`, `retried 0`, `pending 3,757` equal to the gap, `in` 11,823,922, `sent` 11,820,165 (about 2,990 a second on average), 0 warning or error lines in Prometheus's log |
-| Restarts | `product-catalog`: started 11:11:11 (15 s after T0, a startup race, as in the first stack). `checkout`: started 11:16:40 (5 min 40 s after T0, mid-run, cause unknown). Neither was OOM-killed. `checkout` writes nothing to its console, and Docker's event history returned nothing for that minute |
+| Restarts | `product-catalog`: started 11:11:11 (15 s after T0, a startup race, as in the first stack). `checkout`: started 11:16:40 (5 min 44 s after T0, mid-run, cause unknown). Neither was OOM-killed. `checkout` writes nothing to its console, and Docker's event history returned nothing for that minute |
 | Not yet checked | The "overlapping blocks" warning at Prometheus's first compaction (about 2 to 3 hours in; about 2:15 PM CDT if the stack stays up) |
 | Elastic data, first stack | 386,321 documents at 11:01:54; 585,723 at 11:04:14 (nothing written after the stop) |
 | Elastic data, after the reset | `MIN(@timestamp)` 11:10:38 (later than the restart began at 11:10:25); 201,506 documents at 11:14:48 |
@@ -116,10 +116,16 @@
 73. Baseline result: 66 minutes of uptime with zero failed or retried samples and zero warning or error log lines.
 74. Run the restart-count check both right after `up` and at the end of the warm-up. `checkout` and `product-catalog` are the two to watch.
 75. A restart within about a minute of T0 is a startup race. One later is a mid-run event to investigate. State the rule and give the command (`docker inspect --format '{{.Name}} started={{.State.StartedAt}} restarts={{.RestartCount}} oomkilled={{.State.OOMKilled}}' ...`).
-76. `checkout` restarted once mid-run (5 min 40 s after T0). Its cause is unknown: its console log is empty, Docker's events returned nothing, and it was not OOM-killed. Accepted as a known behavior, with entry 79 as the gate for takes.
+76. `checkout` restarted once mid-run (5 min 44 s after T0). Its cause is unknown: its console log is empty, Docker's events returned nothing, and it was not OOM-killed. Accepted as a known behavior, with entry 79 as the gate for takes.
 77. A container's console log can be empty (the demo's services probably log through the OpenTelemetry pipeline). The restart investigation should use `docker events` (the exit code) first and `docker logs` second.
 78. `docker events` returned nothing for a restart about an hour earlier, so it cannot be relied on for later investigation. Capture restart facts at the time, with a pre-roll that prints `StartedAt` for any restarted container.
 79. The take rule for restarts: within a minute of T0 is a startup race; a later one is recorded in the take log; one in the last 10 minutes before a take means reset and warm up again.
+82. (From the Video 1 rehearsal.) "`gap` equals `pending`" is a weak check: it held on one of four readings while `failed` and `retried` stayed 0. Use `failed` and `retried` as the health checks, and say `pending` and `gap` are both small.
+83. (From the Video 1 rehearsal.) Prometheus's first compaction, about 3 hours after the first sample, logs one `Overlapping blocks found during reloadBlocks` WARN (19:10:39 UTC on Oct 26). Remote write is unaffected. The "0 warnings" expectation needs an allowance. The cause is a hypothesis (the 30-minute out-of-order window), and the desktop run's nine warnings are probably the same.
+84. Correction: `checkout` restarted 5 min 44 s after T0 (11:10:56 to 11:16:40), not 5 min 40 s.
+85. `http://localhost:8080/feature/advanced` returns the flag JSON, a candidate for a scripted flag check.
+86. The service count was 17 in one snapshot and 18 during the rehearsal (and in the lab): a snapshot, not a count.
+87. The send rate was about 4,800 samples a second at 1 hour 40 minutes, so the "ramp to about 3,000" estimate was low. The expected-values table now has both readings.
 
 ### Automation track (raised by the author, Oct 26)
 
@@ -140,8 +146,8 @@
 | Pull and start | 26, 27, 36 to 39, 41, 62 | List images first; `up` then `ps`; T0; restart counts; first-run versus cached timings |
 | Verification | 40, 42 to 49, 64, 65, 71, 73 | The data stream and failure store checks; UTC versus local time; the right expectations for `pending` and counts |
 | Part B | 50 to 61, 63 | The "still writing?" check, the project-label volume check, the uuid and restart-time proofs, labelled outputs |
-| Part C | 66, 67 | Macs are fine; the flag command lists two services; check the 0.95 variant before Video 2 |
-| Warm-up and restarts | 71 to 79 | The ramp in expected volume; restart facts at the time; the startup-race rule; the take gate |
+| Part C | 66, 67, 85 | Macs are fine; the flag command lists two services; check the 0.95 variant before Video 2; a scripted flag check is possible |
+| Warm-up and restarts | 71 to 79, 82 to 87 | The ramp in expected volume; restart facts at the time; the startup-race rule; the take gate; the weak `gap` check; the first-compaction warning |
 | Automation | 68 to 70, 80, 81 | A separate track, after this revision: Parts B and C first, Part A last |
 
 ## 4. Handoff and register updates this run requires

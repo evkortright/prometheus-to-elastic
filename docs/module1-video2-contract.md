@@ -78,6 +78,7 @@ The placeholder table lives in the narrative file (section "Placeholders").
 ## 7. Narration rules
 
 As in the template. For Video 2 specifically:
+- The voice is the trainer voice, and the three-version model applies: see `docs/narration-voice-guide.md`. The seed narrative predates it (starter brief, section 3).
 - A question and its answer are separate clips; the 3-second pause is placed in the edit.
 - The slide narrations (the hook and the recap) are derived from the narrative file with an explicit shape for the slide generator. The recap is four peer cards (shape C). They do not exist yet.
 
@@ -108,8 +109,8 @@ Everything else stays in the repo. **This section changes only if something chan
 
 ## 10. Ownership and change rules
 
-- **The Video 2 chat owns:** `docs/module1-video2-outline.md`, `docs/module1-video2-narrative.md`, `docs/module1-video2-log.md` (created with its first entry), and the Video 2 run-sheet and story document when they exist.
-- **Seed material:** `docs/module1-video2-narrative.md` (draft v1, about 780 spoken words in the main blocks) was written by the root on Oct 25, before this chat existed, together with the claims-to-confirm table and the placeholder table inside it. It is a proposal, not a decision. This chat asks the author at the start whether to use it, rewrite it or ignore it, and owns the file from then on.
+- **The Video 2 chat owns:** `docs/module1-video2-outline.md`, `docs/module1-video2-narrative.md`, `docs/module1-video2-log.md` (created with its first entry), and the Video 2 run-sheet and story document when they exist. It also owns `scripts/review-config.video2.json` and a Video 2 placeholder helper (created when needed, named with the video).
+- **Seed material:** `docs/module1-video2-narrative.md` (draft v1, about 780 spoken words in the main blocks) was written by the root on Oct 25, before this chat existed, together with the claims-to-confirm table and the placeholder table inside it. It is a proposal, not a decision. This chat asks the author at the start whether to use it, rewrite it or ignore it, and owns the file from then on. The starter brief from the Video 1 chat (`docs/module1-video2-starter-brief.md`) is seed material too: what that chat learned, how it worked, and what to settle first.
 - **Shared files belong to the root** (see the template, section 10). Known needs (record them in the video log first and send them at a milestone): the register needs a row for the flag's measured effect once it exists, and the lab needs the Elastic row counts for R7 and R8 once recorded.
 - **Authority and the video log (Oct 26):** this chat is the source of truth for this video's files and for the video's state. It verifies the author's pasted output for its own deliveries (the base hash, the expected stat, the commit result) and does not route them through the root. It keeps `docs/module1-video2-log.md`, which it creates with its first entry: the checklist state, claim confirmations with their retrieval dates, probe results, the take log, and the decisions the author makes with this chat (for example the slide shapes). Once the log exists, it is the truth about the video's state, ahead of section 8 of this contract. The root reviews a delivery only if the author asks.
 
@@ -121,7 +122,7 @@ As in the template (sections 11 and 12). The starter prompt, with this file's na
 I'm the author of a Prometheus-to-Elastic training track, and this chat produces Video 2 of Module 1. Please read docs/module1-video2-contract.md first, then the files it lists, then sections 1, 2, 3, 9, 10, 11 and 12 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). If the contract lists seed material, ask me first whether to use it, rewrite it, or ignore it.
 ```
 
-Files to read, in order: this contract; `docs/module1-video2-narrative.md`; `docs/module1-video2-outline.md`; `docs/module1-query-lab.md` (R2, R5, R7, R8); `docs/module1-status-2026-10-19.md` (the claims register, section 4); `docs/otel-collector-reference.md`; `docs/slide-narrative-guidance.md`; `docs/module1-video1-narrative.md` (for the voice only; Video 2 must not depend on it).
+Files to read, in order: this contract; `docs/module1-video2-narrative.md`; `docs/module1-video2-outline.md`; `docs/module1-query-lab.md` (R2, R5, R7, R8); `docs/module1-status-2026-10-19.md` (the claims register, section 4); `docs/otel-collector-reference.md`; `docs/slide-narrative-guidance.md`; `docs/narration-voice-guide.md` (the voice); `docs/module1-video2-starter-brief.md`; `docs/module1-video1-narrative.md` (v2, the voice exemplar), `docs/module1-video1-run-sheet.md` (the run-sheet structure) and `docs/module1-video1-log.md` (sections 2, 7, 8 and 9). Video 2 must not depend on Video 1.
 
 
 Work that can start before the one-time setup (no stack needed): checklist rows 3 to 6 of section 8.

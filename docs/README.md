@@ -22,20 +22,22 @@ Owner key: **Root** = the root chat; **V1**, **V2**, **V3** = the chat for that 
 | `module1-video1-contract.md` | Video 1's job description and its starter prompt | Root | You start or check the Video 1 chat |
 | `module1-video2-contract.md` | The same for Video 2 | Root | You start or check the Video 2 chat |
 | `module1-video3-contract.md` | The same for Video 3 | Root | You start or check the Video 3 chat |
-| `module1-video1-narrative.md` | Video 1's narrative of record (the demo clips). The opening and reveal slide narrations live in the run-sheet (v5.1) | V1 | You listen to it or change a claim |
+| `module1-video1-narrative.md` | Video 1's narrative of record: v2, the trainer-voice pass (approved Oct 26). The slide-shape versions of the opening and the recap live in the run-sheet | V1 | You listen to it or change a claim |
 | `module1-video1-outline.md` | Video 1's outline, v2 (matches the approved narrative and the contract) | V1 | The V1 chat works on it |
-| `module1-video1-run-sheet.md` | Video 1's screen steps, voice-over blocks and slide narrations (v5.1, adapted to the laptop; the recorder-dependent steps wait for the capture test) | V1 | You prepare a take |
-| `module1-video1-story.md` | The reading version of Video 1's spoken text, regenerated from the narrative and the run-sheet | V1 | You want to read the whole narration in order |
+| `module1-video1-run-sheet.md` | Video 1's screen steps, voice-over blocks and slide-shape versions (v6, adapted to the laptop) | V1 | You prepare a take |
+| `module1-video1-story.md` | The reading version of Video 1's spoken text, regenerated from narrative v2 | V1 | You want to read the whole narration in order |
 | `module1-video2-narrative.md` | A **seed** narrative for Video 2, written by the root. The V2 chat decides with you whether to use it | V2 | You listen to it, or the V2 chat starts |
+| `module1-video2-starter-brief.md` | What the Video 1 chat learned, how it worked, and what to settle first: seed material for the Video 2 chat | V2 | You start the Video 2 chat |
 | `module1-video2-outline.md` | Video 2's outline and its decisions | V2 | The V2 chat works on it |
 | `module1-video1-log.md`, `module1-video2-log.md`, `module1-video3-log.md` | A video's working log: checklist state, claim confirmations with retrieval dates, probe results, the take log, and the decisions the author makes with that chat. Created by the chat with its first entry | V1, V2, V3 | You want the state of one video. The log is the truth about it, ahead of the contract's checklist |
 | `module1-query-lab.md` | The tests (R1 to R8, P1 to P8) and the recorded results | Root | You run a rehearsal |
 | `module1-status-2026-10-19.md` | The claims register (section 4) and an older status. The file name keeps its old date; do not rename it | Root | You check a claim |
 | `module-learning-objectives.md` | The curriculum and the learning objectives. The author approves any change | Root | You check a learning objective |
 | `slide-narrative-guidance.md` | The author's guidance for writing slide narrations | Root | You write or check a slide narration |
+| `narration-voice-guide.md` | The narration voice (a professional trainer, objective first), the three versions of every narration, the claims rules in spoken form, a 15-point checklist, and the review script. The author has not yet read the written guide | Root | You write, review or approve a narration |
 | `otel-collector-reference.md` | What the OpenTelemetry Collector does in the demo, and where the span metrics come from | Root | A claim concerns where a metric comes from |
-| `reset-runbook.md` | The setup, reset and pre-roll runbook, v2 (Oct 26): the one-time setup (Part A), the per-video reset (Part B) and the pre-roll checks (Part C), each step with the output to expect, and the facts about this laptop | Root | You set up the stack, reset it for a video, or prepare a take |
-| `retro-runbook-first-run.md` | The facts and the findings (81 entries) from the runbook's first run on Oct 26, and the grouped plan for revising the runbook | Root | You revise the runbook, or want the first run's numbers |
+| `reset-runbook.md` | The setup, reset and pre-roll runbook, v2.1 (Oct 27): the one-time setup (Part A), the per-video reset (Part B) and the pre-roll checks (Part C), each step with the output to expect, and the facts about this laptop | Root | You set up the stack, reset it for a video, or prepare a take |
+| `retro-runbook-first-run.md` | The facts and the findings (87 entries) from the runbook's first run on Oct 26 and the Video 1 rehearsal, and the grouped plan for revising the runbook | Root | You revise the runbook, or want the first run's numbers |
 | `quickstart.md` | Daily stack launch and verification. Its closing paragraph was corrected; the full setup and reset procedures are in `reset-runbook.md` | Root | You start the stack |
 | `environment-setup-guide.md` | The environment plan: the local stack with Elastic Serverless, and the Instruqt sandbox | Root | You want setup background |
 | `diagrams/` | Environment diagrams: the source state, the bridge state, Module 4, and the optional EDOT path (SVG and PNG) | Root | You need a picture of the environment |
@@ -57,4 +59,7 @@ Owner key: **Root** = the root chat; **V1**, **V2**, **V3** = the chat for that 
 | `../config/compose.observability.yaml` | The Docker Compose layer that adds Prometheus, Grafana and the other observability services to the demo |
 | `../config/.env.example` | The template for `.env.elastic`. The real file holds the key, stays on the laptop, and is blocked from commits by `.gitignore` |
 | `../scripts/apply-config.sh` | Generates the Prometheus configuration from the template and `.env.elastic`. It has a known file-permission problem; the fix is pending (see the handoff's open decisions) |
+| `../scripts/make_review_script.py` | Builds the plain-text voice-over review script, organized by slide, from a narrative and a small config. It changes nothing in the repo. Owned by the root |
+| `../scripts/review-config.video1.json`, `../scripts/review-config.video2.example.json` | The configs for it: Video 1's (it regenerates Video 1's script byte for byte) and a starting point for Video 2. Owned by the Video 1 and Video 2 chats |
+| `../scripts/fill_placeholders.py`, `../scripts/take-values.example.json` | Video 1's helper that fills the narration's placeholders from the take's numbers, and its example input. An example to adapt for Video 2. Owned by the Video 1 chat |
 | `../.gitignore` | Keeps credentials, macOS files and editor files out of the repository |
