@@ -1,7 +1,7 @@
 # Module 1, Video 2 — Run-sheet (screen capture)
 
 **Video:** Build it up: a per-service error ratio, rung by rung (four ideas: label matchers, rate and sum, arithmetic with a scalar, a ratio of two aggregates)
-**Status:** Draft v1, Oct 27, 2026. Written from narrative v2 (commit `a804543`), which the author accepted on Oct 27 as the working text for review and recording; changes are expected from the reviewers and from the take. The 17 main blocks and the 2 optional blocks below are copied by script from that narrative. If this sheet and the narrative differ, the narrative wins and this sheet is regenerated. The slide-shape versions of the hook and the recap are not here yet: they come with the slide narrations (contract, section 8, row 5). The decisions, results and evidence are in `module1-video2-log.md`.
+**Status:** Draft v1.1, Oct 28, 2026 (v1 is commit `7f417cf`). Written from narrative v2 (commit `a804543`), which the author accepted on Oct 27 as the working text for review and recording; changes are expected from the reviewers and from the take. The 17 main blocks and the 2 optional blocks below are copied by script from that narrative. If this sheet and the narrative differ, the narrative wins and this sheet is regenerated. v1.1 adds the slide-shape versions of the hook (shape A, chosen by the author on Oct 28) and the recap (shape C, from the contract) in beats 1 and 8, as separate artifacts for the slide toolkit, derived from the spoken text (contract, section 8, row 5). The decisions, results and evidence are in `module1-video2-log.md`.
 **Commands:** at the end of this file (A-P to D-E, and E-P and E-E for the optional chart), from the query lab (R2, R5, R7, R8). They ran on Oct 21 on the previous dataset and run again in the rehearsal.
 **Recording:** the laptop (macOS), with the built-in recorder (Command+Shift+5), settings below. Record without audio; the narration is generated afterwards, with the take's numbers.
 
@@ -83,7 +83,7 @@ The estimates are word counts at an assumed 150 words a minute, not measured aud
 
 ## Beat 1 — Hook (slide, no capture)
 
-The **spoken** text is what an instructor or the speech engine reads. The **slide version**, with an explicit shape for the slide toolkit, is a separate artifact derived from it; it comes with the recap's, in the next delivery. Nothing to capture.
+Two versions of the same idea. The **spoken** text is what an instructor or the speech engine reads. The **slide version** is a separate artifact for the slide toolkit (shape A, the toolkit's own rules), derived from the spoken text. Nothing to capture.
 
 **Narration: hook slide** (210 words)
 
@@ -103,7 +103,29 @@ Now, don't take my word for the result. As each pair runs, watch two things: wha
 
 </details>
 
-Check:
+**Slide version: hook** (139 words)
+
+<details><summary>Show slide version</summary>
+
+```
+You can already pull a request rate out of prom-Q-L. The question people actually ask is harder: which of our services are failing, and how often?
+
+That question is an error ratio: a service's failing calls divided by its calls in total. Four small ideas, one error ratio.
+
+By the end, you'll be able to write and execute prom-Q-L against a live Elastic time series data stream. A time series data stream is Elastic's data stream type for indexing metrics. You'll get results a Prometheus user would already expect.
+
+Each idea runs in Prometheus first, then in Elastic.
+
+Pick series with label matchers. Turn a counter into a rate, then sum it. Scale a result with arithmetic. Divide one aggregate by another.
+
+Don't take my word for the result: watch what each idea adds, and whether the numbers agree.
+```
+
+Notes: Shape A (a skills list), chosen by the author on Oct 28. A hook with a contrast (a request rate against the question people actually ask), the error ratio defined in one sentence, the planted title phrase "Four small ideas, one error ratio", the objective (learning objective 2 in its own words, split into sentences of under 150 characters, with the time series data stream defined in one sentence), one sentence on the order of each run, four verb-first items (32, 40, 31 and 32 characters), and one closing sentence. No sentence is over 150 characters, and the text holds no digit, no percentage and no forbidden word (checked by script). No "Welcome to:" line, because this is not a course opener. How the toolkit times its reveals against the audio is not known here. The sentence that the demo's data stream is a time series data stream is Supported (log, section 3); the rehearsal shows the index mode again.
+
+</details>
+
+Check (spoken version):
 - The objective is learning objective 2 in its own words, with "TSDS" spoken as "time series data stream"; it lands about 25 seconds in.
 - "A live Elastic time series data stream": the current docs and the runbook's first-run record support it (log, section 3); the rehearsal shows the index mode again.
 - No numbers, no percentages, no statement about the feature's status.
@@ -419,7 +441,7 @@ One more look, if you want to see the ratio change. Take the time setting out of
 
 ## Beat 8 — Recap (slide, no capture)
 
-The slide version is a separate artifact (the recap is four peer cards, shape C), in the next delivery. Nothing to capture.
+The same two versions. The recap's slide version is four peer cards (shape C). Nothing to capture.
 
 **Narration: recap slide** (159 words)
 
@@ -433,7 +455,31 @@ There's one caution, because we said we'd be plain about the limits. Most of pro
 
 </details>
 
-Check:
+**Slide version: recap** (179 words)
+
+<details><summary>Show slide version</summary>
+
+```
+The question people actually ask took four small ideas, and the same expression ran in Prometheus and in Elastic. One question, four ideas.
+
+Label matchers. They choose which series an expression looks at, with a regex or a not-equals. They're for narrowing the field.
+
+A rate, summed. A rate turns a counter into calls per second over a window, and sum adds the series into one number. It's for how much, in total.
+
+Arithmetic with a plain number. Multiplying by sixty turns calls per second into calls per minute, and the labels stay attached. It's for changing the unit.
+
+A ratio of two aggregates. Divide one aggregate by another, both aggregated the same way, and each service that has error series gets its own error ratio. It's for which services are failing, and how often.
+
+There's also a catch. Most, though not all, of prom-Q-L works this way, and the edges are worth knowing before you rely on them.
+
+Elastic's documentation keeps the current list of what isn't supported, so check it before you move something you depend on.
+```
+
+Notes: Shape C (peer cards): a hook with a contrast, the planted title phrase "One question, four ideas", four cards (a name, one or two sentences, and what each is for), one signposted caveat, and one closing sentence. No ordinals and no dependency language. The only number is sixty, which is the narrative's own (idea 3). It says the same expression ran in Prometheus and in Elastic; confirm in the takes. The closing sentence about the documentation needs the limitations page re-read and dated before the take (the same open item as the spoken recap).
+
+</details>
+
+Check (spoken version):
 - "Each time, it was the same expression in Prometheus and in Elastic, and the numbers agreed" depends on the takes. If a take disagrees, that sentence changes.
 - "Elastic's documentation keeps the current list of what isn't supported": re-read the limitations page and record the retrieval date before the take (register row 40).
 
@@ -510,12 +556,13 @@ Runs after Video 1's takes, on the reset stack, with the commands in this file. 
 
 ---
 
-## Checked in this file (Oct 27, by script; text only)
+## Checked in this file (Oct 28, by script; text only)
 
 - The 19 spoken blocks above (17 main, 2 optional) are identical to the 19 fenced blocks of narrative v2, in the same order (narrative sha256 `28694fa7c3281bb534f3b1b4e51c62e02dcd572b3d190b2296c3c6718da74c71`), and the word counts in the headings were computed from them (placeholders count as one word each).
 - The 20 placeholders used in the 17 main blocks are exactly the 20 in the table above; the optional blocks use none.
 - In each of the six pairs (A, A0, B, C, D and the optional E), the text between the parentheses of the Elastic line is character for character the text of the Prometheus line. The pairs differ only in the wrapper and the result name (`series`, `series`, `total_rate`, `per_minute`, `error_ratio`, `error_ratio`); E-E also drops the `time=` option.
 - All twelve commands appear verbatim in the query lab (R2, R5, R7 and R8; E-E is the lab's R8 range form). None has a sort.
+- The two slide versions follow the toolkit's mechanical rules, checked by script: 90 to 180 words, no sentence over 150 characters, the four hook items under 45 characters, the planted title phrase said once in each, the objective's words in the hook, and no digit, percentage, visual reference or forbidden word (the recap's only number is the word sixty). The one "all" is the contract's own "not all of it" in the caveat.
 - Each of the ten executions in the main blocks says "Let's run it", and the steps point at those cues. The result names the narration uses ("total rate") match the commands.
 
 
@@ -607,6 +654,6 @@ PROMQL index=metrics-generic.prometheus-default error_ratio=(sum by (service_nam
 - **Rows that read zero in idea 4**, and whether a sentence is then needed.
 - **The flag's variant and wording.** Which variant is used, and whether "some of its requests" still fits.
 - **Footage against narration length:** the estimates above are not measured; a rendered guide measures them.
-- **The slide versions** of the hook and the recap, and the shape of the hook, with the next delivery.
+- **How the slide toolkit times its reveals** against audio read from the spoken version.
 - **The optional beats** (decisions 3 and 5), deferred.
 - **Grafana as a second data source** is untested, so nothing in this video may imply it.
