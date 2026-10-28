@@ -1,7 +1,7 @@
 # Module 1, Video 2 — Run-sheet (screen capture)
 
 **Video:** Build it up: a per-service error ratio, rung by rung (four ideas: label matchers, rate and sum, arithmetic with a scalar, a ratio of two aggregates)
-**Status:** Draft v1.3, Oct 28, 2026 (v1.2 is commit `baaff80`). Written from narrative v2.1, whose base v2 (commit `a804543`) the author accepted on Oct 27 as the working text for review and recording; changes are expected from the reviewers and from the take. v1.2 followed the narrative's one edit, the reworded optional series block (decision 3). v1.3 names the Video 2 placeholder helper and cites runbook v2.2. The 17 main blocks and the 2 optional blocks below are copied by script from that narrative. If this sheet and the narrative differ, the narrative wins and this sheet is regenerated. v1.1 adds the slide-shape versions of the hook (shape A, chosen by the author on Oct 28) and the recap (shape C, from the contract) in beats 1 and 8, as separate artifacts for the slide toolkit, derived from the spoken text (contract, section 8, row 5). The decisions, results and evidence are in `module1-video2-log.md`.
+**Status:** Draft v1.4, Oct 28, 2026 (v1.3 is commit `28fc351`). Written from narrative v2.1, whose base v2 (commit `a804543`) the author accepted on Oct 27 as the working text for review and recording; changes are expected from the reviewers and from the take. v1.2 followed the narrative's one edit, the reworded optional series block (decision 3). v1.3 named the Video 2 placeholder helper and cited runbook v2.2. v1.4 adds the approved rehearsal plan and a how-to for building the review script. The 17 main blocks and the 2 optional blocks below are copied by script from that narrative. If this sheet and the narrative differ, the narrative wins and this sheet is regenerated. v1.1 adds the slide-shape versions of the hook (shape A, chosen by the author on Oct 28) and the recap (shape C, from the contract) in beats 1 and 8, as separate artifacts for the slide toolkit, derived from the spoken text (contract, section 8, row 5). The decisions, results and evidence are in `module1-video2-log.md`.
 **Commands:** at the end of this file (A-P to D-E, and E-P and E-E for the optional chart), from the query lab (R2, R5, R7, R8). They ran on Oct 21 on the previous dataset and run again in the rehearsal.
 **Recording:** the laptop (macOS), with the built-in recorder (Command+Shift+5), settings below. Record without audio; the narration is generated afterwards, with the take's numbers.
 
@@ -544,17 +544,63 @@ A digits sentence counts the leading significant digits the two full-precision v
 
 ---
 
-## Rehearsal (guided in chat; the video chat guides, the author runs)
+## Rehearsal (the plan the author approved on Oct 28; guided in chat, the video chat guides and the author runs)
 
-Runs after Video 1's takes, on the reset stack, with the commands in this file. It records, in the video log:
-- The values or counts and the times for all five pairs, with the seconds between the runs.
-- The Elastic row counts for C and D, which the lab never recorded.
-- The flag: which variant is used, the time it was switched on, payment's ratio before it and at intervals after it, so that we know how long the ratio takes to show. No claim about the size of the effect until it is measured.
-- Whether idea 4 shows rows that read zero.
-- The mapping check (read-only): the data stream's index mode, and, only if the optional series slide stays, how the labels are mapped. The exact requests are given in the session.
-- If the optional chart stays: both charts on screen.
+**Goal.** On a freshly reset stack, run the five pairs, measure what the `paymentFailure` flag does, and settle the open facts, so that a provisional review script can be built from real numbers. **When:** after Video 1's takes, because the reset in Part B deletes the data stream. About two hours of wall-clock time, mostly waiting (an estimate, not measured). One step at a time, with the expected output before each; the author pastes the output.
 
-After the rehearsal, the same values file and helper give a **provisional review script** (the rehearsal's numbers, labelled as such); after the take, the take's numbers give the final one.
+1. **Reset and warm-up** (`docs/reset-runbook.md`, Part B): B1 to B6, with the flag left off at B7. Then at least 45 minutes with `caffeinate -dims` running. The destructive steps (B2 and B4) are the author's. B6 proves that nothing from before survived.
+2. **Pre-roll** (Part C, C1 to C4). Read `http://localhost:8080/feature/advanced`, which returns the flag JSON, to list the variants: only `off` and a "90%" variant of 0.95 are confirmed so far.
+3. **Baseline, flag off.** Run idea 4's pair once, read-only: how the payment ratio and any zero-reading rows look without the flag.
+4. **The flag measurement.** Switch `paymentFailure` on and note the time. Run the Prometheus side of idea 4 right away, and again at about 2, 5 and 10 minutes, recording each time and payment's value. This answers how long the ratio takes to show (the inference is one five-minute rate window) and how large the effect is. No claim about the size until it is measured.
+5. **The five pairs** (idea 1 twice, then ideas 2, 3 and 4), following the steps and timing windows above, after the flag has settled. Record the take-log fields, including the Elastic row counts for ideas 3 and 4, which the lab never captured.
+6. **Extras.** The data stream's index mode from the same `GET` that B6 uses (expect `time_series`). Re-measure when Prometheus's newest sample lands each minute (a read-only query, given in the session). If the optional chart (decision 5) is wanted, both charts on screen.
+7. **Wrap-up.** Re-run the counters (C2), save the values file, and build the **provisional review script** (see "Review script: how to build it"). Then decide whether to reuse this stack for the takes or to reset again, per the runbook.
+
+**Decisions the rehearsal forces:**
+- **The flag variant.** With a middle variant such as 50%, "fail some of its requests" fits. With the 90% variant (0.95) the sentence needs rewording.
+- **The spoken form of payment's ratio** (three decimals may lose too much of a small ratio).
+- **Rows that read zero in idea 4:** whether the take shows them, and whether a sentence is then needed.
+- **The optional chart** (decision 5), if both charts look clear.
+
+**What comes out, in the video log:** the rehearsal section filled in with times and values; the claims confirmed or corrected; a short list of fact-forced narrative edits, if any; a values file for the provisional review script; and a go or no-go for the takes.
+
+---
+
+## Review script: how to build it
+
+The review script is a plain-text voice-over script, organized by slide, for the reviewers to read beside the slides. **Nothing in the repo stores it**: the helpers write it wherever `--out`'s path points (use the home folder). It is rebuilt from the narrative whenever the narrative changes; never edit it by hand. It copies every spoken block character for character, and it leaves out claims tables, run-sheets and timings. The reviewers read the words. Its header says which stage it is.
+
+| Stage | When | Numbers | What changes in the command |
+|---|---|---|---|
+| dummy | any time, for a wording review | built-in DUMMY values, labelled in the header | `--dummy` |
+| provisional | after the rehearsal | the rehearsal's values file | `--values ... --stage provisional` |
+| final | after the take | the take's values file | `--values ... --stage final` |
+
+**Video 2** (from the repo root; `<date>` is for example `Nov 3, 2026`):
+
+```
+python3 scripts/fill_placeholders.video2.py --narrative docs/module1-video2-narrative.md --dummy --date "<date>" --review-out ~/module1-video2-review-DUMMY.txt
+```
+
+```
+python3 scripts/fill_placeholders.video2.py --narrative docs/module1-video2-narrative.md --values ~/take-values.video2.json --stage provisional --date "<date>" --review-out ~/module1-video2-review-provisional.txt
+```
+
+For the final script, use `--stage final` and name the output `-final.txt`.
+
+**The values file.** Copy `scripts/take-values.video2.template.json` to `~/take-values.video2.json` (outside the repo) and fill every value from the take log. The keys are the placeholder names in lowercase (`a_frontend_prom`, `seconds_a_base`, `d_payment_elastic`, and so on): 17 values, because the three `{{DIGITS_...}}` are computed from the full-precision values, so keep them as printed. Counts, rows and seconds are whole numbers. Null values are refused. Before building, run the same command with `--check-only` instead of `--review-out`: it prints every value as it will be spoken, and the warnings that need a person (a digits sentence with few digits, a likely straddled scrape minute, differing counts, a zero error row or payment ratio). A warning means rewriting a sentence in the narrative or retaking a pair, not forcing the number.
+
+**The title narration** and the slide grouping live in `scripts/review-config.video2.json`; edit them there and rebuild. The optional series block is in the review script; the optional chart is not (decision 5). If the chart stays, add its heading and a label to the config's DEMO slide.
+
+**Video 1** uses the same method with `scripts/fill_placeholders.py` and `scripts/review-config.video1.json` (the helper was extended on Oct 28; its old use is unchanged):
+
+```
+python3 scripts/fill_placeholders.py --narrative docs/module1-video1-narrative.md --dummy --date "<date>" --review-out ~/module1-video1-review-DUMMY.txt
+```
+
+For its provisional and final scripts, use `--values ~/take-values.json --stage provisional` (or `final`); `scripts/take-values.example.json` holds Video 1's Oct 26 rehearsal numbers and is the model for the file.
+
+**Without the helpers**, the root's tool builds the script with the placeholders left in braces: `python3 scripts/make_review_script.py --narrative <narrative> --config <review config> --out <file>`.
 
 ---
 

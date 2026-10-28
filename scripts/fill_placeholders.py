@@ -8,6 +8,13 @@ Usage:
   python3 fill_placeholders.py --narrative docs/module1-video1-narrative.md \
       --values take-values.json --out narration-final.txt
 
+Review script without placeholders (added Oct 28; from the repo root; the review script is written outside the repo):
+  python3 scripts/fill_placeholders.py --narrative docs/module1-video1-narrative.md --dummy \\
+      --date "Oct 28, 2026" --review-out ~/module1-video1-review-DUMMY.txt
+  python3 scripts/fill_placeholders.py --narrative docs/module1-video1-narrative.md \\
+      --values ~/take-values.json --stage provisional --review-out ~/module1-video1-review-provisional.txt
+  (--stage final after the take. Without --out, a --review-out run does not write narration-final.txt.)
+
 Reads the nine spoken blocks (the nine fenced blocks) from the narrative, computes the derived
 numbers (the digits the two rung 2 values share, the relative differences), formats every
 number for speech, replaces each {{PLACEHOLDER}}, and writes the nine filled blocks.
