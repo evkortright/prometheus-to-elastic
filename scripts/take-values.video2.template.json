@@ -1,0 +1,20 @@
+{
+  "_note": "TEMPLATE, no numbers. Fill every value from the take log (or the rehearsal's log). Keep full precision as printed (the script keeps the digits as text). Counts, rows and seconds are whole numbers. Null values are refused. Keep the filled copy outside the repo.",
+  "a_frontend_prom": null,
+  "a_frontend_elastic": null,
+  "seconds_a": null,
+  "a_err_frontend_prom": null,
+  "a_err_frontend_elastic": null,
+  "seconds_a_base": null,
+  "b_prom": null,
+  "b_elastic": null,
+  "seconds_b": null,
+  "c_frontend_prom": null,
+  "c_frontend_elastic": null,
+  "seconds_c": null,
+  "d_rows_prom": null,
+  "d_rows_elastic": null,
+  "d_payment_prom": null,
+  "d_payment_elastic": null,
+  "seconds_d": null
+}

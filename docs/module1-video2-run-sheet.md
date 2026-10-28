@@ -1,7 +1,7 @@
 # Module 1, Video 2 — Run-sheet (screen capture)
 
 **Video:** Build it up: a per-service error ratio, rung by rung (four ideas: label matchers, rate and sum, arithmetic with a scalar, a ratio of two aggregates)
-**Status:** Draft v1.2, Oct 28, 2026 (v1.1 is commit `8b82234`). Written from narrative v2.1, whose base v2 (commit `a804543`) the author accepted on Oct 27 as the working text for review and recording; changes are expected from the reviewers and from the take. v1.2 follows the narrative's one edit, the reworded optional series block (decision 3). The 17 main blocks and the 2 optional blocks below are copied by script from that narrative. If this sheet and the narrative differ, the narrative wins and this sheet is regenerated. v1.1 adds the slide-shape versions of the hook (shape A, chosen by the author on Oct 28) and the recap (shape C, from the contract) in beats 1 and 8, as separate artifacts for the slide toolkit, derived from the spoken text (contract, section 8, row 5). The decisions, results and evidence are in `module1-video2-log.md`.
+**Status:** Draft v1.3, Oct 28, 2026 (v1.2 is commit `baaff80`). Written from narrative v2.1, whose base v2 (commit `a804543`) the author accepted on Oct 27 as the working text for review and recording; changes are expected from the reviewers and from the take. v1.2 followed the narrative's one edit, the reworded optional series block (decision 3). v1.3 names the Video 2 placeholder helper and cites runbook v2.2. The 17 main blocks and the 2 optional blocks below are copied by script from that narrative. If this sheet and the narrative differ, the narrative wins and this sheet is regenerated. v1.1 adds the slide-shape versions of the hook (shape A, chosen by the author on Oct 28) and the recap (shape C, from the contract) in beats 1 and 8, as separate artifacts for the slide toolkit, derived from the spoken text (contract, section 8, row 5). The decisions, results and evidence are in `module1-video2-log.md`.
 **Commands:** at the end of this file (A-P to D-E, and E-P and E-E for the optional chart), from the query lab (R2, R5, R7, R8). They ran on Oct 21 on the previous dataset and run again in the rehearsal.
 **Recording:** the laptop (macOS), with the built-in recorder (Command+Shift+5), settings below. Record without audio; the narration is generated afterwards, with the take's numbers.
 
@@ -31,7 +31,7 @@ If you paste a few practice results with their clock times, they can be checked 
 
 ## Before every take (pre-roll)
 
-**1. The stack.** `docs/reset-runbook.md` (v2.1): **Part B** (the reset and warm-up) then **Part C** (pre-roll). The commands live there. This video's state: a fresh reset, a warm-up of at least 45 minutes (contract, section 6), `paymentFailure` **on** (the variant and its effect measured in the rehearsal; register row 14), and the pre-roll checks passed, including C4. Notes:
+**1. The stack.** `docs/reset-runbook.md` (v2.2): **Part B** (the reset and warm-up) then **Part C** (pre-roll). The commands live there. This video's state: a fresh reset, a warm-up of at least 45 minutes (contract, section 6), `paymentFailure` **on** (the variant and its effect measured in the rehearsal; register row 14), and the pre-roll checks passed, including C4. Notes:
 - **Switching the flag on** is runbook B7 (`http://localhost:8080/feature`). Write down the time. The "90%" variant has the value 0.95, not 0.9: check what a variant does before any claim about it. Idea 4's narration says the payment service fails "some of its requests"; that sentence changes if the measurement says otherwise.
 - **How long to wait after switching it on** before the ratio shows it is an inference (one rate window, five minutes). The rehearsal tests it. Record idea 4 only after that wait has passed.
 - **C2's last number** counts warning and error lines. Prometheus's first compaction, about **3 hours** after the stack starts, logs one "Overlapping blocks found during reloadBlocks" warning. It does not affect remote write. A take within 3 hours of the start will not see it. **C2's "gap equals pending"** is a weak check: trust `failed 0`, `retried 0`, and `sent` growing.
@@ -511,7 +511,7 @@ Collect the numbers once you have stopped; the results stay on screen.
 2. **Elastic tab:** a screenshot ("N results", the value) and the JSON of the result, as in Video 1's rehearsal, for full precision and the `step` time.
 3. **The gap in seconds:** read it from the footage in Resolve, as the time between the Execute click and the Search click in the continuous take. Elastic's `step` gives the absolute time of the Elastic run as a check.
 4. Run the counters command again (runbook Part C, command 2). `failed` and `retried` should still be 0.
-5. Fill in the take log, then the placeholders (a Video 2 helper, named with the video, computes the `{{DIGITS_...}}` values and fills the narration; it is written when the takes exist).
+5. Fill in the take log, then the placeholders. The helper `scripts/fill_placeholders.video2.py` computes the `{{DIGITS_...}}` values and fills a copy of the narrative from a values file (start from `scripts/take-values.video2.template.json` and keep the filled copy outside the repo). With `--review-out` it also builds the placeholder-free review script, using the root's `make_review_script.py` and `scripts/review-config.video2.json`. With `--dummy` it fills built-in DUMMY numbers, labelled as such in the header, so that a wording review can happen before any measurement exists.
 6. Rename each take: `v2-setup`, `v2-A`, `v2-A0`, `v2-B`, `v2-C`, `v2-D` (and `v2-E`) plus the recorder's extension.
 
 ### Take log (fill in)
@@ -553,6 +553,8 @@ Runs after Video 1's takes, on the reset stack, with the commands in this file. 
 - Whether idea 4 shows rows that read zero.
 - The mapping check (read-only): the data stream's index mode, and, only if the optional series slide stays, how the labels are mapped. The exact requests are given in the session.
 - If the optional chart stays: both charts on screen.
+
+After the rehearsal, the same values file and helper give a **provisional review script** (the rehearsal's numbers, labelled as such); after the take, the take's numbers give the final one.
 
 ---
 

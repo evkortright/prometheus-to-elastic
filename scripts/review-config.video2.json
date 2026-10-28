@@ -1,0 +1,53 @@
+{
+  "header": [
+    "PROMQL SUPPORT IN ELASTIC",
+    "Module 1, Video 2: Build it up: a per-service error ratio",
+    "Voice-over script, review draft",
+    "(Numbers in {{double braces}} are filled in from the recording.)"
+  ],
+  "title_narration": "Welcome to prom-Q-L Support in Elastic. In this lesson, you will build a per-service error ratio from four small prom-Q-L ideas, and check each one against Prometheus.",
+  "slides": [
+    {
+      "name": "OPENING",
+      "headings": [
+        "Hook"
+      ]
+    },
+    {
+      "name": "DEMO",
+      "headings": [
+        "Setup",
+        "OPTIONAL: what a series is (decision 3)",
+        "Idea 1: narrow the field",
+        "Idea 2: how much, in total",
+        "Idea 3: scale it with arithmetic",
+        "Idea 4: divide one aggregate by another"
+      ],
+      "labels": [
+        "[Setup]",
+        "[What a series is (optional)]",
+        "[Idea 1, in Prometheus, with the matcher]",
+        "[Idea 1, in Elastic, with the matcher]",
+        "[Idea 1, in Prometheus, matcher removed]",
+        "[Idea 1, in Elastic, matcher removed]",
+        "[Idea 1, question]",
+        "[Idea 1, answer]",
+        "[Idea 2, in Prometheus]",
+        "[Idea 2, in Elastic]",
+        "[Idea 3, in Prometheus]",
+        "[Idea 3, in Elastic]",
+        "[Idea 3, question]",
+        "[Idea 3, answer]",
+        "[Idea 4, in Prometheus]",
+        "[Idea 4, in Elastic]"
+      ]
+    },
+    {
+      "name": "RECAP",
+      "headings": [
+        "Recap"
+      ]
+    }
+  ],
+  "include_optional": true
+}
