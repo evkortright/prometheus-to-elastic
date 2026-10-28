@@ -1,6 +1,6 @@
-# Setup and reset runbook (v2.1)
+# Setup and reset runbook (v2.2)
 
-**Status:** v2.1, October 27, 2026. It applies the findings of the first run (`docs/retro-runbook-first-run.md`) except the automation track, plus what the Video 1 rehearsal found (the compaction warning and the weak `gap` check). Owned by the root chat (shared file). Video chats read it and never edit it.
+**Status:** v2.2, October 28, 2026. It applies the findings of the first run (`docs/retro-runbook-first-run.md`) except the automation track, plus what the Video 1 rehearsal found (the compaction warning and the weak `gap` check). Owned by the root chat (shared file). Video chats read it and never edit it.
 **How to read the marks:** every command here ran on the author's laptop on Oct 26 unless it carries the mark **(new)**, which means it is a new form that has not run yet. The next run tests those.
 **If something differs from what a step says to expect, stop and paste it to the root chat.**
 
@@ -439,6 +439,7 @@ At `http://localhost:8080/feature`, confirm `paymentFailure` matches the contrac
 | `permission denied` in Prometheus's log | A Linux host with the script's mode 600 | `chmod 644 src/prometheus/prometheus-config.yaml`, then `docker restart prometheus` |
 | `no space left on device` | Docker's disk image is full | Compare `docker system df` with the Disk usage limit; clean only what section 0 allows |
 | The count rises with the stack down (B3) | Something else is writing | Stop. Find the other sender before deleting |
+| `410 api_not_available_exception` in Dev Tools | That API exists but is not available on Serverless (seen on the field-mapping API) | Use another form. `GET _data_stream/...` and `DELETE _data_stream/...` work. A `410` is not a mistake in your command |
 | `failed` or `retried` rising | A key, endpoint or network problem | Check `ES_API_KEY` and the failure store in A7 step 3 |
 
 ## Version history
@@ -446,3 +447,4 @@ At `http://localhost:8080/feature`, confirm `paymentFailure` matches the contrac
 - **v1 (Oct 25):** the first runbook. Tested only on Linux for the pre-roll.
 - **v2 (Oct 26):** applies the first run on the laptop: the key after the file, a leftover-folder path, the version pin, Docker memory and disk guidance, the cleanup rules, a project-label volume check, the "still writing?" check, the uuid and restart-time proofs, and the restart rule for takes.
 - **v2.1 (Oct 27):** `gap` equal to `pending` is no longer required; the first-compaction warning is allowed; the `/feature/advanced` note; corrected restart timing and service count; later `sent` readings.
+- **v2.2 (Oct 28):** a Serverless `410` row in "If something goes wrong".

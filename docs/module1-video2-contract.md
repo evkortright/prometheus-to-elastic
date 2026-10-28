@@ -11,8 +11,8 @@
 |---|---|
 | Video | 2, "Build it up: a per-service error ratio, rung by rung" (working title from the outline) |
 | Contract version and date | v1, October 25, 2026 |
-| Contract status | Draft |
-| Chat | Not started yet |
+| Contract status | Active |
+| Chat | The Video 2 chat, started Oct 27. Its state is in `docs/module1-video2-log.md`, which is the truth |
 | Root handoff | `docs/handoff-module1-living.md` (read-only for the video chat) |
 
 ## 1. The finish line
@@ -58,9 +58,9 @@ The contract is fulfilled when the author, as the first video editor, has assemb
 
 ## 5. Claims
 
-- **Wording rules:** as in the template. In addition: no `increase()`, no `topk`, no alerting, detection or "real time" claims, no percent form (`* 100` is untested; decision 7), no statement about the feature's status, and never say that a service with no errors "has a ratio of zero": it is absent from the result (lab R8).
+- **Wording rules:** as in the template. In addition: no `increase()`, no `topk`, no alerting, detection or "real time" claims, no percent form (`* 100` is untested; decision 7), no statement about the feature's status, and be precise about errors in the ratio: a service with **no error series** is absent from the result, while a service whose error series exist but show no errors in the window reads exactly 0 (lab R8: six services read 0 and ten were absent).
 - **Forbidden for this video:** "runs unchanged" as an absolute; "all"; any percentage without the seconds between the runs; the sentence that Prometheus labels become Elastic dimensions (unverified; Module 2 topic, register row 41).
-- **Claims-register rows used** (status doc, section 4): 1 (most, not all), 19 (the date picker's range), 21 (binary expressions need both sides aggregated alike; operations with a number are supported), 29 (`=~` is anchored; `!=` behaves as in Prometheus), 32 (a division drops services with no series on the left), 33 (R5, R7 and R8 agree), 36 (the command's options), 38 (the label columns), 14 (the flag's effect, open) and, if the optional beats stay, 41.
+- **Claims-register rows used** (status doc, section 4): 1 (most, not all), 19 (the date picker's range), 21 (binary expressions need both sides aggregated alike; operations with a number are supported), 29 (`=~` is anchored; `!=` behaves as in Prometheus), 32 (a division drops services with no series on the left), 33 (R5, R7 and R8 agree), 36 (the command's options), 38 (the label columns), 14 (the flag's effect, open) 53 (the service count varies, so no video states one), 59 (paired runs inside one scrape minute), 64 (digits, not percent), and, if the optional beats stay, 41.
 - **Known edge:** Video 2 keeps `[5m]` in the expressions, as in Video 1 (register row 39). Do not say anything that contradicts Elastic's advice to omit range selectors; Video 3 explains it.
 
 The claims-to-confirm table lives in the narrative file (section "Claims to confirm"). The video chat keeps it current and does not duplicate it here.
@@ -87,18 +87,20 @@ As in the template. For Video 2 specifically:
 | # | Deliverable | Owner | State |
 |---|---|---|---|
 | 1 | Learning objective | Author | Done (approved Oct 21) |
-| 2 | Outline, with decisions 1, 2, 4, 6, 8, 9 and 10 approved (3, 5 and 7 open) | Author | Done (decisions Oct 25) |
-| 3 | Narrative: the root's seed draft v1 exists; this chat decides with the author whether to use it, rewrite it or ignore it | Video chat and author | Seed delivered; the author has not listened yet |
-| 4 | Narrative approved | Author | Not started |
-| 5 | Slide narrations for the hook and the recap, with explicit shapes | Video chat | To do |
-| 6 | Run-sheet written from the approved narrative | Video chat | To do |
+| 2 | Outline, with decisions 1, 2, 4, 6, 8, 9 and 10 approved | Author | Done (decisions Oct 25). Since then (Oct 27): decision 7 (a percent form) is settled as "not used", and decisions 3 (the series slide) and 5 (the range chart) are deferred to the TSDS check and the rehearsal |
+| 3 | Narrative: the root's seed was voice-passed into narrative v2 | Video chat and author | Done Oct 27 (`a804543`). The log has the detail |
+| 4 | Narrative approved | Author | Accepted Oct 27 as the working text for review and recording, not as final: changes come from the reviewers and from the take |
+| 5 | Slide narrations for the hook and the recap, with explicit shapes | Video chat | Done Oct 28 (`8b82234`): the hook is shape A, the recap shape C |
+| 6 | Run-sheet written from the approved narrative | Video chat | Done: v1 (`7f417cf`) and v1.1 with the slide versions (`8b82234`). Not yet used in practice |
 | 7 | One-time setup and a stack reset (`docs/reset-runbook.md`, Parts A and B) | Root and author | Not started |
-| 8 | The flag measured (decision 4); decisions 3, 5 and 7 settled | Video chat guides, author runs | Not started |
+| 8 | The flag measured (decision 4); decisions 3, 5 and 7 settled | Video chat guides, author runs | Not started. Decision 7 was settled on Oct 27 (not used); decisions 3 and 5 are deferred |
 | 9 | Rehearsal of R2, R5, R7 and R8 on the fresh stack; claims confirmed | Video chat guides, author runs | Not started |
 | 10 | The take: footage and the take log | Author | Not started |
 | 11 | Placeholders filled; narration regenerated with the real numbers; audio generated and listened to | Video chat and author | Not started |
 | 12 | The first-pass video assembled and exported | Author | Not started |
 | 13 | Package submitted to the second editor | Author | Not started |
+
+The video log (`docs/module1-video2-log.md`) is the truth about the video's state; this table is the starting point.
 
 ## 9. Package for the second editor
 

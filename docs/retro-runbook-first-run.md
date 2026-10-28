@@ -126,6 +126,8 @@
 85. `http://localhost:8080/feature/advanced` returns the flag JSON, a candidate for a scripted flag check.
 86. The service count was 17 in one snapshot and 18 during the rehearsal (and in the lab): a snapshot, not a count.
 87. The send rate was about 4,800 samples a second at 1 hour 40 minutes, so the "ramp to about 3,000" estimate was low. The expected-values table now has both readings.
+88. (From the Video 2 work.) Not every Elasticsearch API exists on Serverless: the field-mapping API returned `410 api_not_available_exception`. The runbook's Dev Tools commands (`GET _data_stream/...`, `DELETE _data_stream/...`, the `_security/api_key` calls) all worked, but any new command must be tried on Serverless before it goes into the runbook.
+89. (From the author's check, Oct 28.) After a day, the data stream has two backing indices (`...2026.10.26-000001` and `...2026.10.27-000002`), so it rolled over. The runbook's "one backing index" expectation (A7 step 3 and B6) holds on a fresh stack only. The `filter_path` form `GET metrics-generic.prometheus-default/_mapping?filter_path=*.mappings.properties.labels.properties.service_name` works on Serverless where the field-mapping form returns 410, and it showed `labels.service_name` as a keyword with `time_series_dimension: true` in both indices.
 
 ### Automation track (raised by the author, Oct 26)
 
@@ -144,7 +146,7 @@
 | Host checks | 13, 14, 19, 25, 28 to 35 | Docker running; memory and disk from the right settings; the allowed and forbidden cleanup; the laptop's known leftovers |
 | Leftover demo folder | 15 to 18, 20 to 23 | A path for an existing folder: the version pin, a full untracked-file list, stale `.bak` and `.tmp` files, dates and modes, never a bare `git diff` |
 | Pull and start | 26, 27, 36 to 39, 41, 62 | List images first; `up` then `ps`; T0; restart counts; first-run versus cached timings |
-| Verification | 40, 42 to 49, 64, 65, 71, 73 | The data stream and failure store checks; UTC versus local time; the right expectations for `pending` and counts |
+| Verification | 40, 42 to 49, 64, 65, 71, 73, 88, 89 | The data stream and failure store checks; UTC versus local time; the right expectations for `pending` and counts |
 | Part B | 50 to 61, 63 | The "still writing?" check, the project-label volume check, the uuid and restart-time proofs, labelled outputs |
 | Part C | 66, 67, 85 | Macs are fine; the flag command lists two services; check the 0.95 variant before Video 2; a scripted flag check is possible |
 | Warm-up and restarts | 71 to 79, 82 to 87 | The ramp in expected volume; restart facts at the time; the startup-race rule; the take gate; the weak `gap` check; the first-compaction warning |
