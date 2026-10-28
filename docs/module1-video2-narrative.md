@@ -1,32 +1,50 @@
-# Module 1, Video 2 — Narrative (seed draft v1)
+# Module 1, Video 2 — Narrative (draft v2)
 
 **Working title:** Build it up: a per-service error ratio, rung by rung
 
-**Status:** Seed draft v1 from the root chat, October 25, 2026. The Video 2 chat owns this file from now on and may use it, rewrite it or ignore it; the author decides at the start of that chat. It was written before that chat existed, and the author has not listened to it yet. For listening and reading aloud. Not the source of truth until the author approves a version. The Video 2 run-sheet does not exist yet; it is written from the approved version.
+**Status:** Draft v2, October 27, 2026. **v2 is the trainer-voice pass of the root's seed (v1, October 25), decided with the author on October 27** (log, section 2). It is not approved: the author has not listened to v1 or v2. When it is approved, this file is the narrative of record. This is the *normalized narration*, the text an instructor or the speech engine reads, bound by `docs/narration-voice-guide.md`. The slide-shape versions of the hook and the recap are separate, derived artifacts (contract, section 8, row 5) and do not exist yet. The Video 2 run-sheet does not exist yet; it is written from the approved version.
 
-**Length:** about 784 spoken words in the main blocks, with the placeholders counted as one word each, plus 92 words in the two optional blocks. The target is 7 to 10 minutes with the demos and the pauses on screen (an estimate, not measured). No hard limit.
+**History:** v1 (Oct 25) was the root's seed. In v2 the structure is kept: the four ideas, the two question-and-answer pairs as separate blocks, and the two optional beats. What changed:
+- **The hook** now follows the guide's five parts: the viewer's stakes, the objective in learning objective 2's own words (with TSDS spelled out), the method, the level and scope, and a viewing task.
+- **Idea 1 is reordered** (approved Oct 27): each Prometheus run is followed by its Elastic partner, so there are two pairs (with the `!=` matcher, then without it) and then the question. The placeholder `{{SECONDS_A}}` splits into `{{SECONDS_A}}` and `{{SECONDS_A_BASE}}`.
+- **Idea 1's baseline sentence is corrected.** The seed said frontend "jumps" to a larger count once the not-equals is removed. The count by service name and status code returns one row per status code, so in the lab (R2, Oct 21) the frontend row with status code unset stayed at 36 and a new row appeared, frontend with status code error, at 14. v2 says that, and the placeholders `{{A_BASE_FRONTEND_PROM}}` and `{{A_BASE_FRONTEND_ELASTIC}}` become `{{A_ERR_FRONTEND_PROM}}` and `{{A_ERR_FRONTEND_ELASTIC}}`.
+- **Absolutes removed or scoped:** "the only question that matters", "That's all the not-equals did", "never shows up", "every series collapses", "just works", "We only changed a number", "every row on top has a partner underneath", "That's the whole climb", and "exactly one time series" (optional block). "A counter on its own just climbs" became "keeps climbing" (a counter can reset when a service restarts, register row 48). "The whole system" became "the total across our services, as this metric counts them".
+- **Control cues:** every execution now says "Let's run it." The screen notes use the control names Video 1 observed on the author's screens (Execute in Prometheus; Search or Cmd+Enter in Discover); they are re-observed before the run-sheet.
+- **Agreement statements** carry the gap in seconds and, for values, the number of leading digits the two share (`{{DIGITS_B}}`, `{{DIGITS_C}}`, `{{DIGITS_D}}`), as register row 64 decides. No percent form is used (decision 7, Oct 27).
+- **"No errors" became "no error series"** in the missing-rows sentence: in the lab's R8 run, six services appeared with a ratio of exactly 0, so they have an error series with no increase in the window, while ten others had no error series and were absent.
+- **One sentence added in idea 1** (Elastic, first pair): it says which part of the wrapper makes which choice, because the wrapper first appears on screen there and the setup block names the three choices without showing them. The author can strike it.
+- **The closing** keeps the contract's line and adds one durable sentence about Elastic's documentation, with no pointer to another video (decision 5).
 
-**The spine:** the viewer builds the answer to "which services are failing, and how often?" from four small ideas, one at a time, and checks each against Prometheus. The video is strictly standalone: the setup block restates what it needs, and nothing depends on another video.
+**Length:** 1207 spoken words in the main blocks, with the placeholders counted as one word each, plus 96 in the two optional blocks (counted by script). At an assumed 150 words a minute that is about 8.0 minutes of speech before the demos and the pauses on screen (an estimate, not measured). The contract's target is 7 to 10 minutes with the demos and pauses on screen; there is no hard limit on the narration's length.
+
+**The spine:** the viewer builds the answer to "which of our services are failing, and how often?" from four small ideas, one at a time, and checks each against Prometheus. The objective is stated early, in learning objective 2's words. The video is strictly standalone: the setup block restates what it needs, and nothing depends on another video.
 
 ## How to read this
 
 - Each block in a code fence is **spoken text**. Copy it into the speech engine as is.
 - The italic line above a block says what is on screen.
 - `{{LIKE_THIS}}` is a number that comes from this video's take log. Nothing is final until the placeholders are filled.
-- A block marked **OPTIONAL** depends on an open decision (3 or 5 in the outline) and is not counted in the main length.
+- A block marked **OPTIONAL** depends on an open decision (3 or 5 in the outline; both deferred on Oct 27) and is not counted in the main length.
 - A question and its answer are separate blocks, so the silence between them is a 3-second pause placed in the edit, not something the speech engine has to produce.
 - **Spellings** follow the Video 1 narrative: `prom-Q-L`, `E-S-Q-L`, `S-L-Os`, metric names as words, `frontend proxy` for the service name with the hyphen.
+- **Spoken numbers** (a proposal, still open at the root): counts whole, rates to three decimals, seconds whole.
 
 ---
 
 ## Hook
 
-*Slide: a claim, not a transition. The question in large type, then the four ideas as a stack. The shape is chosen when the slide narration is derived from this block.*
+*Slide: a claim, not a transition. The slide-shape version, with an explicit shape, is derived from this text (contract, section 8, row 5) and does not exist yet.*
 
 ```
-Somebody asks, and it's the only question that matters: which services are failing, and how often?
+You can already pull a request rate out of prom-Q-L. The question people actually ask is harder: which of our services are failing, and how often? In prom-Q-L, that question has a name. It's an error ratio, one per service, and it looks like a lot to write.
 
-In prom-Q-L, that question has a name. It's an error ratio, one per service, and it looks harder than it is, because it's built from four small ideas that stack. Pick out the series you care about. Turn a counter into a rate, and add it up. Scale the result with a little arithmetic. And divide one aggregate by another. We'll build it one idea at a time, run each step in Prometheus and then in Elastic, and check that the answers agree.
+So here's what this video is for. By the end, you'll be able to write and execute prom-Q-L against a live Elastic time series data stream. That means instant vectors, range vectors reduced by functions, aggregation, and arithmetic between aggregated results, getting results a Prometheus user would already expect.
+
+To get there, we'll build the error ratio from four small ideas that stack. We'll pick out the series we care about with label matchers. Then we'll turn a counter into a rate and add it up, scale the result with a little arithmetic, and divide one aggregate by another. Each idea runs in Prometheus first, then in Elastic.
+
+I'll assume you're comfortable with prom-Q-L, so we'll spend our time on what's new in Elastic. And at the end, we'll be plain about the limits.
+
+Now, don't take my word for the result. As each pair runs, watch two things: what the new idea adds to the expression, and whether the numbers agree.
 ```
 
 ## Setup
@@ -34,41 +52,53 @@ In prom-Q-L, that question has a name. It's an error ratio, one per service, and
 *Prometheus on the Table tab, then Kibana Discover in E-S-Q-L mode with the date picker on the last hour. About 30 seconds.*
 
 ```
-Here's the setup. Prometheus, on the Table tab. Kibana Discover in E-S-Q-L mode, running Elastic's prom-Q-L command. Your expression sits inside the parentheses, and a wrapper around it makes three choices: where it runs, when it's evaluated, and what to call the answer. The date picker stays on the last hour, because the command only sees data inside that range. And our metric is traces span metrics calls total, a counter the OpenTelemetry Collector builds from traces.
+Let's look at what we're working with. On one screen, Prometheus, on the Table tab. On the other, Kibana's Discover, in E-S-Q-L mode. E-S-Q-L is Elastic's query language, and it has a command for running prom-Q-L. Your expression goes inside the parentheses, and here a wrapper around it makes three choices: where it runs, when it's evaluated, and what to call the answer. The date picker stays on the last hour, because the command reads only the data inside that range. And our metric is traces span metrics calls total, a counter that the OpenTelemetry Collector builds from traces.
 ```
 
 ## OPTIONAL: what a series is (decision 3)
 
-*Slide, a short layered or card shape, decided after the docs check. Include only if the wording holds up against the TSDS pages (register row 41).*
+*Slide, a short layered or card shape, decided after the docs check. Include only if the wording holds up against the TSDS pages and the mapping check on the stack (decision 3, deferred Oct 27; register row 41).*
 
 ```
-Underneath all of this, a series is one metric with one particular set of labels. In Elastic, a time series data stream stores each observation as a document that belongs to exactly one time series.
+Underneath this is the series. You know it as one metric with one particular set of labels. In Elastic, a time series data stream stores each observation as a document, and each document belongs to one time series.
 ```
 
 ## Idea 1: narrow the field
 
-*Prometheus: the count expression with the regex and the not-equals matcher is pasted, the cursor underlines the regex and then the not-equals, then Execute. Then the same expression without the not-equals.*
+*Prometheus: the count expression with the regex and the not-equals matcher is pasted, the cursor underlines the regex and then the not-equals, then Execute. The cursor rests on the frontend row.*
 
 ```
-First idea: narrow the field. You rarely want every series. You want some of them, and that's what label matchers are for. Here's a regex, service name matches frontend or checkout, plus a negative, status code is not error. To see which series survive, we count them, by service name and status code. Run it. Frontend has {{A_FRONTEND_PROM}} series. Now take the not-equals away and run it again, and the error series come back, so frontend jumps to {{A_BASE_FRONTEND_PROM}}. That's all the not-equals did: it removed the errors.
+Let's start with the first idea: narrowing the field. You usually want a subset of the series, and label matchers are how you choose. Here we use a regex, service name matches frontend or checkout, plus a negative, status code is not error. To see which series survive, we count them, by service name and status code. Let's run it. Frontend has {{A_FRONTEND_PROM}} series.
 ```
 
-*Elastic: the same two expressions inside the wrapper, run with and without the not-equals.*
+*Elastic: the same expression inside the wrapper, run right after the Prometheus one, in the same continuous take. The cursor underlines the expression in the parentheses, then index, time and the result name, then Search or Cmd+Enter.*
 
 ```
-Same expression in Elastic, inside the wrapper. Frontend: {{A_FRONTEND_ELASTIC}} series with the matcher and {{A_BASE_FRONTEND_ELASTIC}} without it, against {{A_FRONTEND_PROM}} and {{A_BASE_FRONTEND_PROM}} in Prometheus. The runs were about {{SECONDS_A}} seconds apart.
+Now the same thing in Elastic. The text inside the parentheses is the expression. Around it is the wrapper. Index is where it runs. Time is when it's evaluated: once, at the end of the date picker's range. And the name out front is what we call the answer. Let's run it. Frontend has {{A_FRONTEND_ELASTIC}} series, against {{A_FRONTEND_PROM}} in Prometheus. The two runs were about {{SECONDS_A}} seconds apart.
+```
+
+*Prometheus: the same expression with the not-equals removed, then Execute. The error rows appear; the cursor rests on the frontend row with status code error.*
+
+```
+Now take the not-equals away, and run the same count again. Let's run it. The error series come back as new rows. Frontend, with status code error, has {{A_ERR_FRONTEND_PROM}} series.
+```
+
+*Elastic: the same expression with the not-equals removed, run right after, in the same continuous take. The cursor rests on the frontend row with status code error.*
+
+```
+And in Elastic, with the not-equals removed. Let's run it. Frontend with status code error has {{A_ERR_FRONTEND_ELASTIC}} series, against {{A_ERR_FRONTEND_PROM}} in Prometheus, about {{SECONDS_A_BASE}} seconds apart. So the series the not-equals removed were the error series, in both systems.
 ```
 
 *Question: the regex is on screen. Hold 3 seconds after the question.*
 
 ```
-A question before we move on. That regex says frontend or checkout. Will it also match frontend proxy? Take a second.
+A question, before we continue. That regex says frontend or checkout. Will it also match frontend proxy? Take a second.
 ```
 
 *Answer: the result with no frontend proxy row stays on screen.*
 
 ```
-No. A regex matcher has to match the whole value, so frontend proxy never shows up, in Prometheus or in Elastic.
+No. A regex matcher has to match the whole value, and frontend proxy is more than frontend, so there's no frontend proxy row in Prometheus or in Elastic.
 ```
 
 ## Idea 2: how much, in total
@@ -76,30 +106,30 @@ No. A regex matcher has to match the whole value, so frontend proxy never shows 
 *Prometheus: the whole-system rate is pasted, the cursor underlines the five-minute window and then the sum, then Execute. A single value appears with empty curly braces.*
 
 ```
-Second idea: how much, in total. A counter on its own just climbs, so we ask for its rate, calls per second over a five minute window, and then add everything up with sum. Nothing after the sum means every series collapses into one number: the whole system's calls per second. Run it. {{B_PROM}}. Prometheus shows it with an empty set of curly braces, because there's no label left to show.
+Now the second idea: how much, in total. A counter keeps climbing, so on its own it says little about right now. What you want is its rate, calls per second averaged over a five minute window. Then we add the series up with sum. With nothing after the sum, they add up into a single number: the total calls per second across our services, as this metric counts them. Let's run it. {{B_PROM}} calls per second. Prometheus shows it with an empty set of curly braces, because there's no label left to show.
 ```
 
-*Elastic: the same expression inside the wrapper, then Run. One value and its time.*
+*Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. One value and its time.*
 
 ```
-In Elastic, same expression, same wrapper. {{B_ELASTIC}}, about {{SECONDS_B}} seconds after the Prometheus run. No empty braces here, just the value and the time it was evaluated.
+In Elastic, it's the same expression inside the same wrapper, with a new name for the answer: total rate. Let's run it. {{B_ELASTIC}} calls per second, against {{B_PROM}} in Prometheus. The runs were about {{SECONDS_B}} seconds apart, and the values agree to {{DIGITS_B}} digits. There are no curly braces here. Elastic shows the value and the time it was evaluated.
 ```
 
 ## Idea 3: scale it with arithmetic
 
-*Prometheus: the sum-by expression times sixty is pasted, the cursor underlines the by clause and then the times sixty, then Execute. One row per service, the cursor rests on the frontend row.*
+*Prometheus: the sum-by expression times sixty is pasted, the cursor underlines the by clause and then the times sixty, then Execute. One row per service; the cursor rests on the frontend row.*
 
 ```
-Third idea: arithmetic. Put a by clause back, sum by service name, so we get one row per service, and multiply the whole thing by sixty. Calls per second become calls per minute. Arithmetic with a plain number just works, and the labels come along for the ride. Frontend reads {{C_FRONTEND_PROM}} calls per minute.
+Third idea: arithmetic with a plain number. We put a by clause back, sum by service name, so we get one row per service, and then we multiply by sixty. That turns calls per second into calls per minute. Arithmetic with a plain number scales each value, and the labels stay attached. Let's run it. Frontend reads {{C_FRONTEND_PROM}} calls per minute.
 ```
 
-*Elastic: the same expression inside the wrapper, then Run. The cursor rests on the frontend row.*
+*Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. The cursor rests on the frontend row.*
 
 ```
-Elastic: {{C_FRONTEND_ELASTIC}}, about {{SECONDS_C}} seconds apart.
+In Elastic, the same expression inside the same wrapper. Let's run it. Frontend reads {{C_FRONTEND_ELASTIC}}, against {{C_FRONTEND_PROM}} in Prometheus. The runs were about {{SECONDS_C}} seconds apart, and the values agree to {{DIGITS_C}} digits.
 ```
 
-*Question on screen: the expression. Hold 3 seconds after the question.*
+*Question: the expression is on screen. Hold 3 seconds after the question.*
 
 ```
 Another question. What would the frontend row say if we multiplied by thirty-six hundred instead of sixty?
@@ -108,86 +138,95 @@ Another question. What would the frontend row say if we multiplied by thirty-six
 *Answer: the frontend row stays on screen.*
 
 ```
-About sixty times as much, because that's calls per hour. We only changed a number.
+Sixty times as much, because thirty-six hundred is sixty times sixty. That's calls per hour, from changing one number.
 ```
 
 ## Idea 4: divide one aggregate by another
 
-*Prometheus: the error-ratio expression is pasted. The cursor underlines the numerator, then the denominator, then the slash, then Execute. A table of services appears, the cursor rests on the payment row.*
+*Prometheus: the error-ratio expression is pasted. The cursor underlines the numerator, then the denominator, then the slash, then Execute. A table of services appears, and the cursor rests on the payment row.*
 
 ```
-Now the idea we came for: divide one aggregate by another. On top, the rate of calls whose status code is error, summed by service name. On the bottom, the rate of all calls, summed by service name. Divide the first by the second, and each service gets its own error ratio.
+Now the idea we came for: dividing one aggregate by another. On top, the rate of calls whose status code is error, summed by service name. On the bottom, the rate of all calls, summed by service name. Divide the first by the second, and each service that has error series gets its own error ratio.
 
-One rule makes this work, and it's worth saying plainly: aggregate both sides the same way. Here, both sides are sum by service name, so every row on top has a partner underneath.
+The rule to remember: aggregate both sides the same way. Here, both sides are sum by service name, so each service on top finds its partner underneath.
 
-To give the ratio something to show, we've switched on a feature flag in the demo that makes the payment service fail some of its requests. Run it in Prometheus. {{D_ROWS_PROM}} services come back, and payment reads {{D_PAYMENT_PROM}}.
+To give the ratio something to show, we've switched on a feature flag in the demo that makes the payment service fail some of its requests. Let's run it. {{D_ROWS_PROM}} rows come back, and payment reads {{D_PAYMENT_PROM}}.
 ```
 
-*Elastic: the same expression inside the wrapper, then Run. The cursor rests on the payment row, then the full list.*
+*Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. The cursor rests on the payment row, then on the full list.*
 
 ```
-Elastic: {{D_ROWS_ELASTIC}} services, payment at {{D_PAYMENT_ELASTIC}}, about {{SECONDS_D}} seconds apart.
+In Elastic, the same expression inside the same wrapper. Let's run it. {{D_ROWS_ELASTIC}} rows, against {{D_ROWS_PROM}} in Prometheus, and payment reads {{D_PAYMENT_ELASTIC}}, against {{D_PAYMENT_PROM}}. The runs were about {{SECONDS_D}} seconds apart, and the payment values agree to {{DIGITS_D}} digits.
 
-Now look at who's missing. A service with no error series doesn't show up as zero. It isn't in the result at all, in Prometheus or in Elastic, so a missing row means no errors were recorded for that service, not a ratio of zero.
+Now look at who's missing. A service with no error series doesn't show up as a zero. It isn't in the result at all, in Prometheus or in Elastic. So a missing row means no error series was recorded for that service, not a ratio of zero.
 ```
 
 ## OPTIONAL: watch it over time (decision 5)
 
-*Prometheus's Graph tab, then Discover's chart with the time setting removed from the wrapper. Include only if the rehearsal shows a clear chart on both sides.*
+*Prometheus's Graph tab, then Discover's chart with the time setting removed from the wrapper. Include only if the rehearsal shows a clear chart on both sides (decision 5, deferred Oct 27).*
 
 ```
-One more look. Take the time setting out of the wrapper, and Elastic runs the same expression across the whole date range instead of once, so Discover can chart it. Here's the ratio over the last hour in Prometheus's Graph tab, and here it is in Elastic. [Chart comparison sentence: written after the rehearsal shows both charts.]
+One more look, if you want to see the ratio change. Take the time setting out of the wrapper, and Elastic evaluates the expression across the date picker's range instead of once, so Discover can chart it. Let's run it, first in Prometheus's Graph tab, then in Elastic. [Chart comparison sentence: written after the rehearsal shows both charts.]
 ```
 
 ## Recap
 
-*Slide: four peer cards (shape C): matchers, a rate aggregated across series, arithmetic with a scalar, a ratio of two aggregates.*
+*Slide: four peer cards (shape C): matchers, a rate aggregated across series, arithmetic with a scalar, a ratio of two aggregates. The slide-shape version is derived from this text (contract, section 8, row 5) and does not exist yet.*
 
 ```
-That's the whole climb. Matchers pick the series. A rate, summed, turns a counter into one number. Arithmetic scales it. And a ratio of two aggregates, aggregated the same way, answers the question you actually get asked: which services are failing, and how often. Four small ideas, one expression, and the same text in Prometheus and in Elastic.
+Let's come back to what we set out to do: write and execute prom-Q-L against a live Elastic time series data stream, getting results a Prometheus user would already expect. You've now built the error ratio one idea at a time. Label matchers picked out the series. A rate, summed, turned a counter into one number. Arithmetic with a plain number scaled it. And a ratio of two aggregates, aggregated the same way, answered the question you actually get asked: which of our services are failing, and how often. Each time, it was the same expression in Prometheus and in Elastic, and the numbers agreed.
 
-Most of prom-Q-L works this way, though not all of it, and the edges are worth knowing before you rely on them.
+There's one caution, because we said we'd be plain about the limits. Most of prom-Q-L works this way, though not all of it, and the edges are worth knowing before you rely on them. Elastic's documentation keeps the current list of what isn't supported, so check it before you move something you depend on.
 ```
 
 ---
 
 ## Placeholders
 
-Every number is spoken, none is captioned. A Prometheus value and its Elastic partner come from the same take, with the seconds between the two runs.
+Every number is spoken, none is captioned. A Prometheus value and its Elastic partner come from the same take, with the seconds between the two runs. Twenty placeholders in the main blocks (the optional blocks add none).
 
-| Placeholder | Meaning | Source |
+| Placeholder | Meaning | Source and form |
 |---|---|---|
-| `{{A_FRONTEND_PROM}}`, `{{A_FRONTEND_ELASTIC}}` | Frontend series count with the `!=` matcher, idea 1 | Take log |
-| `{{A_BASE_FRONTEND_PROM}}`, `{{A_BASE_FRONTEND_ELASTIC}}` | Frontend series count without the `!=` matcher (baseline), idea 1 | Take log |
-| `{{SECONDS_A}}` | Seconds between the Prometheus and Elastic runs, idea 1 | Take log |
-| `{{B_PROM}}`, `{{B_ELASTIC}}` | Whole-system calls per second, idea 2 | Take log |
-| `{{SECONDS_B}}` | Seconds between the runs, idea 2 | Take log |
-| `{{C_FRONTEND_PROM}}`, `{{C_FRONTEND_ELASTIC}}` | Frontend calls per minute, idea 3 | Take log |
-| `{{SECONDS_C}}` | Seconds between the runs, idea 3 | Take log |
-| `{{D_ROWS_PROM}}`, `{{D_ROWS_ELASTIC}}` | Services returned by the error ratio, idea 4 (read the Elastic count from Discover; the lab never recorded it) | Take log |
-| `{{D_PAYMENT_PROM}}`, `{{D_PAYMENT_ELASTIC}}` | Payment's error ratio, idea 4 | Take log |
-| `{{SECONDS_D}}` | Seconds between the runs, idea 4 | Take log |
+| `{{A_FRONTEND_PROM}}`, `{{A_FRONTEND_ELASTIC}}` | Series count of the frontend row in the first pair (with the `!=` matcher) | Take log; whole numbers |
+| `{{SECONDS_A}}` | Seconds between the Prometheus and Elastic runs, first pair | Take log; read from the footage; whole seconds |
+| `{{A_ERR_FRONTEND_PROM}}`, `{{A_ERR_FRONTEND_ELASTIC}}` | Series count of the row "frontend, status code error" in the second pair (without the `!=` matcher). Replace `{{A_BASE_FRONTEND_*}}` of the seed | Take log; whole numbers |
+| `{{SECONDS_A_BASE}}` | Seconds between the runs, second pair | Take log; whole seconds |
+| `{{B_PROM}}`, `{{B_ELASTIC}}` | Total calls per second, idea 2 | Take log; three decimals |
+| `{{SECONDS_B}}`, `{{DIGITS_B}}` | Seconds between the runs, and the leading significant digits the two values share, idea 2 | Take log; computed from the full-precision values |
+| `{{C_FRONTEND_PROM}}`, `{{C_FRONTEND_ELASTIC}}` | Frontend calls per minute, idea 3 | Take log; three decimals |
+| `{{SECONDS_C}}`, `{{DIGITS_C}}` | Seconds between the runs, and the digits the two values share, idea 3 | Take log; computed |
+| `{{D_ROWS_PROM}}`, `{{D_ROWS_ELASTIC}}` | Rows returned by the error ratio, idea 4 ("Result series: N" and "N results"; the lab never recorded the Elastic count) | Take log; whole numbers |
+| `{{D_PAYMENT_PROM}}`, `{{D_PAYMENT_ELASTIC}}` | Payment's error ratio, idea 4 | Take log; form still open (see "Still open") |
+| `{{SECONDS_D}}`, `{{DIGITS_D}}` | Seconds between the runs, and the digits the two payment values share, idea 4 | Take log; computed |
 
-Rule: if a number disagrees with a sentence, rewrite the sentence. Spoken forms (rounding, words) are tested with Qwen3 before the final audio, as for Video 1.
+Rule: if a number disagrees with a sentence, rewrite the sentence. A digits sentence ("agree to N digits") counts the leading significant digits the two full-precision values share (register row 64); if they share only a few (under about four), the sentence changes, not the number. Spoken forms (rounding, words) are tested with Qwen3 before the final audio, as for Video 1.
 
 ## Claims to confirm
 
 | Sentence | Confirm against | Status |
 |---|---|---|
-| "That's all the not-equals did: it removed the errors" | The baseline count minus the count with `!=` equals the error-series count (lab R2, Oct 21: 14 for frontend; verify in the take) | Open (the take) |
-| "A regex matcher has to match the whole value, so frontend proxy never shows up" | Register row 29; lab R2; check on both sides in the take | Open (the take) |
-| "Prometheus shows empty curly braces ... Elastic: just the value and the time it was evaluated" | Register row 38 and lab R5 | Docs (Oct 25) |
-| "Arithmetic with a plain number just works, and the labels come along" | Register row 21 and lab R7 | Docs, verified |
-| "About sixty times as much, because that's calls per hour" | Arithmetic: 3600 divided by 60 | Verified by arithmetic |
-| "Aggregate both sides the same way" | Register row 21 (Elastic's limitations page) and lab R8 | Docs, verified |
-| "A feature flag in the demo makes the payment service fail some of its requests" | The demo's flag configuration and a measurement of its effect (register row 14, open). Wait at least one rate window (five minutes) after switching it on, an inference to test in the rehearsal | Open |
-| "A service with no error series ... isn't in the result at all, in Prometheus or in Elastic" | Register row 32; lab R8 (the same 10 services were absent on both sides on Oct 21) | Verified (old dataset); re-check |
-| "The command only sees data inside that range" | Register row 19 | Verified (effect) |
-| "traces span metrics calls total ... the OpenTelemetry Collector builds from traces" | `docs/otel-collector-reference.md` | Docs |
-| "A wrapper around it makes three choices" | Register row 36 | Docs (Oct 25) |
-| "Most of prom-Q-L works this way, though not all of it" | Register row 1 and the command page | Docs (Oct 25) |
+| Idea 1, first pair: the frontend row with the `!=` matcher has N series on both sides | The take; lab R2 (Oct 21, previous dataset: frontend 36, checkout 8, both status code unset) | Open (the take) |
+| Idea 1, second pair: "The error series come back as new rows" and "the series the not-equals removed were the error series, in both systems" | The baseline run's new rows are the status code error rows, and the first pair's rows are unchanged. Lab R2 (Oct 21): frontend 14 and checkout 2 error series appeared, and frontend 36 plus 14 equals the 50 of R1 | Open (the take) |
+| "A regex matcher has to match the whole value ... no frontend proxy row in Prometheus or in Elastic" | Register row 29; lab R2; check both results in the take | Verified (lab, Oct 21); open (the take) |
+| "Prometheus shows it with an empty set of curly braces ... Elastic shows the value and the time it was evaluated" | Register row 38 and lab R5 | Docs (Oct 25); observed in lab R5 (Oct 21) |
+| "Arithmetic with a plain number scales each value, and the labels stay attached" | Register row 21 and lab R7 | Docs; verified (lab R7, Oct 21) |
+| "Sixty times as much, because thirty-six hundred is sixty times sixty" | Arithmetic | Verified by arithmetic |
+| "Aggregate both sides the same way ... each service on top finds its partner underneath" | Register row 21 (Elastic's limitations page) and lab R8 | Docs; verified (lab R8, Oct 21) |
+| "A feature flag in the demo makes the payment service fail some of its requests" | The demo's flag configuration (register row 63: `paymentFailure` is off, its "90%" variant has the value 0.95) and a measurement of its effect (register row 14, open). Wait at least one rate window (five minutes) after switching it on, an inference to test in the rehearsal | Open |
+| "A service with no error series ... isn't in the result at all, in Prometheus or in Elastic" | Register row 32; lab R8 (the same 10 services absent on both sides on Oct 21; six services were present with a ratio of 0) | Verified (previous dataset); re-check in the take |
+| "The command reads only the data inside that range" | Register rows 19 and 51; lab R4. Re-read the command page and record the retrieval date | Verified (effect); open (the re-read) |
+| "Traces span metrics calls total ... a counter that the OpenTelemetry Collector builds from traces" | Register row 45 and `docs/otel-collector-reference.md` | Docs (partly) |
+| "Here a wrapper around it makes three choices"; "index is where it runs, time is when it's evaluated, once, at the end of the date picker's range, and the name out front is what we call the answer" | Register rows 36 and 37 | Docs (Oct 25); lab R1, R3 and R6 used the options |
+| "A counter keeps climbing" | Register row 48 (a counter can reset when a service restarts) | Docs |
+| "A rate ... calls per second averaged over a five minute window" | Elastic's range-vector functions page, as quoted in the handoff glossary | Docs |
+| "The values agree to N digits" (ideas 2, 3 and 4) | The take: computed from full-precision values; the sentence changes if few digits are shared (register row 64) | Open until the take |
+| "The numbers agreed" and "the same expression in Prometheus and in Elastic" (recap) | The take's own numbers; the expression text is identical on both sides (checked in the run-sheet by script) | Open until the take |
+| "Write and execute prom-Q-L against a live Elastic time series data stream" (the objective, in the hook and the recap): that the demo's data stream is a time series data stream | Register row 41; a mapping check on the stack (the data stream's index mode) | **Open.** If the check fails, the sentence changes, not the stack |
+| "Most of prom-Q-L works this way, though not all of it" | Register row 1 and the command page | Docs (Oct 25); re-read before the take |
+| "Elastic's documentation keeps the current list of what isn't supported" | The limitations page (register rows 1 and 40). Record the retrieval date | Open (the re-read) |
 | OPTIONAL: "a series is one metric with one particular set of labels" | The Prometheus data model page (to read) | Open |
-| OPTIONAL: "each observation is a document that belongs to exactly one time series" | Register row 41 (TSDS page, read in part) | Docs (partly) |
+| OPTIONAL: "a time series data stream stores each observation as a document, and each document belongs to one time series" | Register row 41 (TSDS page, read in part) | Docs (partly) |
+| OPTIONAL: "Take the time setting out of the wrapper, and Elastic evaluates the expression across the date picker's range instead of once" | Register rows 37 and 51; the lab's range-query forms | Docs |
 | OPTIONAL: the chart comparison sentence | The rehearsal: both charts on screen | Open |
 
 ## Listening notes (fill in)
@@ -200,9 +239,11 @@ Rule: if a number disagrees with a sentence, rewrite the sentence. Spoken forms 
 
 ## Still open
 
-- Hear it through the speech engine (Qwen3), then revise (iteration 2).
-- The setup block is about 30 seconds against a target of about 20; trim it if the listening test says it drags.
-- Outline decisions 3 (series slide), 5 (range chart) and 7 (percent form, not used here) are open.
-- The size of the payment flag's effect is unmeasured, so `{{D_PAYMENT_PROM}}` and `{{D_PAYMENT_ELASTIC}}` stay placeholders until the rehearsal.
-- Slide narrations for the hook and the recap, derived from this piece with an explicit shape for the slide generator.
+- Hear v2 through the speech engine (Qwen3), then revise (iteration 2). The author has not heard v1 or v2.
+- The setup block is at the contract's about 30 seconds on screen; the listening test says whether it drags.
+- Outline decisions 3 (series slide) and 5 (range chart) are deferred; decision 7 (percent form) is settled as not used.
+- The spoken form of the ratio in idea 4 (`{{D_PAYMENT_PROM}}`): three decimals may lose too much of a small ratio. Decide after the flag's effect is measured.
+- Whether the take's idea 4 table shows rows that read zero (as the lab's R8 run did), and whether a sentence is then needed to say what a zero row means.
+- The control names in the screen notes (Execute, Search, Cmd+Enter) are from Video 1; re-observe them before the run-sheet.
+- Slide narrations for the hook and the recap, derived from this piece with an explicit shape for the slide generator (the recap is shape C; the hook's shape is not chosen).
 - The Video 2 run-sheet, written after this narrative is approved.
