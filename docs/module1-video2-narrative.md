@@ -2,7 +2,7 @@
 
 **Working title:** Build it up: a per-service error ratio, rung by rung
 
-**Status:** Draft v2, October 27, 2026. **v2 is the trainer-voice pass of the root's seed (v1, October 25), decided with the author on October 27** (log, section 2). It is not approved: the author has not listened to v1 or v2. When it is approved, this file is the narrative of record. This is the *normalized narration*, the text an instructor or the speech engine reads, bound by `docs/narration-voice-guide.md`. The slide-shape versions of the hook and the recap are separate, derived artifacts (contract, section 8, row 5) and do not exist yet. The Video 2 run-sheet does not exist yet; it is written from the approved version.
+**Status:** Draft v2.1, October 28, 2026 (v2 is commit `a804543`). **v2 is the trainer-voice pass of the root's seed (v1, October 25), decided with the author on October 27** (log, section 2). The author accepted it on October 27 as the working text for review and recording; changes are expected from the reviewers and from the take, and meanwhile only edits that the numbers or the facts force. This is the *normalized narration*, the text an instructor or the speech engine reads, bound by `docs/narration-voice-guide.md`. The slide-shape versions of the hook and the recap are separate, derived artifacts (contract, section 8, row 5); they live in the run-sheet (`docs/module1-video2-run-sheet.md`, beats 1 and 8), which is written from this file.
 
 **History:** v1 (Oct 25) was the root's seed. In v2 the structure is kept: the four ideas, the two question-and-answer pairs as separate blocks, and the two optional beats. What changed:
 - **The hook** now follows the guide's five parts: the viewer's stakes, the objective in learning objective 2's own words (with TSDS spelled out), the method, the level and scope, and a viewing task.
@@ -14,8 +14,9 @@
 - **"No errors" became "no error series"** in the missing-rows sentence: in the lab's R8 run, six services appeared with a ratio of exactly 0, so they have an error series with no increase in the window, while ten others had no error series and were absent.
 - **One sentence added in idea 1** (Elastic, first pair): it says which part of the wrapper makes which choice, because the wrapper first appears on screen there and the setup block names the three choices without showing them. The author can strike it.
 - **The closing** keeps the contract's line and adds one durable sentence about Elastic's documentation, with no pointer to another video (decision 5).
+- **v2.1 (October 28, decision 3):** the optional series block is reworded so that every part of it is backed by the current TSDS page (the clause "each document belongs to one time series" is not on it). The claims table is refreshed for the objective and the optional rows, and this status line and the "Still open" list are brought up to date. The 17 main blocks are unchanged.
 
-**Length:** 1207 spoken words in the main blocks, with the placeholders counted as one word each, plus 96 in the two optional blocks (counted by script). At an assumed 150 words a minute that is about 8.0 minutes of speech before the demos and the pauses on screen (an estimate, not measured). The contract's target is 7 to 10 minutes with the demos and pauses on screen; there is no hard limit on the narration's length.
+**Length:** 1207 spoken words in the main blocks, with the placeholders counted as one word each, plus 100 in the two optional blocks (counted by script). At an assumed 150 words a minute that is about 8.0 minutes of speech before the demos and the pauses on screen (an estimate, not measured). The contract's target is 7 to 10 minutes with the demos and pauses on screen; there is no hard limit on the narration's length.
 
 **The spine:** the viewer builds the answer to "which of our services are failing, and how often?" from four small ideas, one at a time, and checks each against Prometheus. The objective is stated early, in learning objective 2's words. The video is strictly standalone: the setup block restates what it needs, and nothing depends on another video.
 
@@ -24,7 +25,7 @@
 - Each block in a code fence is **spoken text**. Copy it into the speech engine as is.
 - The italic line above a block says what is on screen.
 - `{{LIKE_THIS}}` is a number that comes from this video's take log. Nothing is final until the placeholders are filled.
-- A block marked **OPTIONAL** depends on an open decision (3 or 5 in the outline; both deferred on Oct 27) and is not counted in the main length.
+- A block marked **OPTIONAL** can be cut and is not counted in the main length. Decision 3 (the series block) was settled on Oct 28: kept, reworded. Decision 5 (the range chart) is deferred.
 - A question and its answer are separate blocks, so the silence between them is a 3-second pause placed in the edit, not something the speech engine has to produce.
 - **Spellings** follow the Video 1 narrative: `prom-Q-L`, `E-S-Q-L`, `S-L-Os`, metric names as words, `frontend proxy` for the service name with the hyphen.
 - **Spoken numbers** (a proposal, still open at the root): counts whole, rates to three decimals, seconds whole.
@@ -57,10 +58,10 @@ Let's look at what we're working with. On one screen, Prometheus, on the Table t
 
 ## OPTIONAL: what a series is (decision 3)
 
-*Slide, a short layered or card shape, decided after the docs check. Include only if the wording holds up against the TSDS pages and the mapping check on the stack (decision 3, deferred Oct 27; register row 41).*
+*Text or a slide on screen, about 17 seconds; its form is still open (a toolkit slide needs 90 to 180 spoken words, and this block has 42). Decision 3 settled Oct 28: kept, reworded, and cut-able.*
 
 ```
-Underneath this is the series. You know it as one metric with one particular set of labels. In Elastic, a time series data stream stores each observation as a document, and each document belongs to one time series.
+Underneath this is the series. You know it as one metric with one particular set of labels. In Elastic, a time series data stream stores each observation as a document: a timestamp, dimension fields that identify the series, and the metric values.
 ```
 
 ## Idea 1: narrow the field
@@ -221,11 +222,11 @@ Rule: if a number disagrees with a sentence, rewrite the sentence. A digits sent
 | "A rate ... calls per second averaged over a five minute window" | Elastic's range-vector functions page, as quoted in the handoff glossary | Docs |
 | "The values agree to N digits" (ideas 2, 3 and 4) | The take: computed from full-precision values; the sentence changes if few digits are shared (register row 64) | Open until the take |
 | "The numbers agreed" and "the same expression in Prometheus and in Elastic" (recap) | The take's own numbers; the expression text is identical on both sides (checked in the run-sheet by script) | Open until the take |
-| "Write and execute prom-Q-L against a live Elastic time series data stream" (the objective, in the hook and the recap): that the demo's data stream is a time series data stream | Register row 41; a mapping check on the stack (the data stream's index mode) | **Open.** If the check fails, the sentence changes, not the stack |
+| "Write and execute prom-Q-L against a live Elastic time series data stream" (the objective, in the hook and the recap): that the demo's data stream is a time series data stream | The current TSDS page and the Prometheus remote write page (both retrieved Oct 27); the runbook's A7.3 (`index_mode: time_series`, first run); the stack's mapping check (Oct 28, one field: `labels.service_name` is a dimension in both backing indices; the root records it as register row 65) | **Supported.** The rehearsal's step B6.3 shows the index mode again |
 | "Most of prom-Q-L works this way, though not all of it" | Register row 1 and the command page | Docs (Oct 25); re-read before the take |
 | "Elastic's documentation keeps the current list of what isn't supported" | The limitations page (register rows 1 and 40). Record the retrieval date | Open (the re-read) |
-| OPTIONAL: "a series is one metric with one particular set of labels" | The Prometheus data model page (to read) | Open |
-| OPTIONAL: "a time series data stream stores each observation as a document, and each document belongs to one time series" | Register row 41 (TSDS page, read in part) | Docs (partly) |
+| OPTIONAL: "a series is one metric with one particular set of labels" | The Prometheus data model page (https://prometheus.io/docs/concepts/data_model/): a series is identified by its metric name and labels, and changing a label value creates a new series | Docs (an excerpt of the official page seen in search on Oct 28; not fetched in full) |
+| OPTIONAL: "a time series data stream stores each observation as a document: a timestamp, dimension fields that identify the series, and the metric values" | The current TSDS page (read in full, Oct 27): each document holds a timestamp, dimension fields and metric fields, and metrics are identified by dimension fields; the stack's mapping check (Oct 28) shows a label as a dimension | Docs |
 | OPTIONAL: "Take the time setting out of the wrapper, and Elastic evaluates the expression across the date picker's range instead of once" | Register rows 37 and 51; the lab's range-query forms | Docs |
 | OPTIONAL: the chart comparison sentence | The rehearsal: both charts on screen | Open |
 
@@ -239,11 +240,10 @@ Rule: if a number disagrees with a sentence, rewrite the sentence. A digits sent
 
 ## Still open
 
-- Hear v2 through the speech engine (Qwen3), then revise (iteration 2). The author has not heard v1 or v2.
+- The author has heard v2 through the speech engine and finds that it reads well (Oct 27). Further changes come from the reviewers and from the recording.
 - The setup block is at the contract's about 30 seconds on screen; the listening test says whether it drags.
-- Outline decisions 3 (series slide) and 5 (range chart) are deferred; decision 7 (percent form) is settled as not used.
+- Decision 3 (the series block) is settled: kept, reworded (Oct 28). Decision 5 (the range chart) is deferred. Decision 7 (the percent form) is settled as not used.
+- The form of the optional series beat on screen: a toolkit slide needs 90 to 180 spoken words and this block has 42, so it may be a short text on screen instead. To settle with the author.
 - The spoken form of the ratio in idea 4 (`{{D_PAYMENT_PROM}}`): three decimals may lose too much of a small ratio. Decide after the flag's effect is measured.
 - Whether the take's idea 4 table shows rows that read zero (as the lab's R8 run did), and whether a sentence is then needed to say what a zero row means.
-- The control names in the screen notes (Execute, Search, Cmd+Enter) are from Video 1; re-observe them before the run-sheet.
-- Slide narrations for the hook and the recap, derived from this piece with an explicit shape for the slide generator (the recap is shape C; the hook's shape is not chosen).
-- The Video 2 run-sheet, written after this narrative is approved.
+- The control names in the screen notes (Execute, Search, Cmd+Enter) are from Video 1; the author's practice runs re-observe them.

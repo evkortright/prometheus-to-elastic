@@ -1,7 +1,7 @@
 # Module 1, Video 2 — Run-sheet (screen capture)
 
 **Video:** Build it up: a per-service error ratio, rung by rung (four ideas: label matchers, rate and sum, arithmetic with a scalar, a ratio of two aggregates)
-**Status:** Draft v1.1, Oct 28, 2026 (v1 is commit `7f417cf`). Written from narrative v2 (commit `a804543`), which the author accepted on Oct 27 as the working text for review and recording; changes are expected from the reviewers and from the take. The 17 main blocks and the 2 optional blocks below are copied by script from that narrative. If this sheet and the narrative differ, the narrative wins and this sheet is regenerated. v1.1 adds the slide-shape versions of the hook (shape A, chosen by the author on Oct 28) and the recap (shape C, from the contract) in beats 1 and 8, as separate artifacts for the slide toolkit, derived from the spoken text (contract, section 8, row 5). The decisions, results and evidence are in `module1-video2-log.md`.
+**Status:** Draft v1.2, Oct 28, 2026 (v1.1 is commit `8b82234`). Written from narrative v2.1, whose base v2 (commit `a804543`) the author accepted on Oct 27 as the working text for review and recording; changes are expected from the reviewers and from the take. v1.2 follows the narrative's one edit, the reworded optional series block (decision 3). The 17 main blocks and the 2 optional blocks below are copied by script from that narrative. If this sheet and the narrative differ, the narrative wins and this sheet is regenerated. v1.1 adds the slide-shape versions of the hook (shape A, chosen by the author on Oct 28) and the recap (shape C, from the contract) in beats 1 and 8, as separate artifacts for the slide toolkit, derived from the spoken text (contract, section 8, row 5). The decisions, results and evidence are in `module1-video2-log.md`.
 **Commands:** at the end of this file (A-P to D-E, and E-P and E-E for the optional chart), from the query lab (R2, R5, R7, R8). They ran on Oct 21 on the previous dataset and run again in the rehearsal.
 **Recording:** the laptop (macOS), with the built-in recorder (Command+Shift+5), settings below. Record without audio; the narration is generated afterwards, with the take's numbers.
 
@@ -67,7 +67,7 @@ If you paste a few practice results with their clock times, they can be checked 
 |---|---|---|---|
 | 1 | Hook (slide) | none | about 84 s |
 | 2 | Setup | one take, no query | about 40 s |
-| 2b | OPTIONAL: what a series is (slide; decision 3) | none | about 15 s |
+| 2b | OPTIONAL: what a series is (decision 3, kept) | none (a text or a slide on screen; the form is open) | about 17 s |
 | 3 | Idea 1: narrow the field, pair 1 (with the `!=` matcher) | one take: Prometheus, then Elastic | about 53 s |
 | 3 | Idea 1, pair 2 (matcher removed) | one take: Prometheus, then Elastic | about 28 s |
 | 3 | Idea 1, question and answer | none (freeze frames) | about 19 s |
@@ -156,16 +156,16 @@ Check: "reads only the data inside that range" is register row 19 (the effect wa
 
 ---
 
-## Beat 2b — OPTIONAL: what a series is (slide, no capture; decision 3)
+## Beat 2b — OPTIONAL: what a series is (no capture; decision 3)
 
-Deferred (Oct 27). Include only if the wording holds up: the current TSDS page does not contain the sentence "each document belongs to one time series" (log, section 3), so the block is reworded before any use.
+Settled Oct 28: kept, reworded, and cut-able. The block is reworded to what the current TSDS page supports (log, section 3). Its form on screen is still open: a toolkit slide needs 90 to 180 spoken words and this block has 42, so it may be a short text on screen instead.
 
-**Voice-over: what a series is (optional)** (38 words)
+**Voice-over: what a series is (optional)** (42 words)
 
 <details><summary>Show voice-over</summary>
 
 ```
-Underneath this is the series. You know it as one metric with one particular set of labels. In Elastic, a time series data stream stores each observation as a document, and each document belongs to one time series.
+Underneath this is the series. You know it as one metric with one particular set of labels. In Elastic, a time series data stream stores each observation as a document: a timestamp, dimension fields that identify the series, and the metric values.
 ```
 
 </details>
@@ -558,7 +558,7 @@ Runs after Video 1's takes, on the reset stack, with the commands in this file. 
 
 ## Checked in this file (Oct 28, by script; text only)
 
-- The 19 spoken blocks above (17 main, 2 optional) are identical to the 19 fenced blocks of narrative v2, in the same order (narrative sha256 `28694fa7c3281bb534f3b1b4e51c62e02dcd572b3d190b2296c3c6718da74c71`), and the word counts in the headings were computed from them (placeholders count as one word each).
+- The 19 spoken blocks above (17 main, 2 optional) are identical to the 19 fenced blocks of narrative v2.1, in the same order (narrative sha256 `20d28628fb1e5654dec0adeb6ce00ab245c92ebc7819a352d0f695d887b7b517`), and the word counts in the headings were computed from them (placeholders count as one word each).
 - The 20 placeholders used in the 17 main blocks are exactly the 20 in the table above; the optional blocks use none.
 - In each of the six pairs (A, A0, B, C, D and the optional E), the text between the parentheses of the Elastic line is character for character the text of the Prometheus line. The pairs differ only in the wrapper and the result name (`series`, `series`, `total_rate`, `per_minute`, `error_ratio`, `error_ratio`); E-E also drops the `time=` option.
 - All twelve commands appear verbatim in the query lab (R2, R5, R7 and R8; E-E is the lab's R8 range form). None has a sort.

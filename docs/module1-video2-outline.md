@@ -6,7 +6,7 @@
 **Target length:** flexible, about 7 to 10 minutes.
 **Format:** slides plus a live demo, with TTS narration, recorded screen first (same workflow as Video 1).
 
-**Status:** Outline only, drafted Oct 22, 2026. Nothing recorded. Narration and the run-sheet come after you approve this outline. Decisions 1, 2, 4, 6, 8 and 9 approved Oct 25, and a new decision 10 added and approved; 3, 5 and 7 are open.
+**Status:** Outline, drafted Oct 22, 2026; updated Oct 28. Nothing recorded. Decisions 1, 2, 4, 6, 8, 9 and 10 approved Oct 25; decision 7 settled Oct 27 (not used); decision 3 settled Oct 28 (kept, reworded); decision 5 deferred until the rehearsal shows both charts. The narrative (v2.1), the run-sheet (v1.2, with the slide versions) and the video log exist: `docs/module1-video2-narrative.md`, `docs/module1-video2-run-sheet.md`, `docs/module1-video2-log.md`.
 
 ---
 
@@ -28,7 +28,7 @@ Claim hygiene for this video (see the claims register in `module1-status-2026-10
 | # | Beat | On screen | Approx. |
 |---|---|---|---|
 | 1 | Hook: the question you actually ask | Slide | 0:40 |
-| 2 | What a series is in Elastic (optional) | Slide | 1:00 |
+| 2 | What a series is in Elastic (optional) | Text or slide (form open) | 0:17 |
 | 3 | Rung A: narrow the series with matchers (R2) | Prometheus, then Discover | 1:30 |
 | 4 | Rung B: one rate for the whole system (R5) | Both | 1:00 |
 | 5 | Rung C: scale it with arithmetic (R7) | Both | 1:00 |
@@ -41,7 +41,7 @@ Rungs map to the lab: R2, R5, R7 and R8 are the new ones. R1, R3 and R6 from Vid
 ### Beat details
 
 1. **Hook slide.** The question, then the plan: four small ideas that stack into one expression. Shape to decide when the narration is written.
-2. **What a series is (optional slide).** Metric name plus labels identifies a series; Elastic stores the labels as dimensions in a time series data stream. This supports the module's stated skill of TSDS grounding. **Needs verification against the TSDS docs before any wording is written.**
+2. **What a series is (optional).** Metric name plus labels identifies a series; in Elastic, a time series data stream stores each observation as a document with a timestamp, dimension fields that identify the series, and the metric values. This supports the module's stated skill of TSDS grounding. **Settled Oct 28 (decision 3): kept, reworded to what the current TSDS page supports. The sentence that Prometheus labels become dimensions stays out (a Module 2 topic).**
 3. **Rung A: matchers (R2).** Show `=~` and `!=` on the same metric, using the count form so the viewer sees which series matched.
    - Run `count by (service_name, status_code)` with and without the `status_code!=` matcher. The difference is the error series that `!=` removes (Oct 21: 14 for frontend and 2 for checkout, live numbers will differ).
    - Teaching point: a regex matcher is fully anchored, so `frontend|checkout` does not match `frontend-proxy` (verified on both sides).
@@ -54,14 +54,14 @@ Rungs map to the lab: R2, R5, R7 and R8 are the new ones. R1, R3 and R6 from Vid
    - Services with no error series drop out of the result on both sides. Say so, because an SRE will read the missing rows.
    - Values depend on what is happening at record time. See the dependency on nonzero values below.
 7. **Payoff (optional).** Run the ratio as a range query (leave out `time=?_tend`) and show it over time in Discover next to Prometheus's Graph tab. **Needs a rehearsal to see how the chart looks.** If the `paymentFailure` flag is used to make the ratio move, it needs the incident-demo measurements first (claims register row 13, section 3 of the status doc).
-8. **Recap slide.** Four ideas, peer cards (Shape C): matchers, a rate aggregated across series, arithmetic with a scalar, and a ratio of two aggregates. Close with the honest sentence: most, but not all, of PromQL works this way, and Video 3 looks at the edges.
+8. **Recap slide.** Four ideas, peer cards (Shape C): matchers, a rate aggregated across series, arithmetic with a scalar, and a ratio of two aggregates. Close with the honest sentence: most, but not all, of PromQL works this way, and the edges are worth knowing before you rely on them. No pointer to another video (decision 10).
 
 ---
 
 ## Slides (shapes to confirm when narrations are written)
 
-- **Hook:** a claim, not a transition. Not a course opener.
-- **What a series is (optional):** a short layered or card shape, decided after the docs check.
+- **Hook:** a claim, not a transition. Not a course opener. **Shape A, a skills list (the author, Oct 28).**
+- **What a series is (optional):** about 17 spoken seconds, too short for a toolkit slide (90 to 180 words); it may be a short text on screen. The form is still open.
 - **Recap:** Shape C, four peer cards.
 - No screenshot references on slides unless we supply the screenshot.
 
@@ -71,14 +71,14 @@ Rungs map to the lab: R2, R5, R7 and R8 are the new ones. R1, R3 and R6 from Vid
 
 1. **Through-line.** Build toward the per-service error ratio (R8). Recommended: it is the question an SRE asks, and every earlier rung contributes a piece. **Approved Oct 25.**
 2. **Which rungs to show.** Recommended: R2, R5, R7, R8 in full, and R1, R3, R6 as one-sentence reminders from Video 1. **Approved Oct 25.**
-3. **Series slide (beat 2).** Include only if the TSDS docs support the wording. Otherwise it moves to a later module or a short slide in Video 3. **Oct 25 docs check:** the TSDS docs support only the general wording (a TSDS models metrics as time series, each document is one observation of one series, dimensions stay constant while metrics change). The sentence about Prometheus labels becoming dimensions is unverified and belongs to Module 2; check the mapping on the stack in the rehearsal (register row 41). Still open.
+3. **Series slide (beat 2).** Include only if the TSDS docs support the wording. Otherwise it moves to a later module or a short slide in Video 3. **Oct 25 docs check:** the TSDS docs support only the general wording (a TSDS models metrics as time series, each document is one observation of one series, dimensions stay constant while metrics change). The sentence about Prometheus labels becoming dimensions is unverified and belongs to Module 2; check the mapping on the stack in the rehearsal (register row 41). **Decided Oct 28:** keep it, reworded to what the current TSDS page supports (a timestamp, dimension fields that identify the series, and the metric values). The current page (retrieved Oct 27) does not contain "each document belongs to one series". The labels-become-dimensions sentence stays out (Module 2). The stack's mapping check (Oct 28, one field) agrees that a label is a dimension.
 4. **Nonzero values.** In the Oct 21 R8 run, six of eight services showed a ratio of exactly 0, so agreement is trivial for those rows. Options: wait for a natural error episode, or turn `paymentFailure` on for a controlled one. Recommended: measure the flag's effect first. **Decided Oct 25:** use the controlled `paymentFailure` flag, after measuring its effect on a fresh stack. Every video starts from a reset, so we cannot wait for a natural error episode.
-5. **Range query and chart (beat 7).** Include if the rehearsal shows a clear chart on both sides.
+5. **Range query and chart (beat 7).** Include if the rehearsal shows a clear chart on both sides. **Deferred Oct 27** until the rehearsal shows both charts.
 6. **Pause-and-try prompts.** Recommended: two (beats 3 and 5), matching the Apply level. They cost a few seconds each. **Approved Oct 25.**
-7. **A percent form.** `* 100` on the ratio is untested. Test in the rehearsal, or keep `* 60` from R7.
+7. **A percent form.** `* 100` on the ratio is untested. Test in the rehearsal, or keep `* 60` from R7. **Decided Oct 27: not used.** When two values are too close to speak as a percent, the narration says how many leading digits agree (register row 64).
 8. **Length.** Flexible. Cut the optional beats first if it runs long. **Approved Oct 25.**
 9. **Same recording workflow as Video 1.** The run-sheet is drafted after you approve this outline. **Approved Oct 25.**
-10. **Strictly standalone (Oct 25).** The video restates what it needs in about 20 seconds before the first rung: how Elastic's `PROMQL` command wraps an expression, and which metric we query. Any pointer to Video 1 or Video 3 is a courtesy that can be cut without loss. The contract lists this as the video's entry knowledge. **Approved Oct 25.**
+10. **Strictly standalone (Oct 25).** The video restates what it needs in about 20 seconds before the first rung: how Elastic's `PROMQL` command wraps an expression, and which metric we query. Any pointer to Video 1 or Video 3 is a courtesy that can be cut without loss. The contract lists this as the video's entry knowledge. **Approved Oct 25.** **Oct 27: the setup block stays at the contract's about 30 seconds**; the listening test says whether it drags.
 
 ## Dependencies
 
