@@ -1,3 +1,5 @@
+> ARCHIVED on Oct 29, 2026 (repo reorganisation, step 3). Superseded by docs/shared/working-agreements.md, glossary.md, lessons-and-traps.md and decisions.md. Kept whole as history.
+
 # Handoff — Module 1 (living file)
 
 **Repo:** `github.com/evkortright/prometheus-to-elastic` (private)

@@ -1,3 +1,5 @@
+> ARCHIVED on Oct 29, 2026 (repo reorganisation, step 3). The live claims register is docs/shared/claims-register.md (section 4 here, unchanged). Kept whole as history.
+
 # Module 1 — Status, Environment Change, and Open Findings
 **Date:** October 19, 2026
 **Context:** Module 1 video production chat. Supplements `handoff-2026-10-19-module1-video.md`, whose endpoint and data-volume details are superseded by the environment change below.
