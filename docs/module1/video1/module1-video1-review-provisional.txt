@@ -1,9 +1,9 @@
 PROMQL SUPPORT IN ELASTIC
 Module 1, Video 1: Your PromQL, running in Elastic
 Voice-over script, review draft (provisional), Oct 28, 2026
-(Numbers are from the rehearsal of Oct 26, 2026 and will be replaced by the final recording's.)
+(Numbers are the rehearsal values from Oct 26, 2026 (the values file) and will be replaced by the final recording's.)
 
-(Commands: in the demo slide, each narration block that runs a command is preceded by an ON SCREEN box with that command. The commands are copied from the run-sheet's copy-paste section. They are shown on screen and are not read aloud.)
+(Commands: in the demo slide, each narration block that runs a command is preceded by an ON SCREEN box with that command. The commands are pinned to one evaluation instant, 1793242200 (02:50:00 UTC, provisional), so both platforms evaluate at the same moment. They are shown on screen and are not read aloud.)
 
 ========================================================================
 SLIDE 1: TITLE
@@ -38,41 +38,41 @@ One setting to notice before we start. The date picker is on the last hour, beca
 
 [Expression 1, in Prometheus]
 ON SCREEN (Prometheus, Table tab). Shown, not read aloud:
-    traces_span_metrics_calls_total{service_name="frontend"}
+    traces_span_metrics_calls_total{service_name="frontend"} @ 1793242200
 SPOKEN:
 Let's start with the first expression: choosing which series we're looking at. The metric is traces span metrics calls total. It's a counter of calls, and the OpenTelemetry Collector builds it from traces. To narrow it down, we add curly braces and a label matcher: service name equals frontend. That picks out just the frontend service. Let's run it. 41 series, each with its own set of labels.
 
 [Expression 1, in Elastic]
 ON SCREEN (Kibana Discover, ES|QL editor). Shown, not read aloud:
-    PROMQL index=metrics-generic.prometheus-default time=?_tend calls=(traces_span_metrics_calls_total{service_name="frontend"})
+    PROMQL index=metrics-generic.prometheus-default time=1793242200 calls=(traces_span_metrics_calls_total{service_name="frontend"})
 SPOKEN:
-Now, the same thing in Elastic. Look at what's inside the parentheses. That's the expression, the same text we just ran in Prometheus. Everything around it is a wrapper, and here the wrapper makes just three choices. Where does this run? That's index, the data stream that holds our metrics. When? That's time, the end of the date picker's range, so the expression is evaluated once, just like the Table tab. And what do we call the answer? That's the name out front: calls.
+Now, the same thing in Elastic. Look at what's inside the parentheses. That's the expression, the same text we just ran in Prometheus. Everything around it is a wrapper, and here the wrapper makes just three choices. Where does this run? That's index, the data stream that holds our metrics. When? That's time, the moment the expression is evaluated. Here both runs use the same fixed moment, so the expression is evaluated once, just like the Table tab. And what do we call the answer? That's the name out front: calls.
 
 Let's run it. 41 series, against 41 in Prometheus. The labels sit in a column here instead of inline, but they're the same series. So, did the expression change? No. What's new is the wrapper.
 
 [Expression 2, in Prometheus]
 ON SCREEN (Prometheus, Table tab). Shown, not read aloud:
-    sum(rate(traces_span_metrics_calls_total{service_name="frontend"}[5m]))
+    sum(rate(traces_span_metrics_calls_total{service_name="frontend"}[5m] @ 1793242200))
 SPOKEN:
 Now for the second expression. A series on its own is only half the story, because a counter keeps climbing. It counts every call since the start, which tells you almost nothing about right now. What you want to know is how fast, and that's what rate is for. You hand it a counter and a window, here five minutes in square brackets, and it returns the per-second average rate of increase. This metric has many series, so we wrap it in sum to get one number: how many calls per second the frontend is handling. Let's run it. 14.996.
 
 [Expression 2, in Elastic]
 ON SCREEN (Kibana Discover, ES|QL editor). Shown, not read aloud:
-    PROMQL index=metrics-generic.prometheus-default time=?_tend frontend_rate=(sum(rate(traces_span_metrics_calls_total{service_name="frontend"}[5m])))
+    PROMQL index=metrics-generic.prometheus-default time=1793242200 frontend_rate=(sum(rate(traces_span_metrics_calls_total{service_name="frontend"}[5m])))
 SPOKEN:
-In Elastic, it's the same expression inside the same wrapper. The one thing we change is the name of the answer, which is now frontend rate. Let's run it. 14.996 in Elastic, against 14.996 in Prometheus. The two runs were about 8 seconds apart, and the values agree to 10 digits.
+In Elastic, it's the same expression inside the same wrapper. The one thing we change is the name of the answer, which is now frontend rate. Let's run it. 14.996 in Elastic, against 14.996 in Prometheus. Both runs are evaluated at the same moment, and the values agree to about nine digits.
 
 [Expression 3, in Prometheus]
 ON SCREEN (Prometheus, Table tab). Shown, not read aloud:
-    sum by (service_name) (rate(traces_span_metrics_calls_total[5m]))
+    sum by (service_name) (rate(traces_span_metrics_calls_total[5m] @ 1793242200))
 SPOKEN:
 One number for the whole frontend is useful, but it's rarely the question you actually have. Usually, you want to know which service. So for the third expression, we keep a label. Sum by service name adds up everything else and holds on to that label, so we get one row per service. Let's run it. 18 rows, and frontend reads 13.922 calls per second.
 
 [Expression 3, in Elastic]
 ON SCREEN (Kibana Discover, ES|QL editor). Shown, not read aloud:
-    PROMQL index=metrics-generic.prometheus-default time=?_tend request_rate=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m])))
+    PROMQL index=metrics-generic.prometheus-default time=1793242200 request_rate=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m])))
 SPOKEN:
-And in Elastic, the same expression inside the same wrapper. Let's run it. 18 rows, and frontend reads 13.922, against 13.922 in Prometheus. These two runs were about 10 seconds apart.
+And in Elastic, the same expression inside the same wrapper. Let's run it. 18 rows, and frontend reads 13.922, against 13.922 in Prometheus. Both runs are evaluated at the same moment.
 
 ========================================================================
 SLIDE 4: RECAP
@@ -80,6 +80,6 @@ SLIDE 4: RECAP
 
 Let's come back to what we set out to do: recognize which of your everyday prom-Q-L expressions run in Elastic using the same expression. For these three, you've seen it. The label matcher, the rate over a counter, and the sum by all ran as the same text in Prometheus and in Elastic, and the numbers agreed.
 
-What changed is the wrapper, which is everything around the expression when you run it in Elastic: the command, its options, and a result name. Here, it made just three choices. Where it runs: the index option names the data to read. When it's evaluated: the time option sets the moment, here the end of the date picker's range. And what the answer is called: a result name labels the value that comes back.
+What changed is the wrapper, which is everything around the expression when you run it in Elastic: the command, its options, and a result name. Here, it made just three choices. Where it runs: the index option names the data to read. When it's evaluated: the time option sets the moment, here one fixed moment that both runs share. And what the answer is called: a result name labels the value that comes back.
 
 There's one caution, because we said we'd be plain about it. Most, though not all, of prom-Q-L runs in Elastic: a few things don't run yet, and a few behave differently at the edges. So take an expression you use every day, drop it between the parentheses, and try it. Most of the time, that's all it takes.
