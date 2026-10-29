@@ -14,7 +14,7 @@
 | Contract version and date | `<v1, date>` |
 | Contract status | `<Draft / Active / Fulfilled>` |
 | Chat | `<video chat, started on date>` |
-| Root handoff | `docs/handoff-module1-living.md` (read-only for the video chat) |
+| Root handoff | `docs/shared/` (the shared files; read-only for the video chat) |
 
 ## 1. The finish line
 
@@ -105,15 +105,15 @@ This follows what worked on an earlier project: the second editor took the autho
 - **The video chat owns only this video's files:** `<list>`, and its video log.
 - **Authority and the video log (Oct 26):** the video chat is the source of truth for its video's files and for the video's state. It verifies the author's pasted output for its own deliveries (the base hash, the expected stat, the commit result) and does not route them through the root. It keeps `docs/module1-videoN-log.md`, which it creates with its first entry: the checklist state, claim confirmations with their retrieval dates, probe results, the take log, and the decisions the author makes with that chat (for example the slide shapes). Once the log exists, it is the truth about the video's state, ahead of the contract's checklist. The root reviews a delivery only if the author asks. This applies while the chat is the active chat: only one chat at a time delivers changes to the repo (handoff, section 2, agreement 15), and a chat the author has not named active is advisory.
 - **Seed material:** the root may hand a video chat work it built before the chat existed (a draft narrative, a claims table). It is a proposal, not a decision. The contract lists it, the video chat asks the author at the start whether to use it, rewrite it or ignore it, and from then on the file belongs to the video chat. Approved material is not a seed: the chat changes it only to fix a claim, or with the author's approval.
-- **Shared files belong to the root:** the living handoff, the claims register (status doc), the glossary, the query lab, the environment notes, the voice guide, the learning objectives. A video chat reads them and never edits them.
+- **Shared files belong to the root:** the living handoff, the claims register (docs/shared/claims-register.md), the glossary, the query lab, the environment notes, the voice guide, the learning objectives. A video chat reads them and never edits them.
 - **Requests for the root:** most turns say nothing about the root. A video chat sends a request only when a shared file truly needs a change (a register row, a glossary term, a lab result), when a decision crosses videos, or at a milestone (a checklist row changes state). It records confirmations and results in its video log first. The author passes a request to the root at most once per session.
 - **Changes after submission:** if the second editor or a reviewer finds a wrong claim, number or mispronunciation, the fix goes through the video chat (text and claims) and the author (re-export). The root then updates the shared files.
-- **Repo routine:** the same as handoff section 3. The author applies, checks, commits and pushes; the video chat states the expected result first and checks the pasted output.
+- **Repo routine:** the same as working agreements section 3. The author applies, checks, commits and pushes; the video chat states the expected result first and checks the pasted output.
 
 ## 11. Video chat routine
 
-1. At the start: read the contract, then the files it lists, then handoff sections 1, 2, 3, 9, 10, 11 and 12 (sections 11 and 12 hold the narrative lessons and the traps, until a voice guide exists). If the contract lists seed material, ask the author whether to use it, rewrite it or ignore it. Report (a) the current state, (b) what is needed, and (c) the one next step.
-2. Follow the working agreements in handoff section 2: tiny steps, expected output before each step, one question at a time, and never ask for or paste secrets.
+1. At the start: read the contract, then the files it lists, then the shared files (working agreements sections 1, 2, 3 and 9; glossary section 10; lessons and traps sections 11 and 12) (sections 11 and 12 hold the narrative lessons and the traps, until a voice guide exists). If the contract lists seed material, ask the author whether to use it, rewrite it or ignore it. Report (a) the current state, (b) what is needed, and (c) the one next step.
+2. Follow the working agreements in working agreements section 2: tiny steps, expected output before each step, one question at a time, and never ask for or paste secrets.
 3. Do not end turns with status lists unless something changed materially or the author asks. Add a request for the root only when section 10 says to; otherwise say nothing about the root.
 
 ## 12. Starter prompt for a video chat

@@ -14,7 +14,7 @@
 
 An SRE's real question is "which services are failing, and how often?" In PromQL that is an error ratio per service. You can build it from four small ideas, each one rung: filter the series, take a rate and aggregate it, scale it with arithmetic, and divide two aggregates. Each rung runs in Prometheus and then in Elastic, and the viewer checks that the answers agree.
 
-Claim hygiene for this video (see the claims register in `module1-status-2026-10-19.md`):
+Claim hygiene for this video (see the claims register in `docs/shared/claims-register.md`):
 - Say **expression**, not "query", when claiming sameness. Say **most** or **everyday**, never "all". No "preview".
 - Every number comes from the take log, next to what it is compared with. Agreement statements carry the gap in seconds between the two runs.
 - State the ratio rule positively: aggregate both sides the same way (Elastic's docs; lab R8). Leave the failures to Video 3.

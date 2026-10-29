@@ -9,7 +9,7 @@
 1. `docs/module1/video2/module1-video2-contract.md`, then its outline and the root's seed narrative (draft v1).
 2. **`narration-voice-guide.md`** (in the pack). This is the most important item.
 3. Video 1 as exemplars: `module1-video1-narrative.md` v2 (the voice), `module1-video1-run-sheet.md` v6 (the run-sheet structure), and `module1-video1-log.md` sections 2, 7, 8 and 9 (decisions, observed UI facts, the step ledger, findings).
-4. The handoff's sections 2, 3, 9, 10, 11 and 12, as the contract says.
+4. The shared files' sections (working agreements 2, 3 and 9; glossary 10; lessons and traps 11 and 12), as the contract says.
 
 ## 2. How the Video 1 chat worked (keep it)
 

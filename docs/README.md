@@ -9,7 +9,7 @@ A one-page map of this repository: which file is which, who owns it, and when to
 - **To start a video chat:** open that video's contract (`module1-video1-contract.md`, `module1-video2-contract.md` or `module1-video3-contract.md`), go to section 11, and copy the prompt. Attach a fresh archive to the new chat (`handoff-module1-living.md`, section 15.3, has the command).
 - **To see where the project stands:** `handoff-module1-living.md`, section 6 (the tracker) and section 7 (the decisions).
 - **To apply, check and commit a delivery:** `handoff-module1-living.md`, section 3 (the repo routine).
-- **To apply a video chat's delivery:** ask that chat for the steps; it verifies your pasted output. Run `unzip -l` on the zip first (handoff section 3). The root reviews only if you ask.
+- **To apply a video chat's delivery:** ask that chat for the steps; it verifies your pasted output. Run `unzip -l` on the zip first (working agreements section 3). The root reviews only if you ask.
 
 ## Current working files (in `docs/`)
 

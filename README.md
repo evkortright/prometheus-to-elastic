@@ -34,7 +34,7 @@ One `remote_write` block added to `prometheus-config.yaml`. Nothing else changes
 
 | Module | Topic | Status |
 |---|---|---|
-| 1 | PromQL Compatibility | 🔶 In progress — script and cheat sheet drafted; re-validating on a rebuilt environment (see `docs/module1-status-2026-10-19.md`) |
+| 1 | PromQL Compatibility | 🔶 In progress — script and cheat sheet drafted; re-validating on a rebuilt environment (see `docs/archive/module1-status-2026-10-19.md`) |
 | 2 | Remote Write Configuration | 🔲 Planned |
 | 3 | Dashboard Migration | 🔲 Planned |
 | 3.5 | Field Name Alignment (Prometheus → OTel semconv) | 🔲 Planned |
@@ -212,7 +212,7 @@ The Demo Dashboard requires OpenSearch (logs) and Jaeger (traces). Use the **Spa
 The key can write metrics but cannot list indices (`_cat/indices`) or read the cluster root. Use the Prometheus `/metrics` counters and Kibana queries to verify ingestion.
 
 **Remote-write endpoint choice**
-This track uses the direct Elasticsearch endpoint (`/_prometheus/api/v1/write`). Elastic's current documentation recommends the Managed Prometheus Remote Write endpoint for Serverless projects. The direct endpoint still works; which one the curriculum teaches is an open decision (see `docs/module1-status-2026-10-19.md`).
+This track uses the direct Elasticsearch endpoint (`/_prometheus/api/v1/write`). Elastic's current documentation recommends the Managed Prometheus Remote Write endpoint for Serverless projects. The direct endpoint still works; which one the curriculum teaches is an open decision (see `docs/archive/module1-status-2026-10-19.md`).
 
 ---
 

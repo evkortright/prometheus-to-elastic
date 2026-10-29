@@ -16,7 +16,7 @@ The expression you type in Prometheus is the same expression you type in Elastic
 
 The wrapper is everything around the expression on the Elastic line: the `PROMQL` command, its options, and a result name. Here it makes just three choices: where it runs (`index`), when it is evaluated (`time`), and what to call the answer (the result name).
 
-Claim hygiene for this video (see the claims register in `module1-status-2026-10-19.md`, and the contract, section 5):
+Claim hygiene for this video (see the claims register in `docs/shared/claims-register.md`, and the contract, section 5):
 - Say **expression**, not "query", when claiming sameness.
 - Say **most** or **everyday**, never "all" or "any". Absolute words ("only", "never", "always") are claims and each needs checking.
 - Echo Elastic's own framing: most, but not all, of PromQL is supported (register rows 1 and 36). The recap says so plainly and points forward without promising what is there.

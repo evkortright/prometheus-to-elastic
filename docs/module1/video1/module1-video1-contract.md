@@ -13,7 +13,7 @@
 | Contract version and date | v1, October 25, 2026 |
 | Contract status | Active |
 | Chat | The Video 1 chat, started after commit `dcbb48e`. Its first reply was checked by the root and passed |
-| Root handoff | `docs/handoff-module1-living.md` (read-only for the video chat) |
+| Root handoff | `docs/shared/` (the shared files; read-only for the video chat) |
 
 ## 1. The finish line
 
@@ -142,7 +142,7 @@ As in the template (sections 11 and 12). The starter prompt, with this file's na
 I'm the author of a Prometheus-to-Elastic training track, and this chat produces Video 1 of Module 1. Please read docs/module1/video1/module1-video1-contract.md first, then the files it lists, then sections 1, 2, 3, 9, 10, 11 and 12 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). You are the active chat only when I say so; until then you are advisory: answer and review, but do not deliver files. Do not end replies with status lists unless something changed materially or I ask.
 ```
 
-Files to read, in order: this contract; `docs/module1/video1/module1-video1-narrative.md`; `docs/module1/video1/module1-video1-run-sheet.md`; `docs/module1/video1/module1-video1-outline.md`; `docs/module1/module1-query-lab.md` (R1, R3, R6); `docs/module1-status-2026-10-19.md` (the claims register, section 4); `docs/shared/otel-collector-reference.md`; `docs/shared/slide-narrative-guidance.md`.
+Files to read, in order: this contract; `docs/module1/video1/module1-video1-narrative.md`; `docs/module1/video1/module1-video1-run-sheet.md`; `docs/module1/video1/module1-video1-outline.md`; `docs/module1/module1-query-lab.md` (R1, R3, R6); `docs/archive/module1-status-2026-10-19.md` (the claims register, section 4); `docs/shared/otel-collector-reference.md`; `docs/shared/slide-narrative-guidance.md`.
 
 
 Work that can start before the one-time setup (no stack needed): checklist rows 2, 4, 5 and 6 of section 8.

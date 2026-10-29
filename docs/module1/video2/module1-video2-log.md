@@ -182,7 +182,7 @@ None yet. Fields per pair (contract, section 6): the Prometheus value or count w
 - **Clock change.** The author moves from CDT to CST on Nov 1; a rehearsal or take across that date shifts the timestamps that the gaps are read from.
 - **Before the take:** re-read the limitations page and the command page and record the retrieval dates; the closing sentence about the documentation needs the limitations page.
 - **The slide versions** are written (delivery 4). How the toolkit times its reveals against the audio is not known; the author tries them in the toolkit.
-- **The delivery script's first real use is delivery 9.** If it misbehaves, fall back to the manual routine of handoff section 3, unzipping with `-x MANIFEST.json`. The rehearsal runs in a fresh chat (row 24); it starts from `docs/module1/video2/module1-video2-resume.md`, which holds the starter prompt.
+- **The delivery script's first real use is delivery 9.** If it misbehaves, fall back to the manual routine of working agreements section 3, unzipping with `-x MANIFEST.json`. The rehearsal runs in a fresh chat (row 24); it starts from `docs/module1/video2/module1-video2-resume.md`, which holds the starter prompt.
 - **Next deliveries:** after Video 1's takes, the reset, the flag measurement and the rehearsal; the provisional review script after the rehearsal.
 
 ## 7. Observed UI facts
@@ -195,7 +195,7 @@ Classes: **read-only** (a script could run it), **write** (changes something loc
 
 | Step | What | Class | Result |
 |---|---|---|---|
-| S1 | Read the contract, the files it lists, and handoff sections 1, 2, 3, 9, 10, 11 and 12 | Read-only | Pass (Oct 27) |
+| S1 | Read the contract, the files it lists, and the shared files (working agreements sections 1, 2, 3 and 9; glossary section 10; lessons and traps sections 11 and 12) | Read-only | Pass (Oct 27) |
 | S2 | Extract the archive into a scratch folder in the assistant's sandbox; nothing is written to the uploads folder | Read-only | Pass |
 | S3 | Replay delivery 1 in a scratch repo and read the diff stat | Write (scratch only) | Pass (98 insertions) |
 | S4 | The author applies delivery 1: base HEAD, zip listing, unzip and status, hash and stat, safety grep, commit and push, clean-tree check | Guided | Pass (Oct 27; commit `52e1bde`; entry 2) |
@@ -241,7 +241,7 @@ Sent at a milestone, at most once per session, and only what a shared file needs
 - **Register, row 41, and the learning objective:** learning objective 2 says "a live Elastic TSDS". The current TSDS page and the Prometheus remote write page (both retrieved Oct 27) support that the demo's data stream is one, and the runbook's A7.3 records `index_mode: time_series` from the first run. Row 41's wording came from an 8.x copy; two of its sentences (a document belongs to one series; a series can't span data streams) are not on the current page. A new or updated row is needed: the current pages with their retrieval date, and the lifted caveat that labels are mapped as dimensions (docs-supported; still out of Video 2 as a Module 2 topic). The rehearsal's B6.3 gives the final look.
 - **Held, not sent (for the root, or for the Video 1 chat):** (a) The voice guide keeps the placeholders in braces in the review script; the author now prefers numbers filled in for the reviewers (dummy numbers for a wording review, rehearsal numbers for a provisional one, the take's for the final one). Both helpers now do this by filling a copy of the narrative and calling `make_review_script.py` unchanged; the guide's section 10 should say so. (b) **Video 1's `scripts/fill_placeholders.py` was modified in the Video 2 chat on Oct 28, at the author's request, with the Video 1 chat not asked.** It gained `--dummy`, `--stage`, `--date`, `--review-out`, `--config` and `--out-narrative`; its existing use is unchanged (byte for byte). If the Video 1 chat is used again, tell it. (c) Video 1's digit counter stops at the end of the shorter value, so an exact value such as 0.03125 against 0.0312500000000003 gives 4 shared digits instead of 14. It was not changed (not asked); the Video 2 helper pads with zeros.
 - **Held, not sent (instructions):** `docs/shared/narration-voice-guide.md` section 10 and `docs/README.md` could point at the run-sheet's "Review script: how to build it", or carry the three stages themselves; the root decides.
-- **Held, not sent (shared tool):** `scripts/apply_delivery.py` is generic, not video-specific. The root may adopt it as a shared tool and mention it in handoff section 3 (the delivery routine). The manifests that feed it are built by the Video 2 chat's own build tool, which is not in the repo; the manifest format is in the script's docstring.
+- **Held, not sent (shared tool):** `scripts/apply_delivery.py` is generic, not video-specific. The root may adopt it as a shared tool and mention it in working agreements section 3 (the delivery routine). The manifests that feed it are built by the Video 2 chat's own build tool, which is not in the repo; the manifest format is in the script's docstring.
 - **Already handled by the root:** the stale line in the handoff header (the author says the root is fixing it). No request.
 
 ## 10. Entry log
