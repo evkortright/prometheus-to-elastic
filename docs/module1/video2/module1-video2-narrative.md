@@ -66,25 +66,25 @@ Underneath this is the series. You know it as one metric with one particular set
 
 ## Idea 1: narrow the field
 
-*Prometheus: the count expression with the regex and the not-equals matcher is pasted, the cursor underlines the regex and then the not-equals, then Execute. The cursor rests on the frontend row.*
+*Prometheus: the count expression with the regex and the not-equals matcher is pasted, the cursor underlines the regex and then the not-equals, then Execute. The cursor rests on the frontend row. On screen, not read aloud (the take's instant, provisionally 1793242200): `count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout", status_code!="STATUS_CODE_ERROR"} @ 1793242200)`*
 
 ```
 Let's start with the first idea: narrowing the field. You usually want a subset of the series, and label matchers are how you choose. Here we use a regex, service name matches frontend or checkout, plus a negative, status code is not error. To see which series survive, we count them, by service name and status code. Let's run it. Frontend has {{A_FRONTEND_PROM}} series. The number after the at sign is the moment both runs are evaluated, in seconds since 1970.
 ```
 
-*Elastic: the same expression inside the wrapper, run right after the Prometheus one, in the same continuous take. The cursor underlines the expression in the parentheses, then index, time and the result name, then Search or Cmd+Enter.*
+*Elastic: the same expression inside the wrapper, run right after the Prometheus one, in the same continuous take. The cursor underlines the expression in the parentheses, then index, time and the result name, then Search or Cmd+Enter. On screen, not read aloud (the take's instant, provisionally 1793242200): `PROMQL index=metrics-generic.prometheus-default time=1793242200 series=(count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout", status_code!="STATUS_CODE_ERROR"}))`*
 
 ```
 Now the same thing in Elastic. The text inside the parentheses is the expression. Around it is the wrapper. Index is where it runs. Time is the moment it's evaluated, and here that moment is fixed by the number. And the name out front is what we call the answer. Let's run it. Frontend has {{A_FRONTEND_ELASTIC}} series, against {{A_FRONTEND_PROM}} in Prometheus. Both runs are evaluated at the same moment.
 ```
 
-*Prometheus: the same expression with the not-equals removed, then Execute. The error rows appear; the cursor rests on the frontend row with status code error.*
+*Prometheus: the same expression with the not-equals removed, then Execute. The error rows appear; the cursor rests on the frontend row with status code error. On screen, not read aloud (the take's instant, provisionally 1793242200): `count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout"} @ 1793242200)`*
 
 ```
 Now take the not-equals away, and run the same count again. Let's run it. The error series come back as new rows. Frontend, with status code error, has {{A_ERR_FRONTEND_PROM}} series.
 ```
 
-*Elastic: the same expression with the not-equals removed, run right after, in the same continuous take. The cursor rests on the frontend row with status code error.*
+*Elastic: the same expression with the not-equals removed, run right after, in the same continuous take. The cursor rests on the frontend row with status code error. On screen, not read aloud (the take's instant, provisionally 1793242200): `PROMQL index=metrics-generic.prometheus-default time=1793242200 series=(count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout"}))`*
 
 ```
 And in Elastic, with the not-equals removed. Let's run it. Frontend with status code error has {{A_ERR_FRONTEND_ELASTIC}} series, against {{A_ERR_FRONTEND_PROM}} in Prometheus. Both runs are evaluated at the same moment. So the series the not-equals removed were the error series, in both systems.
@@ -104,13 +104,13 @@ No. A regex matcher has to match the whole value, and frontend proxy is more tha
 
 ## Idea 2: how much, in total
 
-*Prometheus: the whole-system rate is pasted, the cursor underlines the five-minute window and then the sum, then Execute. A single value appears with empty curly braces.*
+*Prometheus: the whole-system rate is pasted, the cursor underlines the five-minute window and then the sum, then Execute. A single value appears with empty curly braces. On screen, not read aloud (the take's instant, provisionally 1793242200): `sum(rate(traces_span_metrics_calls_total[5m] @ 1793242200))`*
 
 ```
 Now the second idea: how much, in total. A counter keeps climbing, so on its own it says little about right now. What you want is its rate, calls per second averaged over a five minute window. Then we add the series up with sum. With nothing after the sum, they add up into a single number: the total calls per second across our services, as this metric counts them. Let's run it. {{B_PROM}} calls per second. Prometheus shows it with an empty set of curly braces, because there's no label left to show.
 ```
 
-*Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. One value and its time.*
+*Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. One value and its time. On screen, not read aloud (the take's instant, provisionally 1793242200): `PROMQL index=metrics-generic.prometheus-default time=1793242200 total_rate=(sum(rate(traces_span_metrics_calls_total[5m])))`*
 
 ```
 In Elastic, it's the same expression inside the same wrapper, with a new name for the answer: total rate. Let's run it. {{B_ELASTIC}} calls per second, against {{B_PROM}} in Prometheus. Both runs are evaluated at the same moment, and the values agree to about nine digits. There are no curly braces here. Elastic shows the value and the time it was evaluated.
@@ -118,13 +118,13 @@ In Elastic, it's the same expression inside the same wrapper, with a new name fo
 
 ## Idea 3: scale it with arithmetic
 
-*Prometheus: the sum-by expression times sixty is pasted, the cursor underlines the by clause and then the times sixty, then Execute. One row per service; the cursor rests on the frontend row.*
+*Prometheus: the sum-by expression times sixty is pasted, the cursor underlines the by clause and then the times sixty, then Execute. One row per service; the cursor rests on the frontend row. On screen, not read aloud (the take's instant, provisionally 1793242200): `sum by (service_name) (rate(traces_span_metrics_calls_total[5m] @ 1793242200)) * 60`*
 
 ```
 Third idea: arithmetic with a plain number. We put a by clause back, sum by service name, so we get one row per service, and then we multiply by sixty. That turns calls per second into calls per minute. Arithmetic with a plain number scales each value, and the labels stay attached. Let's run it. Frontend reads {{C_FRONTEND_PROM}} calls per minute.
 ```
 
-*Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. The cursor rests on the frontend row.*
+*Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. The cursor rests on the frontend row. On screen, not read aloud (the take's instant, provisionally 1793242200): `PROMQL index=metrics-generic.prometheus-default time=1793242200 per_minute=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m])) * 60)`*
 
 ```
 In Elastic, the same expression inside the same wrapper. Let's run it. Frontend reads {{C_FRONTEND_ELASTIC}}, against {{C_FRONTEND_PROM}} in Prometheus. Both runs are evaluated at the same moment, and the values agree to {{DIGITS_C}} digits.
@@ -144,7 +144,7 @@ Sixty times as much, because thirty-six hundred is sixty times sixty. That's cal
 
 ## Idea 4: divide one aggregate by another
 
-*Prometheus: the error-ratio expression is pasted. The cursor underlines the numerator, then the denominator, then the slash, then Execute. A table of services appears, and the cursor rests on the payment row.*
+*Prometheus: the error-ratio expression is pasted. The cursor underlines the numerator, then the denominator, then the slash, then Execute. A table of services appears, and the cursor rests on the payment row. On screen, not read aloud (the take's instant, provisionally 1793242200): `sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m] @ 1793242200)) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m] @ 1793242200))`*
 
 ```
 Now the idea we came for: dividing one aggregate by another. On top, the rate of calls whose status code is error, summed by service name. On the bottom, the rate of all calls, summed by service name. Divide the first by the second, and each service that has error series gets its own error ratio.
@@ -154,7 +154,7 @@ The rule to remember: aggregate both sides the same way. Here, both sides are su
 To give the ratio something to show, we've switched on a feature flag in the demo that makes the payment service fail some of its requests. Let's run it. {{D_ROWS_PROM}} rows come back, and payment reads {{D_PAYMENT_PROM}}.
 ```
 
-*Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. The cursor rests on the payment row, then on the full list.*
+*Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. The cursor rests on the payment row, then on the full list. On screen, not read aloud (the take's instant, provisionally 1793242200): `PROMQL index=metrics-generic.prometheus-default time=1793242200 error_ratio=(sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m])) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m])))`*
 
 ```
 In Elastic, the same expression inside the same wrapper. Let's run it. {{D_ROWS_ELASTIC}} rows, against {{D_ROWS_PROM}} in Prometheus, and payment reads {{D_PAYMENT_ELASTIC}}, against {{D_PAYMENT_PROM}}. Both runs are evaluated at the same moment, and the payment values agree to {{DIGITS_D}} digits.
