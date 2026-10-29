@@ -2,7 +2,7 @@
 
 **Working title:** Build it up: a per-service error ratio, rung by rung
 
-**Status:** Draft v2.1, October 28, 2026 (v2 is commit `a804543`). **v2 is the trainer-voice pass of the root's seed (v1, October 25), decided with the author on October 27** (log, section 2). The author accepted it on October 27 as the working text for review and recording; changes are expected from the reviewers and from the take, and meanwhile only edits that the numbers or the facts force. This is the *normalized narration*, the text an instructor or the speech engine reads, bound by `docs/shared/narration-voice-guide.md`. The slide-shape versions of the hook and the recap are separate, derived artifacts (contract, section 8, row 5); they live in the run-sheet (`docs/module1/video2/module1-video2-run-sheet.md`, beats 1 and 8), which is written from this file.
+**Status:** Provisional, not yet approved by the author (October 29, 2026). Draft v2.1 (October 28) with the decision 25 changes: the five pairs are pinned to one evaluation instant, so the 'seconds apart' sentences now say "Both runs are evaluated at the same moment"; idea 2 says "about nine digits", the sweep's worst case (decision 28). The author approves it after the script review. Decision record: log, section 2 (decisions 25 to 29).
 
 **History:** v1 (Oct 25) was the root's seed. In v2 the structure is kept: the four ideas, the two question-and-answer pairs as separate blocks, and the two optional beats. What changed:
 - **The hook** now follows the guide's five parts: the viewer's stakes, the objective in learning objective 2's own words (with TSDS spelled out), the method, the level and scope, and a viewing task.
