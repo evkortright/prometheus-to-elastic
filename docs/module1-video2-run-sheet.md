@@ -1,7 +1,7 @@
 # Module 1, Video 2 — Run-sheet (screen capture)
 
 **Video:** Build it up: a per-service error ratio, rung by rung (four ideas: label matchers, rate and sum, arithmetic with a scalar, a ratio of two aggregates)
-**Status:** Draft v1.4, Oct 28, 2026 (v1.3 is commit `28fc351`). Written from narrative v2.1, whose base v2 (commit `a804543`) the author accepted on Oct 27 as the working text for review and recording; changes are expected from the reviewers and from the take. v1.2 followed the narrative's one edit, the reworded optional series block (decision 3). v1.3 named the Video 2 placeholder helper and cited runbook v2.2. v1.4 adds the approved rehearsal plan and a how-to for building the review script. The 17 main blocks and the 2 optional blocks below are copied by script from that narrative. If this sheet and the narrative differ, the narrative wins and this sheet is regenerated. v1.1 adds the slide-shape versions of the hook (shape A, chosen by the author on Oct 28) and the recap (shape C, from the contract) in beats 1 and 8, as separate artifacts for the slide toolkit, derived from the spoken text (contract, section 8, row 5). The decisions, results and evidence are in `module1-video2-log.md`.
+**Status:** Draft v1.5, Oct 29, 2026 (v1.4 is the commit before delivery 13). v1.5 follows decision 25: the pinned design, with the timing windows and the seconds sentences removed, and the copy-paste commands pinned to one instant. Written from narrative v2.1, whose base v2 (commit `a804543`) the author accepted on Oct 27 as the working text for review and recording; changes are expected from the reviewers and from the take. v1.2 followed the narrative's one edit, the reworded optional series block (decision 3). v1.3 named the Video 2 placeholder helper and cited runbook v2.2. v1.4 adds the approved rehearsal plan and a how-to for building the review script. The 17 main blocks and the 2 optional blocks below are copied by script from that narrative. If this sheet and the narrative differ, the narrative wins and this sheet is regenerated. v1.1 adds the slide-shape versions of the hook (shape A, chosen by the author on Oct 28) and the recap (shape C, from the contract) in beats 1 and 8, as separate artifacts for the slide toolkit, derived from the spoken text (contract, section 8, row 5). The decisions, results and evidence are in `module1-video2-log.md`.
 **Commands:** at the end of this file (A-P to D-E, and E-P and E-E for the optional chart), from the query lab (R2, R5, R7, R8). They ran on Oct 21 on the previous dataset and run again in the rehearsal.
 **Recording:** the laptop (macOS), with the built-in recorder (Command+Shift+5), settings below. Record without audio; the narration is generated afterwards, with the take's numbers.
 
@@ -15,13 +15,13 @@
 - **Recorder (decided Oct 26, carried over).** Command+Shift+5, then Options: save to `~/Movies/v2-capture` (a new folder for this video), microphone **None**, Show Mouse Clicks **off**, Timer **5 seconds**; choose **Record Entire Screen**, then **Record**. Stop with **Command+Control+Esc**. Keep "Include System Audio" off if your macOS offers it. The Oct 26 test clip was `.mov`, H.264, 3456 × 2234, with no audio; text was easy to read at 125%.
 - **Highlights are added in post.** Parts of a query are highlighted in Resolve, so the cursor cues in the steps are optional. A slow cursor over a part is still a useful cue.
 - **Method: PASTE.** Copy each command from the end of this file, off camera, before the take.
-- **One continuous take per pair.** Record each pair (Prometheus, then Elastic) as one recording (Video 1's test clip of one pair was 47 seconds). There are six takes: the setup, then five pairs (idea 1 with the `!=` matcher, idea 1 without it, then ideas 2, 3 and 4). A seventh take exists only if the optional chart stays. The narration blocks stay separate; you cut the footage in Resolve. A continuous take keeps the gap between the two runs short (see "Timing").
+- **One continuous take per pair.** Record each pair (Prometheus, then Elastic) as one recording (Video 1's test clip of one pair was 47 seconds). There are six takes: the setup, then five pairs (idea 1 with the `!=` matcher, idea 1 without it, then ideas 2, 3 and 4). A seventh take exists only if the optional chart stays. The narration blocks stay separate; you cut the footage in Resolve. The two runs share one evaluation instant, so the gap between them no longer matters (see "Timing").
 - **The questions and answers have no footage of their own.** In Resolve, hold a frame from the end of the neighbouring take under each question and its answer (beats 3 and 5 say which). The 3-second pause after each question is placed in the edit.
 - **No screenshots while recording.** The macOS floating thumbnail may appear on screen, and so in the video. Collect every number after you stop; the results stay on screen (see "After the take").
 
 ### Practice mode (from Oct 27, before any reset)
 
-You can rehearse the mechanics on the stack as it is now: paste, run, switch tabs, rest the cursor, and keep a pair inside one scrape minute. Every command in this file only reads data. Two rules:
+You can rehearse the mechanics on the stack as it is now: paste, run, switch tabs, rest the cursor, and pin both runs of a pair to one instant (see the pinned commands). Every command in this file only reads data. Two rules:
 - **Do not switch the flag on** (Video 1's takes need it off) and **do not reset the stack**.
 - **Don't read anything into the numbers.** They are not the take's numbers, idea 4's rows and values will differ on the reset stack, and the practice footage is never used in the video.
 
@@ -179,11 +179,11 @@ Expression, with the matcher: `count by (service_name, status_code) (traces_span
 
 ### Take v2-A: Prometheus, then Elastic, with the `!=` matcher (A-P, then A-E)
 
-**Staging (off camera).** Tab 1: Remove query, then Add query. Tab 2: run the zero-row query, clear the editor, paste **A-E**, don't run it. Copy **A-P**. Start the take so the Prometheus click lands in the window in "Timing".
+**Staging (off camera).** Tab 1: Remove query, then Add query. Tab 2: run the zero-row query, clear the editor, paste **A-E**, don't run it. Copy **A-P**. No timing window applies (see "Timing").
 
 1. Tab 1. Start recording; wait out the timer. Click the expression box and paste **A-P**. Optional cue: a slow cursor under the regex, then under the `!=` matcher, then under `count by`.
 2. At "Let's run it" in the A1 narration, click **Execute**. Hold for 4 seconds with "Result series: N" in view. Rest the cursor on the **frontend** row for 3 seconds.
-3. **Control+Tab** to Tab 2. Optional cue: a slow cursor under the expression inside the parentheses, then over `PROMQL`, `index=metrics-generic.prometheus-default`, `time=?_tend` and `series=`.
+3. **Control+Tab** to Tab 2. Optional cue: a slow cursor under the expression inside the parentheses, then over `PROMQL`, `index=metrics-generic.prometheus-default`, `time=` (the take's instant) and `series=`.
 4. At "Let's run it" in the A2 narration, press **Cmd+Enter** (or click **Search**). Hold for 4 seconds with "N results" in view. Rest the cursor on the **frontend** row.
 5. Stop with Command+Control+Esc. Then collect the numbers (see "After the take").
 
@@ -196,7 +196,7 @@ Notes:
 <details><summary>Show voice-over</summary>
 
 ```
-Let's start with the first idea: narrowing the field. You usually want a subset of the series, and label matchers are how you choose. Here we use a regex, service name matches frontend or checkout, plus a negative, status code is not error. To see which series survive, we count them, by service name and status code. Let's run it. Frontend has {{A_FRONTEND_PROM}} series.
+Let's start with the first idea: narrowing the field. You usually want a subset of the series, and label matchers are how you choose. Here we use a regex, service name matches frontend or checkout, plus a negative, status code is not error. To see which series survive, we count them, by service name and status code. Let's run it. Frontend has {{A_FRONTEND_PROM}} series. The number after the at sign is the moment both runs are evaluated, in seconds since 1970.
 ```
 
 </details>
@@ -206,7 +206,7 @@ Let's start with the first idea: narrowing the field. You usually want a subset 
 <details><summary>Show voice-over</summary>
 
 ```
-Now the same thing in Elastic. The text inside the parentheses is the expression. Around it is the wrapper. Index is where it runs. Time is when it's evaluated: once, at the end of the date picker's range. And the name out front is what we call the answer. Let's run it. Frontend has {{A_FRONTEND_ELASTIC}} series, against {{A_FRONTEND_PROM}} in Prometheus. The two runs were about {{SECONDS_A}} seconds apart.
+Now the same thing in Elastic. The text inside the parentheses is the expression. Around it is the wrapper. Index is where it runs. Time is the moment it's evaluated, and here that moment is fixed by the number. And the name out front is what we call the answer. Let's run it. Frontend has {{A_FRONTEND_ELASTIC}} series, against {{A_FRONTEND_PROM}} in Prometheus. Both runs are evaluated at the same moment.
 ```
 
 </details>
@@ -214,7 +214,7 @@ Now the same thing in Elastic. The text inside the parentheses is the expression
 
 ### Take v2-A0: Prometheus, then Elastic, matcher removed (A-P0, then A-E0)
 
-**Staging (off camera).** As for take v2-A, with **A-E0** staged in Tab 2 and **A-P0** on the clipboard. Window in "Timing".
+**Staging (off camera).** As for take v2-A, with **A-E0** staged in Tab 2 and **A-P0** on the clipboard. No timing window (see "Timing").
 
 1. Tab 1. Start recording; wait out the timer. Paste **A-P0**. Optional cue: the cursor on the place where the matcher used to be, then under `count by`.
 2. At "Let's run it" in the A3 narration, click **Execute**. Hold for 4 seconds. Rows for status code error appear; rest the cursor on the **frontend** row with status code error for 3 seconds.
@@ -239,7 +239,7 @@ Now take the not-equals away, and run the same count again. Let's run it. The er
 <details><summary>Show voice-over</summary>
 
 ```
-And in Elastic, with the not-equals removed. Let's run it. Frontend with status code error has {{A_ERR_FRONTEND_ELASTIC}} series, against {{A_ERR_FRONTEND_PROM}} in Prometheus, about {{SECONDS_A_BASE}} seconds apart. So the series the not-equals removed were the error series, in both systems.
+And in Elastic, with the not-equals removed. Let's run it. Frontend with status code error has {{A_ERR_FRONTEND_ELASTIC}} series, against {{A_ERR_FRONTEND_PROM}} in Prometheus. Both runs are evaluated at the same moment. So the series the not-equals removed were the error series, in both systems.
 ```
 
 </details>
@@ -278,7 +278,7 @@ Check: no frontend proxy row on either side (lab R2, Oct 21); confirm in the tak
 
 Expression: `sum(rate(traces_span_metrics_calls_total[5m]))`
 
-**Staging (off camera).** As for idea 1, with **B-E** staged in Tab 2 and **B-P** on the clipboard. Window in "Timing".
+**Staging (off camera).** As for idea 1, with **B-E** staged in Tab 2 and **B-P** on the clipboard. No timing window (see "Timing").
 
 1. Tab 1. Start recording; wait out the timer. Paste **B-P**. Optional cue: the cursor under `[5m]`, then under `sum(`.
 2. At "Let's run it" in the B1 narration, click **Execute**. Hold for 4 seconds with the single value in view.
@@ -303,7 +303,7 @@ Now the second idea: how much, in total. A counter keeps climbing, so on its own
 <details><summary>Show voice-over</summary>
 
 ```
-In Elastic, it's the same expression inside the same wrapper, with a new name for the answer: total rate. Let's run it. {{B_ELASTIC}} calls per second, against {{B_PROM}} in Prometheus. The runs were about {{SECONDS_B}} seconds apart, and the values agree to {{DIGITS_B}} digits. There are no curly braces here. Elastic shows the value and the time it was evaluated.
+In Elastic, it's the same expression inside the same wrapper, with a new name for the answer: total rate. Let's run it. {{B_ELASTIC}} calls per second, against {{B_PROM}} in Prometheus. Both runs are evaluated at the same moment, and the values agree to about nine digits. There are no curly braces here. Elastic shows the value and the time it was evaluated.
 ```
 
 </details>
@@ -315,7 +315,7 @@ In Elastic, it's the same expression inside the same wrapper, with a new name fo
 
 Expression: `sum by (service_name) (rate(traces_span_metrics_calls_total[5m])) * 60`
 
-**Staging (off camera).** As before, with **C-E** staged in Tab 2 and **C-P** on the clipboard. Window in "Timing".
+**Staging (off camera).** As before, with **C-E** staged in Tab 2 and **C-P** on the clipboard. No timing window (see "Timing").
 
 1. Tab 1. Start recording; wait out the timer. Paste **C-P**. Optional cue: the cursor under `sum by (service_name)`, then under `* 60`.
 2. At "Let's run it" in the C1 narration, click **Execute**. Hold for 4 seconds. The table has one row per service. Rest the cursor on the **frontend** row for 3 seconds.
@@ -340,7 +340,7 @@ Third idea: arithmetic with a plain number. We put a by clause back, sum by serv
 <details><summary>Show voice-over</summary>
 
 ```
-In Elastic, the same expression inside the same wrapper. Let's run it. Frontend reads {{C_FRONTEND_ELASTIC}}, against {{C_FRONTEND_PROM}} in Prometheus. The runs were about {{SECONDS_C}} seconds apart, and the values agree to {{DIGITS_C}} digits.
+In Elastic, the same expression inside the same wrapper. Let's run it. Frontend reads {{C_FRONTEND_ELASTIC}}, against {{C_FRONTEND_PROM}} in Prometheus. Both runs are evaluated at the same moment, and the values agree to {{DIGITS_C}} digits.
 ```
 
 </details>
@@ -377,7 +377,7 @@ Sixty times as much, because thirty-six hundred is sixty times sixty. That's cal
 
 Expression: `sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m])) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m]))`
 
-**Staging (off camera).** As before, with **D-E** staged in Tab 2 and **D-P** on the clipboard. The flag is on and the wait after switching it on has passed (see "Before every take"). Window in "Timing".
+**Staging (off camera).** As before, with **D-E** staged in Tab 2 and **D-P** on the clipboard. The flag is on and the wait after switching it on has passed (see "Before every take"). No timing window (see "Timing").
 
 1. Tab 1. Start recording; wait out the timer. Paste **D-P**. Optional cue: the cursor under the numerator, then the denominator, then the slash.
 2. At "Let's run it" in the D1 narration, click **Execute**. Hold for 4 seconds with "Result series: N" in view. Rest the cursor on the **payment** row for 3 seconds.
@@ -408,7 +408,7 @@ To give the ratio something to show, we've switched on a feature flag in the dem
 <details><summary>Show voice-over</summary>
 
 ```
-In Elastic, the same expression inside the same wrapper. Let's run it. {{D_ROWS_ELASTIC}} rows, against {{D_ROWS_PROM}} in Prometheus, and payment reads {{D_PAYMENT_ELASTIC}}, against {{D_PAYMENT_PROM}}. The runs were about {{SECONDS_D}} seconds apart, and the payment values agree to {{DIGITS_D}} digits.
+In Elastic, the same expression inside the same wrapper. Let's run it. {{D_ROWS_ELASTIC}} rows, against {{D_ROWS_PROM}} in Prometheus, and payment reads {{D_PAYMENT_ELASTIC}}, against {{D_PAYMENT_PROM}}. Both runs are evaluated at the same moment, and the payment values agree to {{DIGITS_D}} digits.
 
 Now look at who's missing. A service with no error series doesn't show up as a zero. It isn't in the result at all, in Prometheus or in Elastic. So a missing row means no error series was recorded for that service, not a ratio of zero.
 ```
@@ -485,21 +485,11 @@ Check (spoken version):
 
 ---
 
-## Timing: keep each pair inside one scrape minute
+## Timing: the pinned instant replaces the windows
 
-Prometheus scrapes once a minute (`scrape_interval: 60s`); on Oct 26 the new samples landed at about :37 of each minute. Elastic receives each sample some time later (not measured; under about 28 s in one pair). A pair of runs agreed to better than 1e-9 on Oct 26 whenever both fell between a new sample and the next one. The Prometheus click should come after about **:40**, and the Elastic click before about **:35** of the next minute, so both use the same newest sample. This is a hypothesis that fitted all three of Video 1's timed pairs; this video's rehearsal re-measures the sample times on its own reset stack.
+Each pinned pair shares one evaluation instant (decision 25), so the old timing windows (keeping both clicks inside one scrape minute) no longer decide whether a pair agrees. A pair is valid when both runs use the same instant, which the pinned expressions guarantee. Choose the take's instant before recording: a whole minute at least a few minutes before the Execute click, so the newest samples have reached Elastic. Use the same instant for all five pairs, and write it in the take log.
 
-If the narration plays straight through as a pacing guide, the estimates (word counts at 150 words a minute, not measured; the offsets are from the start of the Prometheus block) are:
-
-| Pair | Prometheus click | Elastic click | Gap | Prometheus click must land |
-|---|---|---|---|---|
-| A, with the matcher (A1, A2) | about 24 s into the take | about 46 s | about 22 s | from :40 until about :13 of the next minute |
-| A0, matcher removed (A3, A4) | about 6 s into the take | about 16 s | about 10 s | from :40 until about :25 of the next minute |
-| B (B1, B2) | about 29 s into the take | about 46 s | about 17 s | from :40 until about :18 of the next minute |
-| C (C1, C2) | about 22 s into the take | about 29 s | about 7 s | from :40 until about :28 of the next minute |
-| D (D1, D2) | about 45 s into the take | about 53 s | about 8 s | from :40 until about :27 of the next minute |
-
-The window is the time from :40 until (95 minus the gap) seconds past the minute. A longer gap makes a shorter window. Replace these estimates with the real offsets of your rendered audio. Start each take so that its offset (the 5-second timer included) puts the Prometheus click in the window. Where the offset is short (pair A0 about 6 s, pair C about 22 s), paste first and start the narration afterwards, so the click can land in the window. Five pairs mean five separate windows; there is no need to record them in one sitting.
+Two checks remain. The Discover picker must cover the instant (Last 1 hour drops it after an hour; use a wider range if the take runs later). And the live-query segment (decision 26) deliberately runs unpinned, so its timing does matter there.
 
 ---
 
@@ -509,14 +499,14 @@ Collect the numbers once you have stopped; the results stay on screen.
 
 1. **Prometheus tab:** a screenshot of the result ("Result series: N", the value, or the row the narration names).
 2. **Elastic tab:** a screenshot ("N results", the value) and the JSON of the result, as in Video 1's rehearsal, for full precision and the `step` time.
-3. **The gap in seconds:** read it from the footage in Resolve, as the time between the Execute click and the Search click in the continuous take. Elastic's `step` gives the absolute time of the Elastic run as a check.
+3. **The instant:** the epoch number in the pinned expressions, written in the take log. Elastic's `step` confirms the time it was evaluated.
 4. Run the counters command again (runbook Part C, command 2). `failed` and `retried` should still be 0.
 5. Fill in the take log, then the placeholders. The helper `scripts/fill_placeholders.video2.py` computes the `{{DIGITS_...}}` values and fills a copy of the narrative from a values file (start from `scripts/take-values.video2.template.json` and keep the filled copy outside the repo). With `--review-out` it also builds the placeholder-free review script, using the root's `make_review_script.py` and `scripts/review-config.video2.json`. With `--dummy` it fills built-in DUMMY numbers, labelled as such in the header, so that a wording review can happen before any measurement exists.
 6. Rename each take: `v2-setup`, `v2-A`, `v2-A0`, `v2-B`, `v2-C`, `v2-D` (and `v2-E`) plus the recorder's extension.
 
 ### Take log (fill in)
 
-| Pair | Prometheus (value or count) | Elastic (value or count) | Gap (s) | Elastic step | Notes |
+| Pair | Prometheus (value or count) | Elastic (value or count) | Evaluation instant (epoch s) | Elastic step | Notes |
 |---|---|---|---|---|---|
 | A: frontend row, status code unset, with the matcher | | | | | |
 | A0: frontend row, status code error, matcher removed | | | | | |
@@ -529,16 +519,13 @@ Collect the numbers once you have stopped; the results stay on screen.
 | Placeholder | Meaning | Source and form |
 |---|---|---|
 | `{{A_FRONTEND_PROM}}`, `{{A_FRONTEND_ELASTIC}}` | Series count of the frontend row in take v2-A | "Result series" and the frontend row; whole numbers |
-| `{{SECONDS_A}}` | Seconds between the runs, take v2-A | The gap; whole seconds |
 | `{{A_ERR_FRONTEND_PROM}}`, `{{A_ERR_FRONTEND_ELASTIC}}` | Series count of the row "frontend, status code error" in take v2-A0 | The row's count; whole numbers |
-| `{{SECONDS_A_BASE}}` | Seconds between the runs, take v2-A0 | The gap; whole seconds |
 | `{{B_PROM}}`, `{{B_ELASTIC}}` | Total calls per second | The values; three decimals |
-| `{{SECONDS_B}}`, `{{DIGITS_B}}` | Seconds between the runs, and the leading significant digits the two values share | The gap; computed from the full-precision values |
 | `{{C_FRONTEND_PROM}}`, `{{C_FRONTEND_ELASTIC}}` | Frontend calls per minute | The values; three decimals |
-| `{{SECONDS_C}}`, `{{DIGITS_C}}` | Seconds between the runs, and the digits the two values share | The gap; computed |
+| `{{DIGITS_C}}` | The leading significant digits the two values share | The gap; computed |
 | `{{D_ROWS_PROM}}`, `{{D_ROWS_ELASTIC}}` | Rows returned by the ratio | "Result series: N" and "N results"; whole numbers |
 | `{{D_PAYMENT_PROM}}`, `{{D_PAYMENT_ELASTIC}}` | Payment's error ratio | The values; form still open |
-| `{{SECONDS_D}}`, `{{DIGITS_D}}` | Seconds between the runs, and the digits the two payment values share | The gap; computed |
+| `{{DIGITS_D}}` | The leading significant digits the two payment values share | The gap; computed |
 
 A digits sentence counts the leading significant digits the two full-precision values share (register row 64). If they share only a few (under about four), the sentence changes, not the number.
 
@@ -588,7 +575,7 @@ python3 scripts/fill_placeholders.video2.py --narrative docs/module1-video2-narr
 
 For the final script, use `--stage final` and name the output `-final.txt`.
 
-**The values file.** Copy `scripts/take-values.video2.template.json` to `~/take-values.video2.json` (outside the repo) and fill every value from the take log. The keys are the placeholder names in lowercase (`a_frontend_prom`, `seconds_a_base`, `d_payment_elastic`, and so on): 17 values, because the three `{{DIGITS_...}}` are computed from the full-precision values, so keep them as printed. Counts, rows and seconds are whole numbers. Null values are refused. Before building, run the same command with `--check-only` instead of `--review-out`: it prints every value as it will be spoken, and the warnings that need a person (a digits sentence with few digits, a likely straddled scrape minute, differing counts, a zero error row or payment ratio). A warning means rewriting a sentence in the narrative or retaking a pair, not forcing the number.
+**The values file.** Copy `scripts/take-values.video2.template.json` to `~/take-values.video2.json` (outside the repo) and fill every value from the take log. The keys are the placeholder names in lowercase (`a_frontend_prom`, `a_err_frontend_prom`, `d_payment_elastic`, and so on): 12 values (the seconds keys are gone, decision 25), because the three `{{DIGITS_...}}` are computed from the full-precision values, so keep them as printed. Counts and rows are whole numbers. Null values are refused. Before building, run the same command with `--check-only` instead of `--review-out`: it prints every value as it will be spoken, and the warnings that need a person (a digits sentence with few digits, differing counts, a zero error row or payment ratio). A warning means rewriting a sentence in the narrative or retaking a pair, not forcing the number.
 
 **The title narration** and the slide grouping live in `scripts/review-config.video2.json`; edit them there and rebuild. The optional series block is in the review script; the optional chart is not (decision 5). If the chart stays, add its heading and a label to the config's DEMO slide.
 
@@ -622,7 +609,7 @@ This checks the text. It does not show that the commands run; they ran on Oct 21
 
 - **An error in Elastic:** don't edit the command. Stop, copy the exact error text, and send it to me. Errors are findings.
 - **Elastic shows the empty-state panel after a run:** check the picker says **Last 1 hour** and the stack uptime.
-- **The two values differ at the third or fourth digit:** a new sample probably landed between your two runs. Retake the pair inside one scrape minute (see "Timing").
+- **The two values differ at the third or fourth digit:** a new sample probably landed between your two runs. Retake the pair with the same instant (see "Timing").
 - **Prometheus shows no data:** check the stack is running, then the counters (runbook Part C).
 - **Idea 4 returns no rows, or only zeros:** check the flag page and how long ago the flag was switched on (the wait is being measured), and the counters.
 
@@ -630,62 +617,64 @@ This checks the text. It does not show that the commands run; they ran on Oct 21
 
 ## Copy-paste commands
 
+Pinned to one instant (decision 25): `1793242200` is 02:50:00 UTC, the instant checked for all five pairs on Oct 29. For the take, replace `1793242200` everywhere with the instant chosen for the take, and write it in the take log. The Prometheus `@` form and Discover's `time=` form were both checked (the API and Discover's editor). The browser's Table view accepting `@` is not yet checked: run A-P once before the take. The optional chart (E-P, E-E) is not pinned: it is a range.
+
 **A-P** — Prometheus, idea 1, with the matcher
 ```
-count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout", status_code!="STATUS_CODE_ERROR"})
+count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout", status_code!="STATUS_CODE_ERROR"} @ 1793242200)
 ```
 
 **A-E** — Elastic, idea 1, with the matcher
 ```
-PROMQL index=metrics-generic.prometheus-default time=?_tend series=(count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout", status_code!="STATUS_CODE_ERROR"}))
+PROMQL index=metrics-generic.prometheus-default time=1793242200 series=(count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout", status_code!="STATUS_CODE_ERROR"}))
 ```
 
 **A-P0** — Prometheus, idea 1, matcher removed
 ```
-count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout"})
+count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout"} @ 1793242200)
 ```
 
 **A-E0** — Elastic, idea 1, matcher removed
 ```
-PROMQL index=metrics-generic.prometheus-default time=?_tend series=(count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout"}))
+PROMQL index=metrics-generic.prometheus-default time=1793242200 series=(count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout"}))
 ```
 
 **B-P** — Prometheus, idea 2
 ```
-sum(rate(traces_span_metrics_calls_total[5m]))
+sum(rate(traces_span_metrics_calls_total[5m] @ 1793242200))
 ```
 
 **B-E** — Elastic, idea 2
 ```
-PROMQL index=metrics-generic.prometheus-default time=?_tend total_rate=(sum(rate(traces_span_metrics_calls_total[5m])))
+PROMQL index=metrics-generic.prometheus-default time=1793242200 total_rate=(sum(rate(traces_span_metrics_calls_total[5m])))
 ```
 
 **C-P** — Prometheus, idea 3
 ```
-sum by (service_name) (rate(traces_span_metrics_calls_total[5m])) * 60
+sum by (service_name) (rate(traces_span_metrics_calls_total[5m] @ 1793242200)) * 60
 ```
 
 **C-E** — Elastic, idea 3
 ```
-PROMQL index=metrics-generic.prometheus-default time=?_tend per_minute=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m])) * 60)
+PROMQL index=metrics-generic.prometheus-default time=1793242200 per_minute=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m])) * 60)
 ```
 
 **D-P** — Prometheus, idea 4
 ```
-sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m])) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m]))
+sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m] @ 1793242200)) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m] @ 1793242200))
 ```
 
 **D-E** — Elastic, idea 4
 ```
-PROMQL index=metrics-generic.prometheus-default time=?_tend error_ratio=(sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m])) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m])))
+PROMQL index=metrics-generic.prometheus-default time=1793242200 error_ratio=(sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m])) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m])))
 ```
 
-**E-P** — Prometheus, the optional chart (Graph tab; the same expression as D-P)
+**E-P** — Prometheus, the optional chart (Graph tab; the same expression as D-P, unpinned: a range)
 ```
 sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m])) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m]))
 ```
 
-**E-E** — Elastic, the optional chart (a range query: no `time=` option; the lab's R8 range form)
+**E-E** — Elastic, the optional chart (a range query: no `time=` option; the lab's R8 range form, unpinned)
 ```
 PROMQL index=metrics-generic.prometheus-default error_ratio=(sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m])) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m])))
 ```
