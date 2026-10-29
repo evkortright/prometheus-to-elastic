@@ -10,7 +10,7 @@
 - **Idea 1's baseline sentence is corrected.** The seed said frontend "jumps" to a larger count once the not-equals is removed. The count by service name and status code returns one row per status code, so in the lab (R2, Oct 21) the frontend row with status code unset stayed at 36 and a new row appeared, frontend with status code error, at 14. v2 says that, and the placeholders `{{A_BASE_FRONTEND_PROM}}` and `{{A_BASE_FRONTEND_ELASTIC}}` become `{{A_ERR_FRONTEND_PROM}}` and `{{A_ERR_FRONTEND_ELASTIC}}`.
 - **Absolutes removed or scoped:** "the only question that matters", "That's all the not-equals did", "never shows up", "every series collapses", "just works", "We only changed a number", "every row on top has a partner underneath", "That's the whole climb", and "exactly one time series" (optional block). "A counter on its own just climbs" became "keeps climbing" (a counter can reset when a service restarts, register row 48). "The whole system" became "the total across our services, as this metric counts them".
 - **Control cues:** every execution now says "Let's run it." The screen notes use the control names Video 1 observed on the author's screens (Execute in Prometheus; Search or Cmd+Enter in Discover); they are re-observed before the run-sheet.
-- **Agreement statements** carry the gap in seconds and, for values, the number of leading digits the two share (`{{DIGITS_B}}`, `{{DIGITS_C}}`, `{{DIGITS_D}}`), as register row 64 decides. No percent form is used (decision 7, Oct 27).
+- **Agreement statements** carry the gap in seconds and, for values, the number of leading digits the two share (`{{DIGITS_C}}`, `{{DIGITS_D}}`; idea 2 says "about nine digits", the sweep's worst case, decision 28), as register row 64 decides. No percent form is used (decision 7, Oct 27).
 - **"No errors" became "no error series"** in the missing-rows sentence: in the lab's R8 run, six services appeared with a ratio of exactly 0, so they have an error series with no increase in the window, while ten others had no error series and were absent.
 - **One sentence added in idea 1** (Elastic, first pair): it says which part of the wrapper makes which choice, because the wrapper first appears on screen there and the setup block names the three choices without showing them. The author can strike it.
 - **The closing** keeps the contract's line and adds one durable sentence about Elastic's documentation, with no pointer to another video (decision 5).
@@ -113,7 +113,7 @@ Now the second idea: how much, in total. A counter keeps climbing, so on its own
 *Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. One value and its time.*
 
 ```
-In Elastic, it's the same expression inside the same wrapper, with a new name for the answer: total rate. Let's run it. {{B_ELASTIC}} calls per second, against {{B_PROM}} in Prometheus. Both runs are evaluated at the same moment, and the values agree to {{DIGITS_B}} digits. There are no curly braces here. Elastic shows the value and the time it was evaluated.
+In Elastic, it's the same expression inside the same wrapper, with a new name for the answer: total rate. Let's run it. {{B_ELASTIC}} calls per second, against {{B_PROM}} in Prometheus. Both runs are evaluated at the same moment, and the values agree to about nine digits. There are no curly braces here. Elastic shows the value and the time it was evaluated.
 ```
 
 ## Idea 3: scale it with arithmetic
@@ -191,7 +191,6 @@ Every number is spoken, none is captioned. A Prometheus value and its Elastic pa
 | `{{A_FRONTEND_PROM}}`, `{{A_FRONTEND_ELASTIC}}` | Series count of the frontend row in the first pair (with the `!=` matcher) | Take log; whole numbers |
 | `{{A_ERR_FRONTEND_PROM}}`, `{{A_ERR_FRONTEND_ELASTIC}}` | Series count of the row "frontend, status code error" in the second pair (without the `!=` matcher). Replace `{{A_BASE_FRONTEND_*}}` of the seed | Take log; whole numbers |
 | `{{B_PROM}}`, `{{B_ELASTIC}}` | Total calls per second, idea 2 | Take log; three decimals |
-| `{{DIGITS_B}}` | The leading significant digits the two values share, idea 2 | Take log; computed from the full-precision values |
 | `{{C_FRONTEND_PROM}}`, `{{C_FRONTEND_ELASTIC}}` | Frontend calls per minute, idea 3 | Take log; three decimals |
 | `{{DIGITS_C}}` | The leading significant digits the two values share, idea 3 | Take log; computed |
 | `{{D_ROWS_PROM}}`, `{{D_ROWS_ELASTIC}}` | Rows returned by the error ratio, idea 4 ("Result series: N" and "N results"; the lab never recorded the Elastic count) | Take log; whole numbers |
