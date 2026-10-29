@@ -5,13 +5,13 @@ Added Oct 28, 2026 (author's request, made in the Video 2 chat): --dummy, --stag
 the original usage below is unchanged.
 
 Usage:
-  python3 fill_placeholders.py --narrative docs/module1-video1-narrative.md \
+  python3 fill_placeholders.py --narrative docs/module1/video1/module1-video1-narrative.md \
       --values take-values.json --out narration-final.txt
 
 Review script without placeholders (added Oct 28; from the repo root; the review script is written outside the repo):
-  python3 scripts/fill_placeholders.py --narrative docs/module1-video1-narrative.md --dummy \\
+  python3 scripts/fill_placeholders.py --narrative docs/module1/video1/module1-video1-narrative.md --dummy \\
       --date "Oct 28, 2026" --review-out ~/module1-video1-review-DUMMY.txt
-  python3 scripts/fill_placeholders.py --narrative docs/module1-video1-narrative.md \\
+  python3 scripts/fill_placeholders.py --narrative docs/module1/video1/module1-video1-narrative.md \\
       --values ~/take-values.json --stage provisional --review-out ~/module1-video1-review-provisional.txt
   (--stage final after the take. Without --out, a --review-out run does not write narration-final.txt.)
 
@@ -76,7 +76,7 @@ def main():
     ap.add_argument("--out", default=None, help="the nine filled blocks (default narration-final.txt, unless --review-out is given)")
     ap.add_argument("--dummy", action="store_true", help="use the built-in DUMMY values (labelled; not measurements)")
     ap.add_argument("--review-out", help="also build the placeholder-free review script, using make_review_script.py")
-    ap.add_argument("--config", default=None, help="review config (default: review-config.video1.json next to this script)")
+    ap.add_argument("--config", default=None, help="review config (default: docs/module1/video1/review-config.video1.json)")
     ap.add_argument("--stage", choices=["provisional", "final", "dummy"], default=None, help="labels the review script (dummy is implied by --dummy)")
     ap.add_argument("--date", default="", help='e.g. "Oct 28, 2026"; goes into the review script header')
     ap.add_argument("--out-narrative", help="a copy of the whole narrative with the spoken blocks filled")
@@ -148,7 +148,7 @@ def main():
         open(a.out_narrative, "w", encoding="utf-8").write(filled_text); print(f"Wrote {a.out_narrative}")
     if a.review_out:
         here = os.path.dirname(os.path.abspath(__file__)); builder = os.path.join(here, "make_review_script.py")
-        cfg_path = a.config or os.path.join(here, "review-config.video1.json")
+        cfg_path = a.config or os.path.join(here, "..", "docs", "module1", "video1", "review-config.video1.json")
         if not os.path.exists(builder): die(f"cannot find {builder}")
         cfg = json.load(open(cfg_path, encoding="utf-8"))
         when = f" of {a.date}" if a.date else ""

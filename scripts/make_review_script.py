@@ -2,7 +2,7 @@
 """Build the plain-text voice-over REVIEW SCRIPT for a Module 1 video from its narrative.
 
 Usage:
-  python3 make_review_script.py --narrative docs/module1-video1-narrative.md \
+  python3 make_review_script.py --narrative docs/module1/video1/module1-video1-narrative.md \
       --config review-config.video1.json --out module1-video1-voiceover-script.txt
 
 The narrative's spoken text is the fenced blocks, grouped under "## Heading" sections.

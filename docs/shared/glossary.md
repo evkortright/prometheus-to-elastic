@@ -1,6 +1,6 @@
 # Glossary and key technical facts
 
-> Copied verbatim from handoff-module1-living.md, sections 10, on Oct 29, 2026, for path map v2 step 1. Numbers and wording are unchanged. The source is archived in step 3, with a one-line header only.
+> Copied verbatim from docs/archive/handoff-module1-living.md, sections 10, on Oct 29, 2026, for path map v2 step 1. Numbers and wording are unchanged. The source is archived in step 3, with a one-line header only.
 
 ## 10. Glossary (running) and key technical facts
 

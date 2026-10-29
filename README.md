@@ -84,7 +84,7 @@ The OTel demo is cloned inside this folder as `opentelemetry-demo/` and is gitig
 
 ## Local setup
 
-> The step-by-step version of this section, with the expected output of every step, is `docs/reset-runbook.md`. If the two differ, the runbook wins.
+> The step-by-step version of this section, with the expected output of every step, is `docs/shared/operations/reset-runbook.md`. If the two differ, the runbook wins.
 
 ### Prerequisites
 
@@ -237,12 +237,12 @@ docker compose -f compose.yaml -f compose.observability.yaml down --volumes
 # Note: this clears Prometheus local TSDB. Elastic data is unaffected.
 ```
 
-To also delete the metrics stored in Elasticsearch (clean slate without a new project), follow "Reset: stop the stack and wipe all Prometheus data" in `docs/quickstart.md`.
+To also delete the metrics stored in Elasticsearch (clean slate without a new project), follow "Reset: stop the stack and wipe all Prometheus data" in `docs/shared/quickstart.md`.
 
 ---
 
 ## Contributing
 
-This repo is under active development. See `docs/environment-setup-guide.md` for the full project plan, open questions, and build order.
+This repo is under active development. See `docs/shared/environment-setup-guide.md` for the full project plan, open questions, and build order.
 
 Planned next: finish Module 1 (re-validation, slides, recording), then Module 2 (Remote Write Configuration) and Instruqt sandbox setup.

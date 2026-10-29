@@ -1,7 +1,7 @@
 # Module 1, Video 2 — Contract
 
-**Status:** Draft v1, October 25, 2026. Filled in from `docs/video-contract-template.md`. Owned by the root chat.
-**If this contract and an older file disagree,** the contract wins for this video. The Video 2 outline (`docs/module1-video2-outline.md`) holds the beats and the decision history.
+**Status:** Draft v1, October 25, 2026. Filled in from `docs/shared/video-contract-template.md`. Owned by the root chat.
+**If this contract and an older file disagree,** the contract wins for this video. The Video 2 outline (`docs/module1/video2/module1-video2-outline.md`) holds the beats and the decision history.
 
 ---
 
@@ -12,16 +12,16 @@
 | Video | 2, "Build it up: a per-service error ratio, rung by rung" (working title from the outline) |
 | Contract version and date | v1, October 25, 2026 |
 | Contract status | Active |
-| Chat | The Video 2 chat, started Oct 27. Its state is in `docs/module1-video2-log.md`, which is the truth |
+| Chat | The Video 2 chat, started Oct 27. Its state is in `docs/module1/video2/module1-video2-log.md`, which is the truth |
 | Root handoff | `docs/handoff-module1-living.md` (read-only for the video chat) |
 
 ## 1. The finish line
 
-The contract is fulfilled when the author, as the first video editor, has assembled the complete video from the package in section 9 and can submit it to the second editor. The video chat's own work is complete at conditions 1 to 4 of the template's table (`docs/video-contract-template.md`, section 1). Conditions 5 to 7 are the author's.
+The contract is fulfilled when the author, as the first video editor, has assembled the complete video from the package in section 9 and can submit it to the second editor. The video chat's own work is complete at conditions 1 to 4 of the template's table (`docs/shared/video-contract-template.md`, section 1). Conditions 5 to 7 are the author's.
 
 ## 2. Identity
 
-- **Learning objective (from `docs/module-learning-objectives.md`):** **Write and execute** PromQL against a live Elastic TSDS — instant vectors, range vectors reduced by functions, aggregation, and arithmetic between aggregated results — getting results a Prometheus user would already expect. *(Apply)*
+- **Learning objective (from `docs/shared/module-learning-objectives.md`):** **Write and execute** PromQL against a live Elastic TSDS — instant vectors, range vectors reduced by functions, aggregation, and arithmetic between aggregated results — getting results a Prometheus user would already expect. *(Apply)*
 - **Module context (Module 01, PromQL Support; format: Feature Highlight):** the module aims at "PromQL syntax fluency on Elastic; TSDS conceptual grounding (series identity, dimensions, metric types); confidence that most everyday Prometheus expressions carry over, and the ability to check your own against the documented limits; an accurate, non-oversold picture of what's still incomplete."
 - **Audience:** an SRE who uses PromQL and Grafana every day. Their question is "what do I have to change?" Here it becomes "can I build the question I actually get asked?"
 - **Target length:** 7 to 10 minutes, flexible. The main narrative blocks are about 780 spoken words; the demos and the pauses on screen make up the rest. Cut the optional beats first if it runs long.
@@ -40,7 +40,7 @@ The contract is fulfilled when the author, as the first video editor, has assemb
 ## 4. Story
 
 - **Through-line:** build the per-service error ratio from four small ideas, one at a time, and check each step against Prometheus.
-- **Narrative file:** `docs/module1-video2-narrative.md` (the root's seed draft v1; see section 10). It becomes the source of truth once the author approves a version.
+- **Narrative file:** `docs/module1/video2/module1-video2-narrative.md` (the root's seed draft v1; see section 10). It becomes the source of truth once the author approves a version.
 
 | Beat | What | Capture clips | Target on screen |
 |---|---|---|---|
@@ -69,7 +69,7 @@ The claims-to-confirm table lives in the narrative file (section "Claims to conf
 
 - **Lab items this video runs:** R2, R5, R7 and R8 (verified Same on Oct 21 on the old dataset); rerun on the fresh stack as the rehearsal. The rehearsal must also record the Elastic row counts for R7 and R8, which the lab never captured.
 - **The flag (decision 4):** before the take, measure what the `paymentFailure` flag does to payment's ratio on the fresh stack, and how long after switching it on the ratio shows it (register row 14). Do not write any claim about the size of the effect until that is measured.
-- **Stack state required:** a freshly reset stack (`docs/reset-runbook.md`, Part B); warm-up of at least 45 minutes (the Video 1 rule, which the author may raise); the flag state as measured; the pre-roll checks passed (uptime, remote-write counters, flags page, browser and screen).
+- **Stack state required:** a freshly reset stack (`docs/shared/operations/reset-runbook.md`, Part B); warm-up of at least 45 minutes (the Video 1 rule, which the author may raise); the flag state as measured; the pre-roll checks passed (uptime, remote-write counters, flags page, browser and screen).
 - **Rehearsal extras, only if the optional beats stay:** the range-query chart on both sides (decision 5), and a mapping check that shows how the data stream marks dimensions (decision 3, register row 41).
 - **Take log fields:** per idea, the Prometheus value or count with its time, the Elastic value or count with its time, the seconds between the runs, and retakes and notes.
 
@@ -78,7 +78,7 @@ The placeholder table lives in the narrative file (section "Placeholders").
 ## 7. Narration rules
 
 As in the template. For Video 2 specifically:
-- The voice is the trainer voice, and the three-version model applies: see `docs/narration-voice-guide.md`. The seed narrative predates it (starter brief, section 3).
+- The voice is the trainer voice, and the three-version model applies: see `docs/shared/narration-voice-guide.md`. The seed narrative predates it (starter brief, section 3).
 - A question and its answer are separate clips; the 3-second pause is placed in the edit.
 - The slide narrations (the hook and the recap) are derived from the narrative file with an explicit shape for the slide generator. The recap is four peer cards (shape C). They do not exist yet.
 
@@ -92,7 +92,7 @@ As in the template. For Video 2 specifically:
 | 4 | Narrative approved | Author | Accepted Oct 27 as the working text for review and recording, not as final: changes come from the reviewers and from the take |
 | 5 | Slide narrations for the hook and the recap, with explicit shapes | Video chat | Done Oct 28 (`8b82234`): the hook is shape A, the recap shape C |
 | 6 | Run-sheet written from the approved narrative | Video chat | Done: v1 (`7f417cf`) and v1.1 with the slide versions (`8b82234`). Not yet used in practice |
-| 7 | One-time setup and a stack reset (`docs/reset-runbook.md`, Parts A and B) | Root and author | Not started |
+| 7 | One-time setup and a stack reset (`docs/shared/operations/reset-runbook.md`, Parts A and B) | Root and author | Not started |
 | 8 | The flag measured (decision 4); decisions 3, 5 and 7 settled | Video chat guides, author runs | Not started. Decision 7 was settled on Oct 27 (not used); decisions 3 and 5 are deferred |
 | 9 | Rehearsal of R2, R5, R7 and R8 on the fresh stack; claims confirmed | Video chat guides, author runs | Not started |
 | 10 | The take: footage and the take log | Author | Not started |
@@ -100,7 +100,7 @@ As in the template. For Video 2 specifically:
 | 12 | The first-pass video assembled and exported | Author | Not started |
 | 13 | Package submitted to the second editor | Author | Not started |
 
-The video log (`docs/module1-video2-log.md`) is the truth about the video's state; this table is the starting point.
+The video log (`docs/module1/video2/module1-video2-log.md`) is the truth about the video's state; this table is the starting point.
 
 ## 9. Package for the second editor
 
@@ -111,20 +111,20 @@ Everything else stays in the repo. **This section changes only if something chan
 
 ## 10. Ownership and change rules
 
-- **The Video 2 chat owns:** `docs/module1-video2-outline.md`, `docs/module1-video2-narrative.md`, `docs/module1-video2-log.md` (created with its first entry), and the Video 2 run-sheet and story document when they exist. It also owns `scripts/review-config.video2.json` and a Video 2 placeholder helper (created when needed, named with the video).
-- **Seed material:** `docs/module1-video2-narrative.md` (draft v1, about 780 spoken words in the main blocks) was written by the root on Oct 25, before this chat existed, together with the claims-to-confirm table and the placeholder table inside it. It is a proposal, not a decision. This chat asks the author at the start whether to use it, rewrite it or ignore it, and owns the file from then on. The starter brief from the Video 1 chat (`docs/module1-video2-starter-brief.md`) is seed material too: what that chat learned, how it worked, and what to settle first.
+- **The Video 2 chat owns:** `docs/module1/video2/module1-video2-outline.md`, `docs/module1/video2/module1-video2-narrative.md`, `docs/module1/video2/module1-video2-log.md` (created with its first entry), and the Video 2 run-sheet and story document when they exist. It also owns `docs/module1/video2/review-config.video2.json` and a Video 2 placeholder helper (created when needed, named with the video).
+- **Seed material:** `docs/module1/video2/module1-video2-narrative.md` (draft v1, about 780 spoken words in the main blocks) was written by the root on Oct 25, before this chat existed, together with the claims-to-confirm table and the placeholder table inside it. It is a proposal, not a decision. This chat asks the author at the start whether to use it, rewrite it or ignore it, and owns the file from then on. The starter brief from the Video 1 chat (`docs/module1/video2/module1-video2-starter-brief.md`) is seed material too: what that chat learned, how it worked, and what to settle first.
 - **Shared files belong to the root** (see the template, section 10). Known needs (record them in the video log first and send them at a milestone): the register needs a row for the flag's measured effect once it exists, and the lab needs the Elastic row counts for R7 and R8 once recorded.
-- **Authority and the video log (Oct 26):** this chat is the source of truth for this video's files and for the video's state. It verifies the author's pasted output for its own deliveries (the base hash, the expected stat, the commit result) and does not route them through the root. It keeps `docs/module1-video2-log.md`, which it creates with its first entry: the checklist state, claim confirmations with their retrieval dates, probe results, the take log, and the decisions the author makes with this chat (for example the slide shapes). Once the log exists, it is the truth about the video's state, ahead of section 8 of this contract. The root reviews a delivery only if the author asks. This applies while the chat is the active chat: only one chat at a time delivers changes to the repo (handoff, section 2, agreement 15), and a chat the author has not named active is advisory.
+- **Authority and the video log (Oct 26):** this chat is the source of truth for this video's files and for the video's state. It verifies the author's pasted output for its own deliveries (the base hash, the expected stat, the commit result) and does not route them through the root. It keeps `docs/module1/video2/module1-video2-log.md`, which it creates with its first entry: the checklist state, claim confirmations with their retrieval dates, probe results, the take log, and the decisions the author makes with this chat (for example the slide shapes). Once the log exists, it is the truth about the video's state, ahead of section 8 of this contract. The root reviews a delivery only if the author asks. This applies while the chat is the active chat: only one chat at a time delivers changes to the repo (handoff, section 2, agreement 15), and a chat the author has not named active is advisory.
 
 ## 11. Video chat routine and starter prompt
 
 As in the template (sections 11 and 12). The starter prompt, with this file's name filled in:
 
 ```
-I'm the author of a Prometheus-to-Elastic training track, and this chat produces Video 2 of Module 1. Please read docs/module1-video2-contract.md first, then the files it lists, then sections 1, 2, 3, 9, 10, 11 and 12 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). You are the active chat only when I say so; until then you are advisory: answer and review, but do not deliver files. Do not end replies with status lists unless something changed materially or I ask. If the contract lists seed material, ask me first whether to use it, rewrite it, or ignore it.
+I'm the author of a Prometheus-to-Elastic training track, and this chat produces Video 2 of Module 1. Please read docs/module1/video2/module1-video2-contract.md first, then the files it lists, then sections 1, 2, 3, 9, 10, 11 and 12 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). You are the active chat only when I say so; until then you are advisory: answer and review, but do not deliver files. Do not end replies with status lists unless something changed materially or I ask. If the contract lists seed material, ask me first whether to use it, rewrite it, or ignore it.
 ```
 
-Files to read, in order: this contract; `docs/module1-video2-narrative.md`; `docs/module1-video2-outline.md`; `docs/module1-query-lab.md` (R2, R5, R7, R8); `docs/module1-status-2026-10-19.md` (the claims register, section 4); `docs/otel-collector-reference.md`; `docs/slide-narrative-guidance.md`; `docs/narration-voice-guide.md` (the voice); `docs/module1-video2-starter-brief.md`; `docs/module1-video1-narrative.md` (v2, the voice exemplar), `docs/module1-video1-run-sheet.md` (the run-sheet structure) and `docs/module1-video1-log.md` (sections 2, 7, 8 and 9). Video 2 must not depend on Video 1.
+Files to read, in order: this contract; `docs/module1/video2/module1-video2-narrative.md`; `docs/module1/video2/module1-video2-outline.md`; `docs/module1/module1-query-lab.md` (R2, R5, R7, R8); `docs/module1-status-2026-10-19.md` (the claims register, section 4); `docs/shared/otel-collector-reference.md`; `docs/shared/slide-narrative-guidance.md`; `docs/shared/narration-voice-guide.md` (the voice); `docs/module1/video2/module1-video2-starter-brief.md`; `docs/module1/video1/module1-video1-narrative.md` (v2, the voice exemplar), `docs/module1/video1/module1-video1-run-sheet.md` (the run-sheet structure) and `docs/module1/video1/module1-video1-log.md` (sections 2, 7, 8 and 9). Video 2 must not depend on Video 1.
 
 
 Work that can start before the one-time setup (no stack needed): checklist rows 3 to 6 of section 8.

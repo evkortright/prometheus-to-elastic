@@ -31,7 +31,7 @@ If you paste a few practice results with their clock times, they can be checked 
 
 ## Before every take (pre-roll)
 
-**1. The stack.** `docs/reset-runbook.md` (v2.2): **Part B** (the reset and warm-up) then **Part C** (pre-roll). The commands live there. This video's state: a fresh reset, a warm-up of at least 45 minutes (contract, section 6), `paymentFailure` **on** (the variant and its effect measured in the rehearsal; register row 14), and the pre-roll checks passed, including C4. Notes:
+**1. The stack.** `docs/shared/operations/reset-runbook.md` (v2.2): **Part B** (the reset and warm-up) then **Part C** (pre-roll). The commands live there. This video's state: a fresh reset, a warm-up of at least 45 minutes (contract, section 6), `paymentFailure` **on** (the variant and its effect measured in the rehearsal; register row 14), and the pre-roll checks passed, including C4. Notes:
 - **Switching the flag on** is runbook B7 (`http://localhost:8080/feature`). Write down the time. The "90%" variant has the value 0.95, not 0.9: check what a variant does before any claim about it. Idea 4's narration says the payment service fails "some of its requests"; that sentence changes if the measurement says otherwise.
 - **How long to wait after switching it on** before the ratio shows it is an inference (one rate window, five minutes). The rehearsal tests it. Record idea 4 only after that wait has passed.
 - **C2's last number** counts warning and error lines. Prometheus's first compaction, about **3 hours** after the stack starts, logs one "Overlapping blocks found during reloadBlocks" warning. It does not affect remote write. A take within 3 hours of the start will not see it. **C2's "gap equals pending"** is a weak check: trust `failed 0`, `retried 0`, and `sent` growing.
@@ -52,7 +52,7 @@ If you paste a few practice results with their clock times, they can be checked 
 ## Voice-over conventions
 
 - Inside each block is **spoken text only**: no stage directions, no markdown.
-- **Voice:** a professional trainer who is an SME speaking to peers (`docs/narration-voice-guide.md`): conversational authority, contractions, direct address, signposts, one idea per sentence, claims stated precisely and then shown. No hype, and no game language.
+- **Voice:** a professional trainer who is an SME speaking to peers (`docs/shared/narration-voice-guide.md`): conversational authority, contractions, direct address, signposts, one idea per sentence, claims stated precisely and then shown. No hype, and no game language.
 - **TTS spellings:** `prom-Q-L`, `E-S-Q-L`, `S-L-Os`, metric names as words, symbols as words, `frontend proxy` for the service name with the hyphen.
 - **Forbidden in this video** (contract, section 5): "runs unchanged" as an absolute; "all" as an absolute; any percentage, and the percent form altogether; any statement of seconds-free agreement; `increase()`; `topk`; claims about alerting, detection or "real time"; any statement about the feature's status; the sentence that Prometheus labels become Elastic dimensions (a Module 2 topic); and saying a service with no error series "has a ratio of zero": it is absent from the result.
 - Say **expression**, not "query", when claiming sameness.
@@ -501,7 +501,7 @@ Collect the numbers once you have stopped; the results stay on screen.
 2. **Elastic tab:** a screenshot ("N results", the value) and the JSON of the result, as in Video 1's rehearsal, for full precision and the `step` time.
 3. **The instant:** the epoch number in the pinned expressions, written in the take log. Elastic's `step` confirms the time it was evaluated.
 4. Run the counters command again (runbook Part C, command 2). `failed` and `retried` should still be 0.
-5. Fill in the take log, then the placeholders. The helper `scripts/fill_placeholders.video2.py` computes the `{{DIGITS_...}}` values and fills a copy of the narrative from a values file (start from `scripts/take-values.video2.template.json` and keep the filled copy outside the repo). With `--review-out` it also builds the placeholder-free review script, using the root's `make_review_script.py` and `scripts/review-config.video2.json`. With `--dummy` it fills built-in DUMMY numbers, labelled as such in the header, so that a wording review can happen before any measurement exists.
+5. Fill in the take log, then the placeholders. The helper `scripts/fill_placeholders.video2.py` computes the `{{DIGITS_...}}` values and fills a copy of the narrative from a values file (start from `docs/module1/video2/take-values.video2.template.json` and keep the filled copy outside the repo). With `--review-out` it also builds the placeholder-free review script, using the root's `make_review_script.py` and `docs/module1/video2/review-config.video2.json`. With `--dummy` it fills built-in DUMMY numbers, labelled as such in the header, so that a wording review can happen before any measurement exists.
 6. Rename each take: `v2-setup`, `v2-A`, `v2-A0`, `v2-B`, `v2-C`, `v2-D` (and `v2-E`) plus the recorder's extension.
 
 ### Take log (fill in)
@@ -535,7 +535,7 @@ A digits sentence counts the leading significant digits the two full-precision v
 
 **Goal.** On a freshly reset stack, run the five pairs, measure what the `paymentFailure` flag does, and settle the open facts, so that a provisional review script can be built from real numbers. **When:** after Video 1's takes, because the reset in Part B deletes the data stream. About two hours of wall-clock time, mostly waiting (an estimate, not measured). One step at a time, with the expected output before each; the author pastes the output.
 
-1. **Reset and warm-up** (`docs/reset-runbook.md`, Part B): B1 to B6, with the flag left off at B7. Then at least 45 minutes with `caffeinate -dims` running. The destructive steps (B2 and B4) are the author's. B6 proves that nothing from before survived.
+1. **Reset and warm-up** (`docs/shared/operations/reset-runbook.md`, Part B): B1 to B6, with the flag left off at B7. Then at least 45 minutes with `caffeinate -dims` running. The destructive steps (B2 and B4) are the author's. B6 proves that nothing from before survived.
 2. **Pre-roll** (Part C, C1 to C4). Read `http://localhost:8080/feature/advanced`, which returns the flag JSON, to list the variants: only `off` and a "90%" variant of 0.95 are confirmed so far.
 3. **Baseline, flag off.** Run idea 4's pair once, read-only: how the payment ratio and any zero-reading rows look without the flag.
 4. **The flag measurement.** Switch `paymentFailure` on and note the time. Run the Prometheus side of idea 4 right away, and again at about 2, 5 and 10 minutes, recording each time and payment's value. This answers how long the ratio takes to show (the inference is one five-minute rate window) and how large the effect is. No claim about the size until it is measured.
@@ -566,26 +566,26 @@ The review script is a plain-text voice-over script, organized by slide, for the
 **Video 2** (from the repo root; `<date>` is for example `Nov 3, 2026`):
 
 ```
-python3 scripts/fill_placeholders.video2.py --narrative docs/module1-video2-narrative.md --dummy --date "<date>" --review-out ~/module1-video2-review-DUMMY.txt
+python3 scripts/fill_placeholders.video2.py --narrative docs/module1/video2/module1-video2-narrative.md --dummy --date "<date>" --review-out ~/module1-video2-review-DUMMY.txt
 ```
 
 ```
-python3 scripts/fill_placeholders.video2.py --narrative docs/module1-video2-narrative.md --values ~/take-values.video2.json --stage provisional --date "<date>" --review-out ~/module1-video2-review-provisional.txt
+python3 scripts/fill_placeholders.video2.py --narrative docs/module1/video2/module1-video2-narrative.md --values ~/take-values.video2.json --stage provisional --date "<date>" --review-out ~/module1-video2-review-provisional.txt
 ```
 
 For the final script, use `--stage final` and name the output `-final.txt`.
 
-**The values file.** Copy `scripts/take-values.video2.template.json` to `~/take-values.video2.json` (outside the repo) and fill every value from the take log. The keys are the placeholder names in lowercase (`a_frontend_prom`, `a_err_frontend_prom`, `d_payment_elastic`, and so on): 12 values (the seconds keys are gone, decision 25), because the three `{{DIGITS_...}}` are computed from the full-precision values, so keep them as printed. Counts and rows are whole numbers. Null values are refused. Before building, run the same command with `--check-only` instead of `--review-out`: it prints every value as it will be spoken, and the warnings that need a person (a digits sentence with few digits, differing counts, a zero error row or payment ratio). A warning means rewriting a sentence in the narrative or retaking a pair, not forcing the number.
+**The values file.** Copy `docs/module1/video2/take-values.video2.template.json` to `~/take-values.video2.json` (outside the repo) and fill every value from the take log. The keys are the placeholder names in lowercase (`a_frontend_prom`, `a_err_frontend_prom`, `d_payment_elastic`, and so on): 12 values (the seconds keys are gone, decision 25), because the three `{{DIGITS_...}}` are computed from the full-precision values, so keep them as printed. Counts and rows are whole numbers. Null values are refused. Before building, run the same command with `--check-only` instead of `--review-out`: it prints every value as it will be spoken, and the warnings that need a person (a digits sentence with few digits, differing counts, a zero error row or payment ratio). A warning means rewriting a sentence in the narrative or retaking a pair, not forcing the number.
 
-**The title narration** and the slide grouping live in `scripts/review-config.video2.json`; edit them there and rebuild. The optional series block is in the review script; the optional chart is not (decision 5). If the chart stays, add its heading and a label to the config's DEMO slide.
+**The title narration** and the slide grouping live in `docs/module1/video2/review-config.video2.json`; edit them there and rebuild. The optional series block is in the review script; the optional chart is not (decision 5). If the chart stays, add its heading and a label to the config's DEMO slide.
 
-**Video 1** uses the same method with `scripts/fill_placeholders.py` and `scripts/review-config.video1.json` (the helper was extended on Oct 28; its old use is unchanged):
+**Video 1** uses the same method with `scripts/fill_placeholders.py` and `docs/module1/video1/review-config.video1.json` (the helper was extended on Oct 28; its old use is unchanged):
 
 ```
-python3 scripts/fill_placeholders.py --narrative docs/module1-video1-narrative.md --dummy --date "<date>" --review-out ~/module1-video1-review-DUMMY.txt
+python3 scripts/fill_placeholders.py --narrative docs/module1/video1/module1-video1-narrative.md --dummy --date "<date>" --review-out ~/module1-video1-review-DUMMY.txt
 ```
 
-For its provisional and final scripts, use `--values ~/take-values.json --stage provisional` (or `final`); `scripts/take-values.example.json` holds Video 1's Oct 26 rehearsal numbers and is the model for the file.
+For its provisional and final scripts, use `--values ~/take-values.json --stage provisional` (or `final`); `docs/module1/video1/take-values.example.json` holds Video 1's Oct 26 rehearsal numbers and is the model for the file.
 
 **Without the helpers**, the root's tool builds the script with the placeholders left in braces: `python3 scripts/make_review_script.py --narrative <narrative> --config <review config> --out <file>`.
 

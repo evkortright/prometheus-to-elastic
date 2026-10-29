@@ -1,7 +1,7 @@
 # Runbook first run — retrospective
 
 **Status:** Raw list, written during and just after the first run on Oct 26, 2026, before the retrospective itself. Owned by the root chat.
-**What this is:** every finding from the first run of `docs/reset-runbook.md` (Parts A, B and C) on the laptop, with the facts of the run. The plan for the runbook revision is grouped at the end. Nothing here has been applied to the runbook yet.
+**What this is:** every finding from the first run of `docs/shared/operations/reset-runbook.md` (Parts A, B and C) on the laptop, with the facts of the run. The plan for the runbook revision is grouped at the end. Nothing here has been applied to the runbook yet.
 **Result:** Parts A, B and C each ran once and passed, and the warm-up completed (66 minutes of clean remote write). One container restart mid-run is unexplained (entry 76). **Runbook v2 (Oct 26) applies every group except the automation track.**
 
 ## 1. Facts of the run (Oct 26, 2026; times are CDT, UTC minus 5)

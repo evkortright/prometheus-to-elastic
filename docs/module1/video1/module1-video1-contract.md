@@ -1,6 +1,6 @@
 # Module 1, Video 1 — Contract
 
-**Status:** Draft v1, October 25, 2026. Filled in from `docs/video-contract-template.md`. Owned by the root chat.
+**Status:** Draft v1, October 25, 2026. Filled in from `docs/shared/video-contract-template.md`. Owned by the root chat.
 **If this contract and an older file disagree,** the contract wins for this video (older files: the outline, run-sheet and story document predate the narrative).
 
 ---
@@ -17,11 +17,11 @@
 
 ## 1. The finish line
 
-The contract is fulfilled when the author, as the first video editor, has assembled the complete video from the package in section 9 and can submit it to the second editor. The video chat's own work is complete at conditions 1 to 4 of the template's table (`docs/video-contract-template.md`, section 1). Conditions 5 to 7 are the author's.
+The contract is fulfilled when the author, as the first video editor, has assembled the complete video from the package in section 9 and can submit it to the second editor. The video chat's own work is complete at conditions 1 to 4 of the template's table (`docs/shared/video-contract-template.md`, section 1). Conditions 5 to 7 are the author's.
 
 ## 2. Identity
 
-- **Learning objective (from `docs/module-learning-objectives.md`):** **Recognize** which everyday PromQL patterns — label selectors, aggregation, `rate()` on counters — run in Elastic using the same PromQL expression. *(Remember)*
+- **Learning objective (from `docs/shared/module-learning-objectives.md`):** **Recognize** which everyday PromQL patterns — label selectors, aggregation, `rate()` on counters — run in Elastic using the same PromQL expression. *(Remember)*
 - **Module context (Module 01, PromQL Support; format: Feature Highlight):** the module aims at "PromQL syntax fluency on Elastic; TSDS conceptual grounding (series identity, dimensions, metric types); confidence that most everyday Prometheus expressions carry over, and the ability to check your own against the documented limits; an accurate, non-oversold picture of what's still incomplete."
 - **Audience:** an SRE who uses PromQL and Grafana every day. Their question is "what do I have to change?"
 - **Target length:** about five minutes. The narrative is about 670 spoken words; with the pauses on screen, five minutes is an estimate, not a measurement. No hard limit.
@@ -41,7 +41,7 @@ The contract is fulfilled when the author, as the first video editor, has assemb
 ## 4. Story
 
 - **Through-line:** "find the seam." The viewer watches the expression and tries to catch it changing. In three rungs it never does; only the wrapper is new.
-- **Narrative file:** `docs/module1-video1-narrative.md`. v1 (`8f6f186`) was approved on Oct 25. **v2, the trainer-voice pass, was approved by the author on Oct 26 (`86f6c71`)** and is the narrative of record. The slide-shape versions of the opening (Shape A) and the recap (Shape C) are in the run-sheet. The video log (`docs/module1-video1-log.md`) holds the current state.
+- **Narrative file:** `docs/module1/video1/module1-video1-narrative.md`. v1 (`8f6f186`) was approved on Oct 25. **v2, the trainer-voice pass, was approved by the author on Oct 26 (`86f6c71`)** and is the narrative of record. The slide-shape versions of the opening (Shape A) and the recap (Shape C) are in the run-sheet. The video log (`docs/module1/video1/module1-video1-log.md`) holds the current state.
 
 | Beat | What | Capture clips | Target on screen |
 |---|---|---|---|
@@ -72,7 +72,7 @@ The status of each claim below is kept in the video log (section 3), which is th
 | "evaluated once, just like the Table tab" (time = the end of the picker's range) | The command page: `time` evaluates the expression once, and `?_tend` is the end of the date picker's range. Register row 37, retrieved Oct 25 | Docs (Oct 25) |
 | "Elastic's prom-Q-L command reads only the data inside that range" | Register row 19 (effect verified in lab R4; mechanism consistent with the docs). Re-read the docs wording and record the retrieval date | Open |
 | "Kibana's Discover, in E-S-Q-L mode ... has a command for running prom-Q-L" | The command page; register row 3. Record the retrieval date | Docs |
-| "traces span metrics calls total is a counter ... the OpenTelemetry Collector builds from traces" | `docs/otel-collector-reference.md` and the upstream spanmetrics connector README (register row 45, Oct 26). The demo's own Collector config is not in the repo archive | Docs (partly) |
+| "traces span metrics calls total is a counter ... the OpenTelemetry Collector builds from traces" | `docs/shared/otel-collector-reference.md` and the upstream spanmetrics connector README (register row 45, Oct 26). The demo's own Collector config is not in the repo archive | Docs (partly) |
 | "Prometheus ships its data to Elastic with one remote-write block added to its config" | The `remote_write` block in `config/prometheus-config.yaml`; the pre-roll counters (failed is 0 or unchanged) | Docs |
 | "Both are looking at the same metrics" | The pre-roll counters, and the agreement of the series counts in rung 1 | Open |
 | "rate ... returns the per-second average rate of increase" | Prometheus's documentation for `rate()` | Docs |
@@ -81,7 +81,7 @@ The status of each claim below is kept in the video log (section 3), which is th
 ## 6. Evidence plan
 
 - **Lab items this video runs:** R1 (rung 1), R3 (rung 2), R6 (rung 3). They were verified on the old dataset; they are rerun on the fresh stack as the rehearsal. R4 belongs to Video 3.
-- **Stack state required:** a freshly reset stack (`docs/reset-runbook.md`, Part B); warm-up of at least 45 minutes (the run-sheet's existing rule, which the author may raise); `paymentFailure` off; the pre-roll checks passed (uptime, the remote-write counters, the flags page, browser and screen).
+- **Stack state required:** a freshly reset stack (`docs/shared/operations/reset-runbook.md`, Part B); warm-up of at least 45 minutes (the run-sheet's existing rule, which the author may raise); `paymentFailure` off; the pre-roll checks passed (uptime, the remote-write counters, the flags page, browser and screen).
 - **Take log fields:** per rung, the Prometheus value or count and time, the Elastic value or count and time, the seconds between the runs, and retakes and notes (as in the run-sheet's take log).
 
 | Placeholder | Meaning | Source |
@@ -100,7 +100,7 @@ The status of each claim below is kept in the video log (section 3), which is th
 As in the template. Two decisions for Video 1 specifically:
 - The spellings `prom-Q-L`, `E-S-Q-L` and `S-L-Os` are the current default; the author's listening test asked for no changes.
 - The slide narrations exist: the spoken text of the opening and the reveal is in narrative v2, and the slide-shape versions (opener Shape A, recap Shape C) are in the run-sheet.
-- The voice is the trainer voice (objective first), and the three-version model applies: see `docs/narration-voice-guide.md`.
+- The voice is the trainer voice (objective first), and the three-version model applies: see `docs/shared/narration-voice-guide.md`.
 
 ## 8. Deliverables and acceptance checklist
 
@@ -112,7 +112,7 @@ As in the template. Two decisions for Video 1 specifically:
 | 4 | Slide narrations for the opening and the reveal, with explicit shapes | Video chat | To do |
 | 5 | Run-sheet final: the voice-over regenerated from the narrative, and the screen steps adapted to the laptop (the recorder is a decision; the pre-roll commands drop WSL) | Video chat | To do |
 | 6 | Story document regenerated from the narrative | Video chat | To do |
-| 7 | One-time setup and a stack reset (`docs/reset-runbook.md`, Parts A and B) | Root and author | Not started |
+| 7 | One-time setup and a stack reset (`docs/shared/operations/reset-runbook.md`, Parts A and B) | Root and author | Not started |
 | 8 | Capture test on the laptop (recorder, cursor, readable text, resolution) | Author | Not started |
 | 9 | Rehearsal of R1, R3 and R6 on the fresh stack; claims in section 5 confirmed | Video chat guides, author runs | Not started |
 | 10 | The take: footage and the take log | Author | Not started |
@@ -129,20 +129,20 @@ The second editor took the author's DaVinci Resolve export plus the slides on an
 
 ## 10. Ownership and change rules
 
-- **The Video 1 chat owns:** `docs/module1-video1-outline.md`, `docs/module1-video1-run-sheet.md`, `docs/module1-video1-story.md`, `docs/module1-video1-narrative.md`, `docs/module1-video1-log.md` (created with its first entry), and its helper files `scripts/fill_placeholders.py`, `scripts/take-values.example.json` and `scripts/review-config.video1.json`.
+- **The Video 1 chat owns:** `docs/module1/video1/module1-video1-outline.md`, `docs/module1/video1/module1-video1-run-sheet.md`, `docs/module1/video1/module1-video1-story.md`, `docs/module1/video1/module1-video1-narrative.md`, `docs/module1/video1/module1-video1-log.md` (created with its first entry), and its helper files `scripts/fill_placeholders.py`, `docs/module1/video1/take-values.example.json` and `docs/module1/video1/review-config.video1.json`.
 - **Material written before this chat:** the Video 1 narrative (v1) was written by the root before this chat existed, and the author approved it on Oct 25. It is approved material, not a seed: this chat changes it only to fix a claim (section 5) or with the author's approval.
 - **Shared files belong to the root** (see the template, section 10). Send the root a request only when a shared file truly needs a change, when a decision crosses videos, or at a milestone (a checklist row changes state); most turns say nothing about the root. Already handled: the claims-register rows for the wrapper wording, the `time` option and the labels column (rows 36 to 39, Oct 25) and the spanmetrics origin (row 45, Oct 26).
-- **Authority and the video log (Oct 26):** this chat is the source of truth for this video's files and for the video's state. It verifies the author's pasted output for its own deliveries (the base hash, the expected stat, the commit result) and does not route them through the root. It keeps `docs/module1-video1-log.md`, which it creates with its first entry: the checklist state, claim confirmations with their retrieval dates, probe results, the take log, and the decisions the author makes with this chat (for example the slide shapes). Once the log exists, it is the truth about the video's state, ahead of section 8 of this contract. The root reviews a delivery only if the author asks. This applies while the chat is the active chat: only one chat at a time delivers changes to the repo (handoff, section 2, agreement 15), and a chat the author has not named active is advisory.
+- **Authority and the video log (Oct 26):** this chat is the source of truth for this video's files and for the video's state. It verifies the author's pasted output for its own deliveries (the base hash, the expected stat, the commit result) and does not route them through the root. It keeps `docs/module1/video1/module1-video1-log.md`, which it creates with its first entry: the checklist state, claim confirmations with their retrieval dates, probe results, the take log, and the decisions the author makes with this chat (for example the slide shapes). Once the log exists, it is the truth about the video's state, ahead of section 8 of this contract. The root reviews a delivery only if the author asks. This applies while the chat is the active chat: only one chat at a time delivers changes to the repo (handoff, section 2, agreement 15), and a chat the author has not named active is advisory.
 
 ## 11. Video chat routine and starter prompt
 
 As in the template (sections 11 and 12). The starter prompt, with this file's name filled in:
 
 ```
-I'm the author of a Prometheus-to-Elastic training track, and this chat produces Video 1 of Module 1. Please read docs/module1-video1-contract.md first, then the files it lists, then sections 1, 2, 3, 9, 10, 11 and 12 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). You are the active chat only when I say so; until then you are advisory: answer and review, but do not deliver files. Do not end replies with status lists unless something changed materially or I ask.
+I'm the author of a Prometheus-to-Elastic training track, and this chat produces Video 1 of Module 1. Please read docs/module1/video1/module1-video1-contract.md first, then the files it lists, then sections 1, 2, 3, 9, 10, 11 and 12 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). You are the active chat only when I say so; until then you are advisory: answer and review, but do not deliver files. Do not end replies with status lists unless something changed materially or I ask.
 ```
 
-Files to read, in order: this contract; `docs/module1-video1-narrative.md`; `docs/module1-video1-run-sheet.md`; `docs/module1-video1-outline.md`; `docs/module1-query-lab.md` (R1, R3, R6); `docs/module1-status-2026-10-19.md` (the claims register, section 4); `docs/otel-collector-reference.md`; `docs/slide-narrative-guidance.md`.
+Files to read, in order: this contract; `docs/module1/video1/module1-video1-narrative.md`; `docs/module1/video1/module1-video1-run-sheet.md`; `docs/module1/video1/module1-video1-outline.md`; `docs/module1/module1-query-lab.md` (R1, R3, R6); `docs/module1-status-2026-10-19.md` (the claims register, section 4); `docs/shared/otel-collector-reference.md`; `docs/shared/slide-narrative-guidance.md`.
 
 
 Work that can start before the one-time setup (no stack needed): checklist rows 2, 4, 5 and 6 of section 8.

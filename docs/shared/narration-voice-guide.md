@@ -16,7 +16,7 @@ A professional trainer who is a subject-matter expert, speaking peer to peer to 
 |---|---|---|
 | Informal outline | The idea and the order. In the outline file. | Nothing |
 | **Normalized narration** | What the instructor or the speech engine reads. It is the narrative of record. | This guide and the claims rules. **Not** the slide toolkit's rules. Length is free. |
-| Slide-shape version | A derived text that triggers the slide toolkit's patterns, for the slides that have one. | `docs/slide-narrative-guidance.md`: one shape per slide, short beats (about 150 characters), a title phrase. Short, staccato lines are fine here. |
+| Slide-shape version | A derived text that triggers the slide toolkit's patterns, for the slides that have one. | `docs/shared/slide-narrative-guidance.md`: one shape per slide, short beats (about 150 characters), a title phrase. Short, staccato lines are fine here. |
 
 Write the normalized narration first. Derive the slide-shape version from it afterwards. Never let the toolkit's rules flatten the spoken voice.
 

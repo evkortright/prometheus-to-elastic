@@ -34,7 +34,7 @@ The video chat's own work is complete at conditions 1 to 4. Conditions 5 to 7 ar
 
 ## 2. Identity
 
-- **Learning objective (word for word from `docs/module-learning-objectives.md`, with its level):** `<text>`
+- **Learning objective (word for word from `docs/shared/module-learning-objectives.md`, with its level):** `<text>`
 - **Module context (quoted from the same file, not paraphrased):** `<format, skills and knowledge gained>`
 - **Audience:** an SRE who uses PromQL and Grafana every day. Their question is "what do I have to change?"
 - **Target length:** `<about N minutes; no hard limit>`
@@ -71,7 +71,7 @@ The video is strictly standalone. It restates what it needs in about 20 seconds,
 ## 6. Evidence plan
 
 - **Lab items or probes this video runs:** `<list>`
-- **Stack state required:** a freshly reset stack (`docs/reset-runbook.md`, Part B); warm-up of at least `<minutes>`; `paymentFailure` `<on/off>`; pre-roll checks passed.
+- **Stack state required:** a freshly reset stack (`docs/shared/operations/reset-runbook.md`, Part B); warm-up of at least `<minutes>`; `paymentFailure` `<on/off>`; pre-roll checks passed.
 - **Take log fields:** `<fields>`
 
 | Placeholder | Meaning | Source |
@@ -84,7 +84,7 @@ The video is strictly standalone. It restates what it needs in about 20 seconds,
 - **Spellings:** `prom-Q-L`, `E-S-Q-L`, `S-L-Os`, metric names as words, unless the listening test says otherwise.
 - **Numbers:** spoken, never captioned. Each result keeps a 4-second hold on screen.
 - **Slide narrations:** derived from the narrative file, with an explicit shape for the slide generator. The slide guidance binds only the slide-shape version, not the narrative.
-- **Voice-over style guide:** `docs/narration-voice-guide.md`. On voice it wins; on factual rules the contract wins. Each narration has three versions: the informal outline, the normalized narration (the narrative of record), and the slide-shape version (derived).
+- **Voice-over style guide:** `docs/shared/narration-voice-guide.md`. On voice it wins; on factual rules the contract wins. Each narration has three versions: the informal outline, the normalized narration (the narrative of record), and the slide-shape version (derived).
 - **Review script (before recording):** once the narration is valid, the author may submit a plain-text review script, organized by slide, to reviewers. Build it with `scripts/make_review_script.py` (voice guide, section 10). The package for the second editor does not change.
 
 ## 8. Deliverables and acceptance checklist

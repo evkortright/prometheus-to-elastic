@@ -23,7 +23,7 @@
 
 ## Before every take (pre-roll)
 
-**1. The stack.** `docs/reset-runbook.md`: **Part B** (the reset and warm-up; a fresh reset and at least 45 minutes of warm-up) then **Part C** (pre-roll). The commands live there. This video's state: warm-up of at least 45 minutes, `paymentFailure` **off**, pre-roll checks passed. Two notes from the Oct 26 session:
+**1. The stack.** `docs/shared/operations/reset-runbook.md`: **Part B** (the reset and warm-up; a fresh reset and at least 45 minutes of warm-up) then **Part C** (pre-roll). The commands live there. This video's state: warm-up of at least 45 minutes, `paymentFailure` **off**, pre-roll checks passed. Two notes from the Oct 26 session:
 - C2's last number counts warning and error lines. Prometheus's first compaction, about **3 hours** after the stack starts, logs one "Overlapping blocks found during reloadBlocks" warning (seen at T+3.0 h; probably caused by the 30-minute out-of-order window, which was not verified). It does not affect remote write. A take within 3 hours of the start will not see it.
 - C2's "gap equals pending" is a weak check: it failed on three of four readings with `failed` and `retried` at 0. Trust `failed 0`, `retried 0`, and `sent` growing.
 
@@ -171,7 +171,7 @@ Let's start with the first expression: choosing which series we're looking at. T
 ```
 
 Claims check:
-- "A counter": Prometheus's metric types page. "Builds it from traces": register row 45 and `docs/otel-collector-reference.md` (the `spanmetrics` connector). The demo's own Collector config is not in the archive, so this is Docs, partly.
+- "A counter": Prometheus's metric types page. "Builds it from traces": register row 45 and `docs/shared/otel-collector-reference.md` (the `spanmetrics` connector). The demo's own Collector config is not in the archive, so this is Docs, partly.
 - `{{N_PROM}}`: from "Result series: N" in the take.
 
 </details>

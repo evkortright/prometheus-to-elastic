@@ -1,6 +1,6 @@
 # Module 1, Video 3 — Contract
 
-**Status:** Draft v1, October 25, 2026. Filled in from `docs/video-contract-template.md`. Owned by the root chat.
+**Status:** Draft v1, October 25, 2026. Filled in from `docs/shared/video-contract-template.md`. Owned by the root chat.
 **Under consideration (Oct 27):** the author is considering dropping Video 3. Nothing in this contract changes until the author decides (handoff, section 8).
 **Unlike Videos 1 and 2,** this video has no outline and no narrative yet. The Video 3 chat writes both. The candidate beats in section 4 and the facts in the claims register are seed material, not decisions (section 10).
 
@@ -18,11 +18,11 @@
 
 ## 1. The finish line
 
-The contract is fulfilled when the author, as the first video editor, has assembled the complete video from the package in section 9 and can submit it to the second editor. The video chat's own work is complete at conditions 1 to 4 of the template's table (`docs/video-contract-template.md`, section 1). Conditions 5 to 7 are the author's.
+The contract is fulfilled when the author, as the first video editor, has assembled the complete video from the package in section 9 and can submit it to the second editor. The video chat's own work is complete at conditions 1 to 4 of the template's table (`docs/shared/video-contract-template.md`, section 1). Conditions 5 to 7 are the author's.
 
 ## 2. Identity
 
-- **Learning objective (from `docs/module-learning-objectives.md`):** **Identify** documented differences between Elastic's PromQL and Prometheus — unsupported constructs, behavior at query boundaries such as the date-picker window, and the feature's current status. *(Analyze)*
+- **Learning objective (from `docs/shared/module-learning-objectives.md`):** **Identify** documented differences between Elastic's PromQL and Prometheus — unsupported constructs, behavior at query boundaries such as the date-picker window, and the feature's current status. *(Analyze)*
 - **Module context (Module 01, PromQL Support; format: Feature Highlight):** the module aims at "PromQL syntax fluency on Elastic; TSDS conceptual grounding (series identity, dimensions, metric types); confidence that most everyday Prometheus expressions carry over, and the ability to check your own against the documented limits; an accurate, non-oversold picture of what's still incomplete." The learning-objectives file also says limitations are covered in the third video, and that every limitation claim traces to Elastic's documentation or to a recorded test result.
 - **Audience:** an SRE who uses PromQL and Grafana every day. Their question here is "where does this stop working, and how will I know?"
 - **Target length:** flexible, roughly 8 to 10 minutes; the chat proposes the beats. No hard limit.
@@ -69,7 +69,7 @@ The claims-to-confirm table lives in the narrative file, once it exists.
 ## 6. Evidence plan
 
 - **Lab items this video runs:** probes P1 to P8, and R4 re-run (the picker-width test: a 15-minute picker, then a 1-hour picker, against a 30-minute `increase()` window). The lab holds the expressions. The take log records the **exact error text** Elastic returns for P1 to P4, and the Prometheus result for each, including whether Prometheus rejects any of them.
-- **Stack state required:** a freshly reset stack (`docs/reset-runbook.md`, Part B). Warm-up of at least 45 minutes: the R4 comparison needs the 30-minute window to be fully covered by data when the picker is set to one hour, which 45 minutes allows (confirm in the rehearsal). `paymentFailure` off. The pre-roll checks passed.
+- **Stack state required:** a freshly reset stack (`docs/shared/operations/reset-runbook.md`, Part B). Warm-up of at least 45 minutes: the R4 comparison needs the 30-minute window to be fully covered by data when the picker is set to one hour, which 45 minutes allows (confirm in the rehearsal). `paymentFailure` off. The pre-roll checks passed.
 - **Not run, by design:** native histograms, the HTTP API, and staleness. Say so in the video, and do not claim results for them.
 - **Status check:** at script time, the author reads the "applies to" badges on the PROMQL command page and the limitations page in a browser and reports them to the chat. The chat records them as a register request for the root (row 44).
 - **Take log fields:** per probe, the Prometheus result, the Elastic result (the exact error text where there is one), the seconds between the runs where a value is compared, and retakes and notes.
@@ -79,7 +79,7 @@ The placeholder table lives in the narrative file, once it exists.
 ## 7. Narration rules
 
 As in the template. For Video 3 specifically:
-- The voice is the trainer voice, and the three-version model applies: see `docs/narration-voice-guide.md`.
+- The voice is the trainer voice, and the three-version model applies: see `docs/shared/narration-voice-guide.md`.
 - Error texts are spoken as written on screen only if short and clean. Otherwise the narration says "a client error" and the screen shows the exact text, which is part of what the demo displays.
 - The slide narrations are derived from the narrative file with an explicit shape for the slide generator. A limitations table is a natural candidate for a peer-card or comparison shape; the chat decides with the author.
 
@@ -93,7 +93,7 @@ As in the template. For Video 3 specifically:
 | 4 | Narrative approved | Author | Not started |
 | 5 | Slide narrations, with explicit shapes | Video chat | Not started |
 | 6 | Run-sheet written from the approved narrative | Video chat | Not started |
-| 7 | One-time setup and a stack reset (`docs/reset-runbook.md`, Parts A and B) | Root and author | Not started |
+| 7 | One-time setup and a stack reset (`docs/shared/operations/reset-runbook.md`, Parts A and B) | Root and author | Not started |
 | 8 | Probes P1 to P8 and the R4 re-run, with exact error texts | Video chat guides, author runs | Not started |
 | 9 | The feature's status read from the live pages in a browser | Author | Not started |
 | 10 | Claims confirmed against the docs and the take | Video chat | Not started |
@@ -121,9 +121,9 @@ Everything else stays in the repo. **This section changes only if something chan
 As in the template (sections 11 and 12). The starter prompt, with this file's name filled in:
 
 ```
-I'm the author of a Prometheus-to-Elastic training track, and this chat produces Video 3 of Module 1. Please read docs/module1-video3-contract.md first, then the files it lists, then sections 1, 2, 3, 9, 10, 11 and 12 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). You are the active chat only when I say so; until then you are advisory: answer and review, but do not deliver files. Do not end replies with status lists unless something changed materially or I ask. If the contract lists seed material, ask me first whether to use it, rewrite it, or ignore it.
+I'm the author of a Prometheus-to-Elastic training track, and this chat produces Video 3 of Module 1. Please read docs/module1/video3/module1-video3-contract.md first, then the files it lists, then sections 1, 2, 3, 9, 10, 11 and 12 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). You are the active chat only when I say so; until then you are advisory: answer and review, but do not deliver files. Do not end replies with status lists unless something changed materially or I ask. If the contract lists seed material, ask me first whether to use it, rewrite it, or ignore it.
 ```
 
-Files to read, in order: this contract; `docs/module1-query-lab.md` (probes P1 to P8 and R4); `docs/module1-status-2026-10-19.md` (the claims register, section 4); `docs/module1-video2-outline.md` (for the format of an outline only); `docs/slide-narrative-guidance.md`; `docs/module1-video1-narrative.md` and `docs/module1-video2-narrative.md` (for the voice only; Video 3 must not depend on them).
+Files to read, in order: this contract; `docs/module1/module1-query-lab.md` (probes P1 to P8 and R4); `docs/module1-status-2026-10-19.md` (the claims register, section 4); `docs/module1/video2/module1-video2-outline.md` (for the format of an outline only); `docs/shared/slide-narrative-guidance.md`; `docs/module1/video1/module1-video1-narrative.md` and `docs/module1/video2/module1-video2-narrative.md` (for the voice only; Video 3 must not depend on them).
 
 Work that can start before the one-time setup (no stack needed): checklist rows 2 to 6, and the docs reading the chat needs for its claims table.

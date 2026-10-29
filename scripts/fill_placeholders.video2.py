@@ -3,12 +3,12 @@
 build the placeholder-free review script with the root's make_review_script.py.
 
 Usage (one command, values file to review script):
-  python3 scripts/fill_placeholders.video2.py --narrative docs/module1-video2-narrative.md \\
+  python3 scripts/fill_placeholders.video2.py --narrative docs/module1/video2/module1-video2-narrative.md \\
       --values take-values.video2.json --stage provisional --date "Oct 30, 2026" \\
       --review-out ~/module1-video2-review-provisional.txt
 
 Dummy mode (for a wording review before any measurement exists):
-  python3 scripts/fill_placeholders.video2.py --narrative docs/module1-video2-narrative.md --dummy \
+  python3 scripts/fill_placeholders.video2.py --narrative docs/module1/video2/module1-video2-narrative.md --dummy \
       --date "Oct 28, 2026" --review-out ~/module1-video2-review-DUMMY.txt
   The built-in DUMMY values are not measurements; the review script says so in its header.
 
@@ -101,7 +101,7 @@ def main():
     ap.add_argument("--values", help="the values file (not needed with --dummy)")
     ap.add_argument("--dummy", action="store_true", help="use the built-in DUMMY values (labelled; not measurements)")
     ap.add_argument("--out-narrative"); ap.add_argument("--out-blocks"); ap.add_argument("--review-out")
-    ap.add_argument("--config", default=None, help="review config (default: review-config.video2.json next to this script)")
+    ap.add_argument("--config", default=None, help="review config (default: docs/module1/video2/review-config.video2.json)")
     ap.add_argument("--stage", choices=["provisional", "final", "dummy"], default="provisional")
     ap.add_argument("--date", default="", help='e.g. "Oct 30, 2026"; goes into the review script header')
     ap.add_argument("--ratio-decimals", type=int, default=3)
@@ -179,7 +179,7 @@ def main():
     if a.review_out:
         here = os.path.dirname(os.path.abspath(__file__))
         builder = os.path.join(here, "make_review_script.py")
-        cfg_path = a.config or os.path.join(here, "review-config.video2.json")
+        cfg_path = a.config or os.path.join(here, "..", "docs", "module1", "video2", "review-config.video2.json")
         if not os.path.exists(builder): die(f"cannot find {builder}")
         cfg = json.load(open(cfg_path, encoding="utf-8"))
         when = f" of {a.date}" if a.date else ""

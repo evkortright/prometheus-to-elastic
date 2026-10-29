@@ -1,12 +1,12 @@
 # Video 2 starter brief, from the Video 1 chat (Oct 27, 2026)
 
-> **Root note (Oct 27):** the pack's files now live in the repo. The voice guide is `docs/narration-voice-guide.md`, and the tools are in `scripts/` (`make_review_script.py`, `review-config.video2.example.json`, `fill_placeholders.py`, `take-values.example.json`). Where this brief names the pack, it means those files, so no separate pack is needed. This brief is seed material: the Video 2 chat owns it and may rewrite it.
+> **Root note (Oct 27):** the pack's files now live in the repo. The voice guide is `docs/shared/narration-voice-guide.md`, and the tools are in `scripts/` (`make_review_script.py`, `review-config.video2.example.json`, `fill_placeholders.py`, `take-values.example.json`). Where this brief names the pack, it means those files, so no separate pack is needed. This brief is seed material: the Video 2 chat owns it and may rewrite it.
 
-**How to use it:** paste this into the new Video 2 chat right after the root's starter prompt (`docs/module1-video2-contract.md`, section 11), and attach a fresh repo archive plus the starter pack. **The contract is the authority on scope and the finish line; this brief adds what the Video 1 chat learned.** On *voice*, `narration-voice-guide.md` wins.
+**How to use it:** paste this into the new Video 2 chat right after the root's starter prompt (`docs/module1/video2/module1-video2-contract.md`, section 11), and attach a fresh repo archive plus the starter pack. **The contract is the authority on scope and the finish line; this brief adds what the Video 1 chat learned.** On *voice*, `narration-voice-guide.md` wins.
 
 ## 1. Read, in this order
 
-1. `docs/module1-video2-contract.md`, then its outline and the root's seed narrative (draft v1).
+1. `docs/module1/video2/module1-video2-contract.md`, then its outline and the root's seed narrative (draft v1).
 2. **`narration-voice-guide.md`** (in the pack). This is the most important item.
 3. Video 1 as exemplars: `module1-video1-narrative.md` v2 (the voice), `module1-video1-run-sheet.md` v6 (the run-sheet structure), and `module1-video1-log.md` sections 2, 7, 8 and 9 (decisions, observed UI facts, the step ledger, findings).
 4. The handoff's sections 2, 3, 9, 10, 11 and 12, as the contract says.

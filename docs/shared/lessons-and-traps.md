@@ -1,6 +1,6 @@
 # Lessons and traps
 
-> Copied verbatim from handoff-module1-living.md, sections 11 and 12, on Oct 29, 2026, for path map v2 step 1. Numbers and wording are unchanged. The source is archived in step 3, with a one-line header only.
+> Copied verbatim from docs/archive/handoff-module1-living.md, sections 11 and 12, on Oct 29, 2026, for path map v2 step 1. Numbers and wording are unchanged. The source is archived in step 3, with a one-line header only.
 
 ## 11. What we learned about the narrative
 
@@ -32,7 +32,7 @@ These came from reading Video 1's first draft as a viewer and iterating on it. T
 24. **Absolute words in a narration are claims.** "Only", "all", "never" and "always" each need checking against the reference page. The Oct 25 docs check found that "the wrapper only answers three questions" overclaimed, because the command has more options than the three we set. A second example (Oct 26): the narrative's reveal said "now you know all of it", an absolute for the same reason. The Video 1 chat caught it, and the author approved "here it makes just three choices".
 25. **A video's spoken text lives in two places:** the demo clips (the narrative and the run-sheet are identical) and the slide narrations (written in the run-sheet under the slide guidance's rules, 90 to 180 words each, derived from the narrative). They can differ from the narrative's opening and reveal blocks, so the arc review reads the spoken text (the story document), and a video chat keeps the two in sync or says which one wins.
 26. **Paired comparisons need both runs inside one scrape minute.** Prometheus scrapes once a minute (phase about :37 in the first run), and Elastic receives each sample some time later. Two runs agreed to better than 1e-9 when both fell inside one scrape minute (the Prometheus click after about :40, the Elastic click before about :35 of the next minute). The explanation is a hypothesis (register row 59). Plan this per pair; Video 2 has more pairs.
-27. **The trainer voice and the three versions** (`docs/narration-voice-guide.md`): objective first, connected sentences, claims stated precisely, a viewing task instead of a game. Write the normalized narration first and derive the slide-shape version after.
+27. **The trainer voice and the three versions** (`docs/shared/narration-voice-guide.md`): objective first, connected sentences, claims stated precisely, a viewing task instead of a game. Write the normalized narration first and derive the slide-shape version after.
 28. **Observe, then write.** The Video 1 chat's own mistakes, kept as lessons: UI labels written before the screen was seen ("Run" was "Execute" and "Search"), numbers asserted without measuring, counters predicted instead of relationships tested (`failed` 0, `sent` growing), and stale text left in approved files. Test relations, not estimates.
 29. **Concurrent chats collide.** The Video 2 chat modified Video 1's `scripts/fill_placeholders.py` at the author's request, and the Video 1 chat was not told. The helper has a digit-counting issue that Video 1's narration depends on. A chat's files change only through that chat while it is the active chat (agreement 15).
 

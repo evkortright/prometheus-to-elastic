@@ -76,6 +76,6 @@ Each rung repeats the same rhythm: say why the step is wanted, show it in Promet
 ## Dependencies
 
 - Query lab verdicts: R1, R3 and R6 Same (Oct 20), recorded on the old dataset. They are rerun on a freshly reset stack as the rehearsal. R4 belongs to Video 3.
-- **Stack state required (contract, section 6):** a freshly reset stack (`docs/reset-runbook.md`, Part B); a warm-up of at least 45 minutes (the run-sheet's existing rule, which the author may raise); `paymentFailure` off; the pre-roll checks passed (Part C of the runbook: uptime, the remote-write counters, the flags page; plus the browser and screen steps in the run-sheet).
-- The one-time setup (new Serverless project and key, laptop readiness check, first start) comes first (`docs/reset-runbook.md`, Part A).
+- **Stack state required (contract, section 6):** a freshly reset stack (`docs/shared/operations/reset-runbook.md`, Part B); a warm-up of at least 45 minutes (the run-sheet's existing rule, which the author may raise); `paymentFailure` off; the pre-roll checks passed (Part C of the runbook: uptime, the remote-write counters, the flags page; plus the browser and screen steps in the run-sheet).
+- The one-time setup (new Serverless project and key, laptop readiness check, first start) comes first (`docs/shared/operations/reset-runbook.md`, Part A).
 - Re-read the limitations page and record the retrieval date before the take; docs change often.

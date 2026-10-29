@@ -1,6 +1,6 @@
 # Setup and reset runbook (v2.2)
 
-**Status:** v2.2, October 28, 2026. It applies the findings of the first run (`docs/retro-runbook-first-run.md`) except the automation track, plus what the Video 1 rehearsal found (the compaction warning and the weak `gap` check). Owned by the root chat (shared file). Video chats read it and never edit it.
+**Status:** v2.2, October 28, 2026. It applies the findings of the first run (`docs/shared/operations/retro-runbook-first-run.md`) except the automation track, plus what the Video 1 rehearsal found (the compaction warning and the weak `gap` check). Owned by the root chat (shared file). Video chats read it and never edit it.
 **How to read the marks:** every command here ran on the author's laptop on Oct 26 unless it carries the mark **(new)**, which means it is a new form that has not run yet. The next run tests those.
 **If something differs from what a step says to expect, stop and paste it to the root chat.**
 

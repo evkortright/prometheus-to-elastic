@@ -6,7 +6,7 @@
 **Target length:** flexible, about 7 to 10 minutes.
 **Format:** slides plus a live demo, with TTS narration, recorded screen first (same workflow as Video 1).
 
-**Status:** Outline, drafted Oct 22, 2026; updated Oct 28. Nothing recorded. Decisions 1, 2, 4, 6, 8, 9 and 10 approved Oct 25; decision 7 settled Oct 27 (not used); decision 3 settled Oct 28 (kept, reworded); decision 5 deferred until the rehearsal shows both charts. The narrative (v2.1), the run-sheet (v1.2, with the slide versions) and the video log exist: `docs/module1-video2-narrative.md`, `docs/module1-video2-run-sheet.md`, `docs/module1-video2-log.md`.
+**Status:** Outline, drafted Oct 22, 2026; updated Oct 28. Nothing recorded. Decisions 1, 2, 4, 6, 8, 9 and 10 approved Oct 25; decision 7 settled Oct 27 (not used); decision 3 settled Oct 28 (kept, reworded); decision 5 deferred until the rehearsal shows both charts. The narrative (v2.1), the run-sheet (v1.2, with the slide versions) and the video log exist: `docs/module1/video2/module1-video2-narrative.md`, `docs/module1/video2/module1-video2-run-sheet.md`, `docs/module1/video2/module1-video2-log.md`.
 
 ---
 
