@@ -1,0 +1,121 @@
+PROMQL SUPPORT IN ELASTIC
+(Commands: in the demo slide, each narration block that runs a command is preceded by an ON SCREEN box with that command. The commands are pinned to one evaluation instant, 1793242200 (02:50:00 UTC, provisional), so both platforms evaluate at the same moment. They are shown on screen and are not read aloud.)
+Module 1, Video 2: Build it up: a per-service error ratio
+Voice-over script, review draft (provisional), Oct 29, 2026
+(Numbers are from the rehearsal of Oct 29, 2026 and will be replaced by the final recording's.)
+
+========================================================================
+SLIDE 1: TITLE
+========================================================================
+
+Welcome to prom-Q-L Support in Elastic. In this lesson, you will build a per-service error ratio from four small prom-Q-L ideas, and check each one against Prometheus.
+
+========================================================================
+SLIDE 2: OPENING
+========================================================================
+
+You can already pull a request rate out of prom-Q-L. The question people actually ask is harder: which of our services are failing, and how often? In prom-Q-L, that question has a name. It's an error ratio, one per service, and it looks like a lot to write.
+
+So here's what this video is for. By the end, you'll be able to write and execute prom-Q-L against a live Elastic time series data stream. That means instant vectors, range vectors reduced by functions, aggregation, and arithmetic between aggregated results, getting results a Prometheus user would already expect.
+
+To get there, we'll build the error ratio from four small ideas that stack. We'll pick out the series we care about with label matchers. Then we'll turn a counter into a rate and add it up, scale the result with a little arithmetic, and divide one aggregate by another. Each idea runs in Prometheus first, then in Elastic.
+
+I'll assume you're comfortable with prom-Q-L, so we'll spend our time on what's new in Elastic. And at the end, we'll be plain about the limits.
+
+Now, don't take my word for the result. As each pair runs, watch two things: what the new idea adds to the expression, and whether the numbers agree.
+
+========================================================================
+SLIDE 3: DEMO
+========================================================================
+
+[Setup]
+Let's look at what we're working with. On one screen, Prometheus, on the Table tab. On the other, Kibana's Discover, in E-S-Q-L mode. E-S-Q-L is Elastic's query language, and it has a command for running prom-Q-L. Your expression goes inside the parentheses, and here a wrapper around it makes three choices: where it runs, when it's evaluated, and what to call the answer. The date picker stays on the last hour, because the command reads only the data inside that range. And our metric is traces span metrics calls total, a counter that the OpenTelemetry Collector builds from traces.
+
+[What a series is (optional)]
+Underneath this is the series. You know it as one metric with one particular set of labels. In Elastic, a time series data stream stores each observation as a document: a timestamp, dimension fields that identify the series, and the metric values.
+
+[Idea 1, in Prometheus, with the matcher]
+ON SCREEN (Prometheus, Table tab). Shown, not read aloud:
+    count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout", status_code!="STATUS_CODE_ERROR"} @ 1793242200)
+SPOKEN:
+Let's start with the first idea: narrowing the field. You usually want a subset of the series, and label matchers are how you choose. Here we use a regex, service name matches frontend or checkout, plus a negative, status code is not error. To see which series survive, we count them, by service name and status code. Let's run it. Frontend has 36 series. The number after the at sign is the moment both runs are evaluated, in seconds since 1970.
+
+[Idea 1, in Elastic, with the matcher]
+ON SCREEN (Kibana Discover, ES|QL editor). Shown, not read aloud:
+    PROMQL index=metrics-generic.prometheus-default time=1793242200 series=(count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout", status_code!="STATUS_CODE_ERROR"}))
+SPOKEN:
+Now the same thing in Elastic. The text inside the parentheses is the expression. Around it is the wrapper. Index is where it runs. Time is the moment it's evaluated, and here that moment is fixed by the number. And the name out front is what we call the answer. Let's run it. Frontend has 36 series, against 36 in Prometheus. Both runs are evaluated at the same moment.
+
+[Idea 1, in Prometheus, matcher removed]
+ON SCREEN (Prometheus, Table tab). Shown, not read aloud:
+    count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout"} @ 1793242200)
+SPOKEN:
+Now take the not-equals away, and run the same count again. Let's run it. The error series come back as new rows. Frontend, with status code error, has 14 series.
+
+[Idea 1, in Elastic, matcher removed]
+ON SCREEN (Kibana Discover, ES|QL editor). Shown, not read aloud:
+    PROMQL index=metrics-generic.prometheus-default time=1793242200 series=(count by (service_name, status_code) (traces_span_metrics_calls_total{service_name=~"frontend|checkout"}))
+SPOKEN:
+And in Elastic, with the not-equals removed. Let's run it. Frontend with status code error has 14 series, against 14 in Prometheus. Both runs are evaluated at the same moment. So the series the not-equals removed were the error series, in both systems.
+
+[Idea 1, question]
+A question, before we continue. That regex says frontend or checkout. Will it also match frontend proxy? Take a second.
+
+[Idea 1, answer]
+No. A regex matcher has to match the whole value, and frontend proxy is more than frontend, so there's no frontend proxy row in Prometheus or in Elastic.
+
+[Idea 2, in Prometheus]
+ON SCREEN (Prometheus, Table tab). Shown, not read aloud:
+    sum(rate(traces_span_metrics_calls_total[5m] @ 1793242200))
+SPOKEN:
+Now the second idea: how much, in total. A counter keeps climbing, so on its own it says little about right now. What you want is its rate, calls per second averaged over a five minute window. Then we add the series up with sum. With nothing after the sum, they add up into a single number: the total calls per second across our services, as this metric counts them. Let's run it. 68.098 calls per second. Prometheus shows it with an empty set of curly braces, because there's no label left to show.
+
+[Idea 2, in Elastic]
+ON SCREEN (Kibana Discover, ES|QL editor). Shown, not read aloud:
+    PROMQL index=metrics-generic.prometheus-default time=1793242200 total_rate=(sum(rate(traces_span_metrics_calls_total[5m])))
+SPOKEN:
+In Elastic, it's the same expression inside the same wrapper, with a new name for the answer: total rate. Let's run it. 68.098 calls per second, against 68.098 in Prometheus. Both runs are evaluated at the same moment, and the values agree to about nine digits. There are no curly braces here. Elastic shows the value and the time it was evaluated.
+
+[Idea 3, in Prometheus]
+ON SCREEN (Prometheus, Table tab). Shown, not read aloud:
+    sum by (service_name) (rate(traces_span_metrics_calls_total[5m] @ 1793242200)) * 60
+SPOKEN:
+Third idea: arithmetic with a plain number. We put a by clause back, sum by service name, so we get one row per service, and then we multiply by sixty. That turns calls per second into calls per minute. Arithmetic with a plain number scales each value, and the labels stay attached. Let's run it. Frontend reads 967.419 calls per minute.
+
+[Idea 3, in Elastic]
+ON SCREEN (Kibana Discover, ES|QL editor). Shown, not read aloud:
+    PROMQL index=metrics-generic.prometheus-default time=1793242200 per_minute=(sum by (service_name) (rate(traces_span_metrics_calls_total[5m])) * 60)
+SPOKEN:
+In Elastic, the same expression inside the same wrapper. Let's run it. Frontend reads 967.419, against 967.419 in Prometheus. Both runs are evaluated at the same moment, and the values agree to 10 digits.
+
+[Idea 3, question]
+Another question. What would the frontend row say if we multiplied by thirty-six hundred instead of sixty?
+
+[Idea 3, answer]
+Sixty times as much, because thirty-six hundred is sixty times sixty. That's calls per hour, from changing one number.
+
+[Idea 4, in Prometheus]
+ON SCREEN (Prometheus, Table tab). Shown, not read aloud:
+    sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m] @ 1793242200)) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m] @ 1793242200))
+SPOKEN:
+Now the idea we came for: dividing one aggregate by another. On top, the rate of calls whose status code is error, summed by service name. On the bottom, the rate of all calls, summed by service name. Divide the first by the second, and each service that has error series gets its own error ratio.
+
+The rule to remember: aggregate both sides the same way. Here, both sides are sum by service name, so each service on top finds its partner underneath.
+
+To give the ratio something to show, we've switched on a feature flag in the demo that makes the payment service fail some of its requests. Let's run it. 7 rows come back, and payment reads 0.536.
+
+[Idea 4, in Elastic]
+ON SCREEN (Kibana Discover, ES|QL editor). Shown, not read aloud:
+    PROMQL index=metrics-generic.prometheus-default time=1793242200 error_ratio=(sum by (service_name) (rate(traces_span_metrics_calls_total{status_code="STATUS_CODE_ERROR"}[5m])) / sum by (service_name) (rate(traces_span_metrics_calls_total[5m])))
+SPOKEN:
+In Elastic, the same expression inside the same wrapper. Let's run it. 7 rows, against 7 in Prometheus, and payment reads 0.536, against 0.536. Both runs are evaluated at the same moment, and the payment values agree to 14 digits.
+
+Now look at who's missing. A service with no error series doesn't show up as a zero. It isn't in the result at all, in Prometheus or in Elastic. So a missing row means no error series was recorded for that service, not a ratio of zero.
+
+========================================================================
+SLIDE 4: RECAP
+========================================================================
+
+Let's come back to what we set out to do: write and execute prom-Q-L against a live Elastic time series data stream, getting results a Prometheus user would already expect. You've now built the error ratio one idea at a time. Label matchers picked out the series. A rate, summed, turned a counter into one number. Arithmetic with a plain number scaled it. And a ratio of two aggregates, aggregated the same way, answered the question you actually get asked: which of our services are failing, and how often. Each time, it was the same expression in Prometheus and in Elastic, and the numbers agreed.
+
+There's one caution, because we said we'd be plain about the limits. Most of prom-Q-L works this way, though not all of it, and the edges are worth knowing before you rely on them. Elastic's documentation keeps the current list of what isn't supported, so check it before you move something you depend on.
