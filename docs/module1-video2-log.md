@@ -16,9 +16,9 @@
 | 4 | Narrative approved | Author | Accepted Oct 27 as the working text for review and recording, not as final. Changes come from the reviewers and from the take |
 | 5 | Slide narrations for the hook and the recap, with explicit shapes | Video chat | **Written Oct 27 (delivery 4)** as the slide versions in the run-sheet's beats 1 and 8: the hook is shape A (the author's choice), the recap is shape C. Not yet tried in the toolkit |
 | 6 | Run-sheet written from the approved narrative | Video chat | **v1 (delivery 3), v1.1 with the slide versions (delivery 4), v1.2 following narrative v2.1 (delivery 5), v1.3 naming the helper (delivery 6), v1.4 with the approved rehearsal plan and the review-script how-to (delivery 7):** the 19 blocks copied from the narrative, twelve commands, the timing windows, the take log and the 20 placeholders. Not yet used in practice |
-| 7 | One-time setup and a stack reset (`docs/reset-runbook.md`, Parts A and B) | Root and author | Not started. Video 1's takes come first, with `paymentFailure` off; Video 2's stack is prepared after them (Parts B and C) |
-| 8 | The flag measured (decision 4); decisions 3, 5 and 7 settled | Video chat guides, author runs | Not started. Decision 7 settled Oct 27 (not used). Decisions 3 and 5 deferred to the TSDS check and the rehearsal |
-| 9 | Rehearsal of R2, R5, R7 and R8 on the fresh stack; claims confirmed | Video chat guides, author runs | Not started |
+| 7 | One-time setup and a stack reset (`docs/reset-runbook.md`, Parts A and B) | Root and author | **Part B done Oct 28–29** on a fresh stack: B2 to B6 proved, B7 flag off, warm-up complete (section 4). Part A is not repeated. Video 1's final recording still needs a fresh reset with the flag off, and C4 after it |
+| 8 | The flag measured (decision 4); decisions 3, 5 and 7 settled | Video chat guides, author runs | **Measured at 50% (decision 27):** the response to the flag, the wait and the zero rows are in section 4. Decision 7 settled Oct 27 (not used). Decision 3 settled Oct 28. Decision 5 still deferred |
+| 9 | Rehearsal of R2, R5, R7 and R8 on the fresh stack; claims confirmed | Video chat guides, author runs | **In progress.** The pinned check at one instant and a 15-instant sweep are done (section 4), so the agreement claims rest on measurement. The five pairs' takes are not yet run |
 | 10 | The take: footage and the take log | Author | Not started |
 | 11 | Placeholders filled; narration regenerated with the real numbers; audio generated and listened to | Video chat and author | Not started |
 | 12 | The first-pass video assembled and exported | Author | Not started |
@@ -52,6 +52,11 @@
 | 22 | Oct 28 | **Build a delivery-check script and a one-page resume file.** `scripts/apply_delivery.py` verifies a delivery zip against its `MANIFEST.json` and stages the files, never committing; the author pastes its report, then commits and pushes by hand. `docs/module1-video2-resume.md` lets a fresh chat start from one page. Delivery 8 carries both and is applied by the manual routine one last time; the first real use of the script is delivery 9. A new chat for the rehearsal is recommended | **Decided** (the author) |
 | 23 | Oct 28 | **A local model (Qwen via Ollama) for the research reading** is possible with safeguards: ask for verbatim quotes with their section headings and the headings seen, check the quotes against the saved page by script, and check `num_ctx` so that a long page is not cut off silently. Not built: little research remains (the limitations and command pages before the take). Elastic's docs pages have a "View as Markdown" link, which avoids the navigation text and shortens any fetch | **Proposed** (not built) |
 | 24 | Oct 28 | **The rehearsal runs in a fresh chat**, started from the resume page with the rehearsal starter prompt (now in the resume page), with the repo archive uploaded. Because a fresh chat has no build tool, `scripts/build_delivery.py` (the manifest builder) is added to the repo in delivery 9, which is also the first real use of `scripts/apply_delivery.py`. The reset in Part B wipes the data stream, so Video 1's takes come first | **Decided** (the author proposed the fresh chat; the builder is this chat's addition) |
+| 25 | Oct 29 | **The feature highlight becomes a measuring experiment.** The demonstration uses pinned queries (`@` in Prometheus, `time=` as epoch seconds in Elastic) so both engines evaluate at one instant. Reason: every disagreement in the rehearsal (9:08, 9:13, 9:17) came from different evaluation instants, not from either engine. The learning objective may change, since the author owns it | **Decided** (the author) |
+| 26 | Oct 29 | **A live-query segment follows the pinned proof:** the same expression run twice live can give different answers, because the 5-minute window moves. The measured flag response is the teaching example | **Proposed** |
+| 27 | Oct 29 | **The flag stays at 50% for the measurement** | **Decided** (the author) |
+| 28 | Oct 29 | **Agreement wording rests on the sweep (section 4):** counts "exact"; the ratio "agrees to about 14 digits"; the rate sums "agree to about nine digits, at worst about one part in a billion". Not "identical". The sweep covers one hour, one flag setting and one stack after a reset | **Proposed** |
+| 29 | Oct 29 | **Pinned design for the five pairs, with one instant for the whole video.** The on-screen expressions show the epoch number; a caption in DaVinci Resolve explains it ("Evaluated at … UTC"); the first pinned pair says in narration what the number is. The spoken sentences for the five pairs say "Both runs are evaluated at the same moment", with no seconds apart (delivery 10). The final take's instant is chosen before recording and recorded here. The provisional script uses 1793242200 (02:50:00 UTC) | **Decided** (the author, Oct 29) |
 
 ## 3. Claim confirmations
 
@@ -88,10 +93,74 @@ The claims-to-confirm table lives in the narrative file (contract section 4) and
 
 ## 4. Rehearsal and probe results
 
-None yet. The approved plan is in the run-sheet's "Rehearsal" section (row 19). The rehearsal (contract, section 6) runs R2, R5, R7 and R8 on the fresh stack and must also record:
-- the Elastic row counts for R7 and R8, which the lab never captured;
-- what the `paymentFailure` flag does to payment's ratio, and how long after switching it on the ratio shows it (register row 14). No claim about the size of the effect until it is measured;
-- only if the optional beats stay: the range-query chart on both sides (decision 5), and a mapping check of how the data stream marks dimensions (decision 3, register row 41).
+Times are CDT unless marked UTC (UTC minus 5 on Oct 28 and 29). Values are copied from the session's output, not re-derived.
+
+**Reset and warm-up (Part B).**
+- B2: stopped and wiped, 19:38:11 to 19:38:26 CDT (15 s); 26 items removed; counts 0 and 0.
+- B3: the old stream was stable at `MAX(@timestamp)` 19:38:04.768 and `COUNT(*)` 14,433,234 (second reading at 19:41). Old backing indices and uuids: `jJEpJ5oKTwuqdS1D4bfzmQ` (2026.10.26-000001), `wcEveWcTQBOQhESvUovf-Q` (2026.10.27-000002), `-IteHYdyRQ6BWJD0izaMHQ` (2026.10.28-000003). Three indices, not the one the runbook expects.
+- B4: `DELETE` acknowledged.
+- B5: `up` began 19:43:54. **T0 = 19:44:26 CDT (00:44:26 UTC).** 25 containers `Up`, no restarts.
+- B6.1: `samples_total` 94,121 to 160,421 in 60 s (about 1,105 a second); `failed` and `retried` 0; `pending` 3,451 then 5,417.
+- B6.2: `MIN(@timestamp)` 19:44:08.821, `MAX` 19:49:58.864, `COUNT(*)` 303,601. Nothing from before the reset survived.
+- B6.3: new uuid `iY-qHpZ-TZarlbz43iZW_g`, generation 1, `index_mode` `time_series`, template `metrics-prometheus@template`, status `GREEN`, `failure_store.indices` empty. The reset is proven.
+- B7: `paymentFailure` `off` (default), state `ENABLED`. Variants: `off` 0, `10%` 0.1, `25%` 0.25, `50%` 0.5, `75%` 0.75, `90%` 0.95, `100%` 1. The description reads "Fail payment service charge requests n%". The effect is unmeasured here.
+- Warm-up complete at 20:29:26 CDT (45 min after T0). Checked at 01:41:51 UTC.
+
+**Pre-roll (Part C).**
+- C1 (01:41:51 UTC): `flagd`, `flagd-ui`, `prometheus` `Up 57 minutes`.
+- C2 (01:42:24 UTC): `failed 0`, `retried 0`, `pending 4661`, `gap 4661` (equal here, not required), `sent` 10,599,686, warnings and errors 0.
+- C3: two restarts. `product-catalog` at 00:45:49 UTC, 83 s after T0 (the startup race, accepted). `checkout` at 01:05:25 UTC, about 21 min after T0 (cause unknown, accepted). Both `oomkilled=false`. Re-run C3 before any take: a `checkout` restart in the last 10 minutes before a take forces a reset.
+- C4 (flag, at the baseline): `paymentFailure` `off`, `ENABLED`, the same variants.
+
+**Baseline, flag off (8:45 CDT, 01:45 UTC).** Prometheus, idea 4 expression: `Result series: 7`. `payment` 0. Six of seven rows exactly 0 (`frontend-proxy`, `checkout`, `frontend`, `ad`, `flagd`, `payment`); `recommendation` 0.0031055900621118015.
+
+**Flag measurement, `paymentFailure` at 50%, switched on at 8:53 CDT (live Prometheus, `payment`):**
+
+| Clock (CDT) | Minutes after switch | `payment` |
+|---|---|---|
+| 8:53 | 0 | 0 |
+| 8:55 | 2 | 0.2273 |
+| 8:58 | 5 | 0.4236 |
+| 9:03 | 10 | 0.5714 |
+| 9:08 | 15 | 0.6250 |
+| 9:13 | 20 | 0.6429 |
+| 9:17 | 24 | 0.4359 |
+
+Elastic (live, `time=?_tend` in Discover): 9:04 `payment` 0.5714 (step 21:04:02); 9:08 0.5937 (step 21:08:22.500); 9:14 0.5769 (step 21:14:15); 9:18 0.5152 (step 21:18:27).
+
+- **Withdrawn:** the 9:08, 9:13 and 9:17 disagreements. They came from the two runs having different evaluation instants. The earlier "ingest lag" and "levelling off" explanations were wrong. Payment's ratio sways in steps about once a minute, when a sample enters or leaves the 5-minute window (02:31 to 02:33 UTC, pinned to a 5-second grid: steps at about :10 past each minute).
+- The only live pair that agreed was 9:03 and 9:04 (about 14 digits).
+
+**Pinned checks (epoch 1793242200 = 02:50:00 UTC).** Prometheus and Elastic agree on every row, in the terminal (API) and in Discover's editor:
+- A (idea 1, matcher): `frontend` STATUS_CODE_UNSET 36 and `checkout` UNSET 8, both sides, exact.
+- A0 (idea 1, no matcher): adds `frontend` ERROR 14 and `checkout` ERROR 3, both sides, exact.
+- B (idea 2): Prometheus 68.09849179235063, Elastic 68.09849179776215 (agree to about 10 digits).
+- C (idea 3): 18 rows on each side; `frontend` 967.4193817181902 (Prometheus) and 967.4193817950676 (Elastic); agree to about 8 to 10 digits.
+- D (idea 4): 7 rows on each side; `payment` 0.5357142857142857 (Prometheus) and 0.5357142857142867 (Elastic); `recommendation` exactly 0.
+
+**Sweep (decision 28).** 15 whole-minute instants, 02:11 to 03:07 UTC, four minutes apart, the four pinned expressions, Elastic read with the read key. No errors, no missing rows.
+
+| Pair | Rows compared | Exact | Worst relative difference (instant, row) |
+|---|---|---|---|
+| A | 30 | 30 | 0 |
+| A0 | 60 | 60 | 0 |
+| B | 15 | 5 | 6.0e-10 (02:55) |
+| C | 270 | 81 | 6.0e-10 (02:55, `flagd`) |
+| D | 105 | 42 | 6.8e-15 (03:07, `frontend`) |
+
+- Payment's ratio across the sweep ranged from 0.22 (03:07) to 0.86 (02:47): the window effect.
+- The sweep covers the 01:05 UTC `checkout` restart, and no compared value shows a discontinuity there.
+- The B and C differences look systematic (about 8e-11 relative on every row checked), not random. Their cause is not explained. The claim stays at the measured level.
+
+**Read key and query forms.**
+- `.env.elastic.read` holds the endpoint and a read-only key `prom-read-metrics-generic`, created with a seven-day expiry (about Nov 5, 2026). It is git-ignored by the `.env.*` rule (`.gitignore` line 4). The write key in `.env.elastic` is unchanged and was rejected for reads (`security_exception`).
+- The raw `_query` API fails on `?_tend` outside Kibana's editor (`No value found for parameter`). It also rejects colon-form timestamps in `time=` (`Invalid parameter value`), so epoch seconds are used.
+- The Elastic `series` column is a double (36.0), so counts are spoken as whole numbers.
+- Discover's editor accepts `time=` as epoch seconds, and it shows values at full precision.
+
+**Zero rows.** `ad`, `recommendation`, `flagd` and `flagd-ui` read exactly 0 at some instants and small non-zero values at others (for example `recommendation` 0.0031 at 8:55 and 0 at 9:03; `flagd` 0 at 9:03 and 0.0008 at 9:08). Present rows that read 0 are a real case for idea 4. The narration says only that a service with no error series is absent. Whether a sentence is needed is open.
+
+**Prometheus pinned in the browser.** Not yet tested. The API accepted `@`, and the pinned check used it. The Table view's acceptance is one read-only check to run before the take.
 
 ## 5. Take log
 
@@ -196,3 +265,5 @@ Sent at a milestone, at most once per session, and only what a shared file needs
 | 15 | Oct 28, 2026 | **Delivery 8** (the delivery-check script, the resume file, and this log). **Base:** `9a56a7041df957c3af080f9817a0d9a08219121e`; the two new files do not exist in the base; base sha256 of the log: `289050fc101314c23898395d6aeed5f5c99b6dbb4461e9db7a9eeeae2b65c12d`. **After apply:** `scripts/apply_delivery.py` `6e535c8fb9d1d49297fc22bd3fd6f3585bcb099fd323569096c86a21bcbfe22f`, `docs/module1-video2-resume.md` `c1d6357f689fc0b9e2ff9ed36ba37cb621f3e835dc28ed7aef26ce47a358a8ac` (the log cannot list its own hash). The zip has no manifest: it is applied by the manual routine. No shared file is touched. The commit hash goes into entry 16, once the author's output is verified |
 | 16 | Oct 28, 2026 | **Delivery 8 verified** from the author's pasted output (the last delivery by the manual routine): base HEAD `9a56a7041df957c3af080f9817a0d9a08219121e`, tree clean; the base sha256 of the log matched (`289050fc…`); the zip listing matched (three files; 66641 in total); the unzip and status showed ` M` for the log and `??` for the two new files; the after-apply sha256 matched (script `6e535c8f…`, resume `c1d6357f…`, log `5a5c6584…`); the stat matched (15, 26 and 232 changed lines; 272 insertions, 1 deletion); the safety grep printed nothing; commit `6c0944d` (two files created) and push `9a56a70..6c0944d main -> main`; afterwards HEAD `6c0944d6a427f850176b3d03681d86aa8a1f6a13` equals `origin/main` and the tree is clean |
 | 17 | Oct 28, 2026 | **Delivery 9** (the manifest builder, the resume page with the rehearsal starter prompt, and this log): the first delivery with a manifest, applied with `scripts/apply_delivery.py`. **Base:** `6c0944d6a427f850176b3d03681d86aa8a1f6a13`; `scripts/build_delivery.py` does not exist in the base; base sha256: resume `c1d6357f689fc0b9e2ff9ed36ba37cb621f3e835dc28ed7aef26ce47a358a8ac`, log `5a5c65842e841c36f03804b80b566610e8e88f44b917a4f2ed4f5fe9b17cdf50`. **After apply:** `scripts/build_delivery.py` `b3981a41f635bb1911921189ed605dfee1a56da9b7d103a1dfa6a6ac419b1541`, resume `f7489704af555b9e5ab3c77b3fd7b311c011ba353ac682dc8b866592cddb6762` (the log cannot list its own hash; the manifest holds all three). The commit hash goes into entry 18, once the author's report is verified |
+| 18 | Oct 29, 2026 | **Delivery 10 applied and pushed** (narrative, helper and values template: pinned evaluation for the five pairs, decision 25). **Base:** `e6da744d21c68cf823963aed0ffb91aa9390099e` (the archive comment matched it). **Manifest sha256** `404a9c2ff14b80f121707dba080b8948758e0e16f6631688c41daf5705739fd9`. `apply_delivery.py` passed all 12 checks; the author then committed and pushed: `a081c8712eb8f18cfde46ad62d6d6e165073d7aa` (`e6da744..a081c87 main -> main`); the tree is clean and in sync. The run-sheet is not in this delivery; it is regenerated from the narrative in the next one. |
+| 19 | Oct 29, 2026 | **Delivery 11** (this log only: section 1 rows 7 to 9, decisions 25 to 29, section 4 with the rehearsal measurements, and this entry). **Base:** `a081c8712eb8f18cfde46ad62d6d6e165073d7aa`; base sha256 of the log: `121f4830d142a56bc6ce618fb5f2af0bf32671e513eee14eaf34421c06dab44f`. The after-apply sha256 of the log is recorded in the next entry. |
