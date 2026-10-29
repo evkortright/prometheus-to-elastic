@@ -35,7 +35,7 @@ from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 # value key -> how it is spoken
 COUNTS = ["a_frontend_prom", "a_frontend_elastic", "a_err_frontend_prom", "a_err_frontend_elastic",
           "d_rows_prom", "d_rows_elastic"]
-SECONDS = ["seconds_a", "seconds_a_base", "seconds_b", "seconds_c", "seconds_d"]
+SECONDS = []  # pinned runs share one evaluation instant: no gap is measured (decision 25)
 RATES = ["b_prom", "b_elastic", "c_frontend_prom", "c_frontend_elastic"]
 RATIOS = ["d_payment_prom", "d_payment_elastic"]
 KEYS = COUNTS + SECONDS + RATES + RATIOS
@@ -43,16 +43,14 @@ KEYS = COUNTS + SECONDS + RATES + RATIOS
 # placeholder -> (kind, value key[s])
 PLACEHOLDERS = {
     "A_FRONTEND_PROM": ("count", "a_frontend_prom"), "A_FRONTEND_ELASTIC": ("count", "a_frontend_elastic"),
-    "SECONDS_A": ("seconds", "seconds_a"),
     "A_ERR_FRONTEND_PROM": ("count", "a_err_frontend_prom"), "A_ERR_FRONTEND_ELASTIC": ("count", "a_err_frontend_elastic"),
-    "SECONDS_A_BASE": ("seconds", "seconds_a_base"),
     "B_PROM": ("rate", "b_prom"), "B_ELASTIC": ("rate", "b_elastic"),
-    "SECONDS_B": ("seconds", "seconds_b"), "DIGITS_B": ("digits", ("b_prom", "b_elastic")),
+    "DIGITS_B": ("digits", ("b_prom", "b_elastic")),
     "C_FRONTEND_PROM": ("rate", "c_frontend_prom"), "C_FRONTEND_ELASTIC": ("rate", "c_frontend_elastic"),
-    "SECONDS_C": ("seconds", "seconds_c"), "DIGITS_C": ("digits", ("c_frontend_prom", "c_frontend_elastic")),
+    "DIGITS_C": ("digits", ("c_frontend_prom", "c_frontend_elastic")),
     "D_ROWS_PROM": ("count", "d_rows_prom"), "D_ROWS_ELASTIC": ("count", "d_rows_elastic"),
     "D_PAYMENT_PROM": ("ratio", "d_payment_prom"), "D_PAYMENT_ELASTIC": ("ratio", "d_payment_elastic"),
-    "SECONDS_D": ("seconds", "seconds_d"), "DIGITS_D": ("digits", ("d_payment_prom", "d_payment_elastic")),
+    "DIGITS_D": ("digits", ("d_payment_prom", "d_payment_elastic")),
 }
 
 def die(msg):
@@ -91,11 +89,11 @@ FENCE = re.compile(r"(```\n)(.*?)(\n```)", re.S)
 
 # DUMMY values, for wording review only. They are NOT measurements, and every output they feed is labelled.
 DUMMY = {"_note": "DUMMY VALUES built into the helper, for wording review only. They are not measurements.",
-         "a_frontend_prom": "36", "a_frontend_elastic": "36", "seconds_a": "14",
-         "a_err_frontend_prom": "14", "a_err_frontend_elastic": "14", "seconds_a_base": "9",
-         "b_prom": "46.37547088", "b_elastic": "46.37547091", "seconds_b": "15",
-         "c_frontend_prom": "767.31394283", "c_frontend_elastic": "767.31394277", "seconds_c": "7",
-         "d_rows_prom": "8", "d_rows_elastic": "8", "d_payment_prom": "0.31251234", "d_payment_elastic": "0.31251239", "seconds_d": "9"}
+         "a_frontend_prom": "36", "a_frontend_elastic": "36",
+         "a_err_frontend_prom": "14", "a_err_frontend_elastic": "14",
+         "b_prom": "46.37547088", "b_elastic": "46.37547091",
+         "c_frontend_prom": "767.31394283", "c_frontend_elastic": "767.31394277",
+         "d_rows_prom": "8", "d_rows_elastic": "8", "d_payment_prom": "0.31251234", "d_payment_elastic": "0.31251239"}
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)

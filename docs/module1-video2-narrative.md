@@ -69,13 +69,13 @@ Underneath this is the series. You know it as one metric with one particular set
 *Prometheus: the count expression with the regex and the not-equals matcher is pasted, the cursor underlines the regex and then the not-equals, then Execute. The cursor rests on the frontend row.*
 
 ```
-Let's start with the first idea: narrowing the field. You usually want a subset of the series, and label matchers are how you choose. Here we use a regex, service name matches frontend or checkout, plus a negative, status code is not error. To see which series survive, we count them, by service name and status code. Let's run it. Frontend has {{A_FRONTEND_PROM}} series.
+Let's start with the first idea: narrowing the field. You usually want a subset of the series, and label matchers are how you choose. Here we use a regex, service name matches frontend or checkout, plus a negative, status code is not error. To see which series survive, we count them, by service name and status code. Let's run it. Frontend has {{A_FRONTEND_PROM}} series. The number after the at sign is the moment both runs are evaluated, in seconds since 1970.
 ```
 
 *Elastic: the same expression inside the wrapper, run right after the Prometheus one, in the same continuous take. The cursor underlines the expression in the parentheses, then index, time and the result name, then Search or Cmd+Enter.*
 
 ```
-Now the same thing in Elastic. The text inside the parentheses is the expression. Around it is the wrapper. Index is where it runs. Time is when it's evaluated: once, at the end of the date picker's range. And the name out front is what we call the answer. Let's run it. Frontend has {{A_FRONTEND_ELASTIC}} series, against {{A_FRONTEND_PROM}} in Prometheus. The two runs were about {{SECONDS_A}} seconds apart.
+Now the same thing in Elastic. The text inside the parentheses is the expression. Around it is the wrapper. Index is where it runs. Time is the moment it's evaluated, and here that moment is fixed by the number. And the name out front is what we call the answer. Let's run it. Frontend has {{A_FRONTEND_ELASTIC}} series, against {{A_FRONTEND_PROM}} in Prometheus. Both runs are evaluated at the same moment.
 ```
 
 *Prometheus: the same expression with the not-equals removed, then Execute. The error rows appear; the cursor rests on the frontend row with status code error.*
@@ -87,7 +87,7 @@ Now take the not-equals away, and run the same count again. Let's run it. The er
 *Elastic: the same expression with the not-equals removed, run right after, in the same continuous take. The cursor rests on the frontend row with status code error.*
 
 ```
-And in Elastic, with the not-equals removed. Let's run it. Frontend with status code error has {{A_ERR_FRONTEND_ELASTIC}} series, against {{A_ERR_FRONTEND_PROM}} in Prometheus, about {{SECONDS_A_BASE}} seconds apart. So the series the not-equals removed were the error series, in both systems.
+And in Elastic, with the not-equals removed. Let's run it. Frontend with status code error has {{A_ERR_FRONTEND_ELASTIC}} series, against {{A_ERR_FRONTEND_PROM}} in Prometheus. Both runs are evaluated at the same moment. So the series the not-equals removed were the error series, in both systems.
 ```
 
 *Question: the regex is on screen. Hold 3 seconds after the question.*
@@ -113,7 +113,7 @@ Now the second idea: how much, in total. A counter keeps climbing, so on its own
 *Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. One value and its time.*
 
 ```
-In Elastic, it's the same expression inside the same wrapper, with a new name for the answer: total rate. Let's run it. {{B_ELASTIC}} calls per second, against {{B_PROM}} in Prometheus. The runs were about {{SECONDS_B}} seconds apart, and the values agree to {{DIGITS_B}} digits. There are no curly braces here. Elastic shows the value and the time it was evaluated.
+In Elastic, it's the same expression inside the same wrapper, with a new name for the answer: total rate. Let's run it. {{B_ELASTIC}} calls per second, against {{B_PROM}} in Prometheus. Both runs are evaluated at the same moment, and the values agree to {{DIGITS_B}} digits. There are no curly braces here. Elastic shows the value and the time it was evaluated.
 ```
 
 ## Idea 3: scale it with arithmetic
@@ -127,7 +127,7 @@ Third idea: arithmetic with a plain number. We put a by clause back, sum by serv
 *Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. The cursor rests on the frontend row.*
 
 ```
-In Elastic, the same expression inside the same wrapper. Let's run it. Frontend reads {{C_FRONTEND_ELASTIC}}, against {{C_FRONTEND_PROM}} in Prometheus. The runs were about {{SECONDS_C}} seconds apart, and the values agree to {{DIGITS_C}} digits.
+In Elastic, the same expression inside the same wrapper. Let's run it. Frontend reads {{C_FRONTEND_ELASTIC}}, against {{C_FRONTEND_PROM}} in Prometheus. Both runs are evaluated at the same moment, and the values agree to {{DIGITS_C}} digits.
 ```
 
 *Question: the expression is on screen. Hold 3 seconds after the question.*
@@ -157,7 +157,7 @@ To give the ratio something to show, we've switched on a feature flag in the dem
 *Elastic: the same expression inside the wrapper, then Search or Cmd+Enter. The cursor rests on the payment row, then on the full list.*
 
 ```
-In Elastic, the same expression inside the same wrapper. Let's run it. {{D_ROWS_ELASTIC}} rows, against {{D_ROWS_PROM}} in Prometheus, and payment reads {{D_PAYMENT_ELASTIC}}, against {{D_PAYMENT_PROM}}. The runs were about {{SECONDS_D}} seconds apart, and the payment values agree to {{DIGITS_D}} digits.
+In Elastic, the same expression inside the same wrapper. Let's run it. {{D_ROWS_ELASTIC}} rows, against {{D_ROWS_PROM}} in Prometheus, and payment reads {{D_PAYMENT_ELASTIC}}, against {{D_PAYMENT_PROM}}. Both runs are evaluated at the same moment, and the payment values agree to {{DIGITS_D}} digits.
 
 Now look at who's missing. A service with no error series doesn't show up as a zero. It isn't in the result at all, in Prometheus or in Elastic. So a missing row means no error series was recorded for that service, not a ratio of zero.
 ```
@@ -189,16 +189,14 @@ Every number is spoken, none is captioned. A Prometheus value and its Elastic pa
 | Placeholder | Meaning | Source and form |
 |---|---|---|
 | `{{A_FRONTEND_PROM}}`, `{{A_FRONTEND_ELASTIC}}` | Series count of the frontend row in the first pair (with the `!=` matcher) | Take log; whole numbers |
-| `{{SECONDS_A}}` | Seconds between the Prometheus and Elastic runs, first pair | Take log; read from the footage; whole seconds |
 | `{{A_ERR_FRONTEND_PROM}}`, `{{A_ERR_FRONTEND_ELASTIC}}` | Series count of the row "frontend, status code error" in the second pair (without the `!=` matcher). Replace `{{A_BASE_FRONTEND_*}}` of the seed | Take log; whole numbers |
-| `{{SECONDS_A_BASE}}` | Seconds between the runs, second pair | Take log; whole seconds |
 | `{{B_PROM}}`, `{{B_ELASTIC}}` | Total calls per second, idea 2 | Take log; three decimals |
-| `{{SECONDS_B}}`, `{{DIGITS_B}}` | Seconds between the runs, and the leading significant digits the two values share, idea 2 | Take log; computed from the full-precision values |
+| `{{DIGITS_B}}` | The leading significant digits the two values share, idea 2 | Take log; computed from the full-precision values |
 | `{{C_FRONTEND_PROM}}`, `{{C_FRONTEND_ELASTIC}}` | Frontend calls per minute, idea 3 | Take log; three decimals |
-| `{{SECONDS_C}}`, `{{DIGITS_C}}` | Seconds between the runs, and the digits the two values share, idea 3 | Take log; computed |
+| `{{DIGITS_C}}` | The leading significant digits the two values share, idea 3 | Take log; computed |
 | `{{D_ROWS_PROM}}`, `{{D_ROWS_ELASTIC}}` | Rows returned by the error ratio, idea 4 ("Result series: N" and "N results"; the lab never recorded the Elastic count) | Take log; whole numbers |
 | `{{D_PAYMENT_PROM}}`, `{{D_PAYMENT_ELASTIC}}` | Payment's error ratio, idea 4 | Take log; form still open (see "Still open") |
-| `{{SECONDS_D}}`, `{{DIGITS_D}}` | Seconds between the runs, and the digits the two payment values share, idea 4 | Take log; computed |
+| `{{DIGITS_D}}` | The leading significant digits the two payment values share, idea 4 | Take log; computed |
 
 Rule: if a number disagrees with a sentence, rewrite the sentence. A digits sentence ("agree to N digits") counts the leading significant digits the two full-precision values share (register row 64); if they share only a few (under about four), the sentence changes, not the number. Spoken forms (rounding, words) are tested with Qwen3 before the final audio, as for Video 1.
 
