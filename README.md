@@ -34,7 +34,7 @@ One `remote_write` block added to `prometheus-config.yaml`. Nothing else changes
 
 | Module | Topic | Status |
 |---|---|---|
-| 1 | PromQL Compatibility | 🔶 In progress — script and cheat sheet drafted; re-validating on a rebuilt environment (see `docs/archive/module1-status-2026-10-19.md`) |
+| 1 | PromQL Compatibility | 🔶 In production: three videos, with scripts, rehearsals and logs in `docs/module1/` (the Oct 19 re-validation notes are history: `docs/archive/module1-status-2026-10-19.md`) |
 | 2 | Remote Write Configuration | 🔲 Planned |
 | 3 | Dashboard Migration | 🔲 Planned |
 | 3.5 | Field Name Alignment (Prometheus → OTel semconv) | 🔲 Planned |
@@ -51,31 +51,27 @@ Each module has:
 ## Repository structure
 
 ```
-prometheus-to-elastic/
-├── README.md
-├── .gitignore
-├── config/
-│   ├── prometheus-config.yaml          # Template: remote_write block with placeholders (no credentials)
-│   ├── compose.observability.yaml      # Patched: 1GB Prometheus memory, WAL compression, retention cap
-│   └── .env.example                    # Template — copy to ../.env.elastic and fill in values
-├── scripts/
-│   └── apply-config.sh                 # Generates the demo's Prometheus config from the template + .env.elastic
-├── docs/
-│   ├── environment-setup-guide.md      # Full setup plan, validated steps, open questions
-│   ├── quickstart.md                   # Daily launch and verification guide
-│   ├── otel-collector-reference.md     # What the Collector does in the demo
-│   ├── module-learning-objectives.md   # Two-track curriculum with Bloom's objectives
-│   ├── module1-status-2026-10-19.md    # Environment change log and open Module 1 findings
-│   ├── handoff-2026-10-19-module1-video.md  # Point-in-time handoff (endpoint details superseded)
-│   └── diagrams/                       # 4 architecture diagrams (SVG + PNG)
-├── modules/
-│   └── module1-promql-compatibility/
-│       ├── module1-recording-script-final.md   # Use this for recording
-│       ├── module1-promql-cheatsheet.md        # Query reference
-│       └── module1-demo-script.md              # Working draft (superseded by final)
-└── instruqt/                           # To be built
-    ├── track.yml
-    └── challenges/
+docs/
+├── README.md                          # Index: what lives where, and the stage rules
+├── shared/                            # Root-owned shared files
+│   ├── working-agreements.md          # How we work; the repo routine; starter prompts
+│   ├── decisions.md                   # Dated decisions, open items, update log
+│   ├── glossary.md                    # Terms and key technical facts
+│   ├── lessons-and-traps.md           # What we learned; traps we hit
+│   ├── claims-register.md             # Claims, with row numbers
+│   ├── narration-voice-guide.md, slide-narrative-guidance.md, video-contract-template.md
+│   ├── module-learning-objectives.md, otel-collector-reference.md
+│   ├── quickstart.md, environment-setup-guide.md
+│   ├── diagrams/                      # 4 architecture diagrams (SVG + PNG)
+│   └── operations/                    # reset-runbook.md, retro-runbook-first-run.md
+├── module1/
+│   ├── module1-query-lab.md
+│   ├── video1/                        # contract, outline, narrative, run-sheet, log, story, review config
+│   ├── video2/                        # contract, outline, narrative, run-sheet, log, resume, review config
+│   └── video3/                        # contract (outline, narrative and log created if Video 3 is kept)
+└── archive/                           # History only: never the target of a live pointer
+scripts/                               # Tools: apply-config.sh, apply_delivery.py, build_delivery.py,
+                                       # fill_placeholders.py, fill_placeholders.video2.py, make_review_script.py
 ```
 
 The OTel demo is cloned inside this folder as `opentelemetry-demo/` and is gitignored.
@@ -212,7 +208,7 @@ The Demo Dashboard requires OpenSearch (logs) and Jaeger (traces). Use the **Spa
 The key can write metrics but cannot list indices (`_cat/indices`) or read the cluster root. Use the Prometheus `/metrics` counters and Kibana queries to verify ingestion.
 
 **Remote-write endpoint choice**
-This track uses the direct Elasticsearch endpoint (`/_prometheus/api/v1/write`). Elastic's current documentation recommends the Managed Prometheus Remote Write endpoint for Serverless projects. The direct endpoint still works; which one the curriculum teaches is an open decision (see `docs/archive/module1-status-2026-10-19.md`).
+This track uses the direct Elasticsearch endpoint (`/_prometheus/api/v1/write`). Elastic's current documentation recommends the Managed Prometheus Remote Write endpoint for Serverless projects. The direct endpoint still works; The direct endpoint still works; Module 1 teaches the direct endpoint, and the managed endpoint is a finding for Module 2 (decided Oct 26: `docs/shared/decisions.md`, section 7; `docs/shared/claims-register.md`, row 52).
 
 ---
 

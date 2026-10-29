@@ -1,7 +1,7 @@
 # Module 1, Video 2 — Log
 
 **Owner:** the Video 2 chat (contract, section 10). **Created:** Oct 27, 2026.
-**What this is:** the truth about this video's state, ahead of section 8 of the contract. The state table (1) and the decisions (2) are edited in place; the entry log (10) is append-only. Claim confirmations, rehearsal and probe results, and the take log are recorded here first; the root copies them into the claims register at a milestone (handoff section 9).
+**What this is:** the truth about this video's state, ahead of section 8 of the contract. The state table (1) and the decisions (2) are edited in place; the entry log (10) is append-only. Claim confirmations, rehearsal and probe results, and the take log are recorded here first; the root copies them into the claims register at a milestone (`docs/shared/working-agreements.md`, section 9).
 **Statuses:** Verified (seen or checked here), Docs, Observed, Open, Retired, Decision.
 
 ---
@@ -32,7 +32,7 @@
 | 2 | Oct 27 | **The hook states the objective** in learning objective 2's own words, in the first minute (voice guide, section 3). The wording is written in the narrative pass | **Decided** (the author) |
 | 3 | Oct 27 | **The optional beats stay as marked optional blocks.** Decision 3 (the series slide) waited for the TSDS wording check (register row 41) and a mapping check on the stack; it was settled on Oct 28 (row 15). Decision 5 (the range chart) waits for a rehearsal that shows both charts | Decision 3 **settled** (row 15); decision 5 **deferred** (the author) |
 | 4 | Oct 27 | **Decision 7, a percent form: not used.** When two values are too close to speak as a percent, the narration says how many leading digits agree (register row 64) | **Decided** (the author) |
-| 5 | Oct 27 | **The closing line stands alone and makes no promise about Video 3** (under consideration for dropping, handoff section 8). A durable sentence is allowed if it follows the claims rules, for example that Elastic's documentation keeps the current list of limits, so the viewer should check it before moving something they depend on. The contract's closing line stays the base: "Most of prom-Q-L works this way, though not all of it, and the edges are worth knowing before you rely on them." Any added sentence about the documentation needs a docs source and a retrieval date before it is spoken | **Decided** (the principle; the wording comes in the narrative pass) |
+| 5 | Oct 27 | **The closing line stands alone and makes no promise about Video 3** (under consideration for dropping, `docs/shared/decisions.md`, section 8). A durable sentence is allowed if it follows the claims rules, for example that Elastic's documentation keeps the current list of limits, so the viewer should check it before moving something they depend on. The contract's closing line stays the base: "Most of prom-Q-L works this way, though not all of it, and the edges are worth knowing before you rely on them." Any added sentence about the documentation needs a docs source and a retrieval date before it is spoken | **Decided** (the principle; the wording comes in the narrative pass) |
 | 6 | Oct 27 | **Flag-on stack plan: later.** Video 1's takes come first, with the flag off. Video 2's stack is prepared after them, using `docs/shared/operations/reset-runbook.md`, Parts B and C. How long to wait after switching the flag on is an inference (one rate window, five minutes) to test in the rehearsal | **Deferred** (the author) |
 | 7 | Oct 27 | **Idea 1 is reordered so that each Prometheus run is followed by its Elastic partner, back to back** (register row 59: paired runs agree when both fall inside one scrape minute). The seed ran both Prometheus expressions before either Elastic one. **Approved order:** Prometheus with the `!=` matcher, then Elastic with it; Prometheus without it, then Elastic without it; then the question and the answer. `{{SECONDS_A}}` splits into one gap per pair | **Decided** (the author, Oct 27: "I approve") |
 | 8 | Oct 27 | **The setup block stays at the contract's about 30 seconds.** The listening test says whether it drags | **Decided** (the author) |
@@ -60,7 +60,7 @@
 
 ## 3. Claim confirmations
 
-The claims-to-confirm table lives in the narrative file (contract section 4) and stays the live table; confirmations are recorded here first, with their retrieval dates, as they happen. Docs to re-read before the take, with the date recorded: the limitations page and the PROMQL command page (handoff section 9).
+The claims-to-confirm table lives in the narrative file (contract section 4) and stays the live table; confirmations are recorded here first, with their retrieval dates, as they happen. Docs to re-read before the take, with the date recorded: the limitations page and the PROMQL command page (`docs/shared/working-agreements.md`, section 9).
 
 | Claim | Result | Status | Date |
 |---|---|---|---|

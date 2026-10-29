@@ -1,7 +1,7 @@
 # Module 1, Video 1 — Log
 
 **Owner:** the Video 1 chat (contract, section 10). **Created:** Oct 26, 2026.
-**What this is:** the truth about this video's state, ahead of section 8 of the contract. The state table (1) and the decisions (2) are edited in place; the entry log (10) is append-only. Claim confirmations, rehearsal and probe results, and the take log are recorded here first; the root copies them into the claims register at a milestone (handoff section 9).
+**What this is:** the truth about this video's state, ahead of section 8 of the contract. The state table (1) and the decisions (2) are edited in place; the entry log (10) is append-only. Claim confirmations, rehearsal and probe results, and the take log are recorded here first; the root copies them into the claims register at a milestone (`docs/shared/working-agreements.md`, section 9).
 **Statuses:** Verified (seen or checked here), Docs, Observed, Open, Retired, Decision.
 
 ---

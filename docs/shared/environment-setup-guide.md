@@ -8,7 +8,7 @@
 > **Destination:** Elastic Serverless (Observability Complete project).
 > **Last validated:** August 13, 2026 — all steps below were executed and confirmed working.
 >
-> **Revised October 19, 2026:** Sections 1.1, 1.3, 1.4, 1.7, 2.5, and the key-files tree were updated after rebuilding on a new Serverless project with a restricted (write-only) API key. Everything else is unchanged from the August 13 validation. Note that the Instruqt sections still assume the original unrestricted-key pattern and need a decision. See `docs/archive/module1-status-2026-10-19.md`.
+> **Revised October 19, 2026:** Sections 1.1, 1.3, 1.4, 1.7, 2.5, and the key-files tree were updated after rebuilding on a new Serverless project with a restricted (write-only) API key. Everything else is unchanged from the August 13 validation. Note that the Instruqt sections still assume the original unrestricted-key pattern and need a decision. See `docs/archive/module1-status-2026-10-19.md` (history). The open Instruqt decision is carried in `docs/shared/decisions.md`, section 8.
 
 ---
 

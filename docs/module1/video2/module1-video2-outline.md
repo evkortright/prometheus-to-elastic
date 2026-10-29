@@ -87,4 +87,4 @@ Rungs map to the lab: R2, R5, R7 and R8 are the new ones. R1, R3 and R6 from Vid
 - Nonzero values at record time (decision 4): the controlled flag, with its effect measured first.
 - TSDS docs check, if beat 2 stays.
 - Before every recording: uptime, `paymentFailure` state, and `samples_failed_total`.
-- A reset before the rehearsal and before the take (the reset runbook, handoff tracker row 26).
+- A reset before the rehearsal and before the take (`docs/shared/operations/reset-runbook.md`, Part B).

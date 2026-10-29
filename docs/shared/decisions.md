@@ -1,5 +1,7 @@
 # Decisions, open items and update log
 
+> Paths and the word 'handoff' in dated entries are as of their date; the living handoff is docs/archive/handoff-module1-living.md.
+
 > Copied verbatim from docs/archive/handoff-module1-living.md, sections 7, 8 and 14, plus the open items from sections 5, 6 and 16, on Oct 29, 2026, for path map v2 step 1. Numbers and wording are unchanged. The source is archived in step 3, with a one-line header only.
 
 ## 7. Decisions made (dated)

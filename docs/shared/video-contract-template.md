@@ -1,7 +1,7 @@
 # Video contract template (Module 1)
 
 **Status:** Draft v1, October 25, 2026. Owned by the root chat.
-**How this is used:** the root copies this file once per video (`docs/module1-videoN-contract.md`) and fills it in. A video chat starts from its contract. The contract is the video's whole job description, from the learning objective to the package that goes to the second editor.
+**How this is used:** the root copies this file once per video (`docs/module1/videoN/module1-videoN-contract.md`) and fills it in. A video chat starts from its contract. The contract is the video's whole job description, from the learning objective to the package that goes to the second editor.
 **If this template and a video's contract disagree,** the contract wins for that video, and the root fixes the template.
 
 ---
@@ -14,7 +14,7 @@
 | Contract version and date | `<v1, date>` |
 | Contract status | `<Draft / Active / Fulfilled>` |
 | Chat | `<video chat, started on date>` |
-| Root handoff | `docs/shared/` (the shared files; read-only for the video chat) |
+| Shared files | `docs/shared/` (read-only for the video chat) |
 
 ## 1. The finish line
 
@@ -52,7 +52,7 @@ The video is strictly standalone. It restates what it needs in about 20 seconds,
 ## 4. Story
 
 - **Through-line:** `<one sentence>`
-- **Narrative file:** `docs/module1-videoN-narrative.md`. It is the source of truth once the author approves it.
+- **Narrative file:** `docs/module1/videoN/module1-videoN-narrative.md`. It is the source of truth once the author approves it.
 
 | Beat | What | Capture clips | Target on screen |
 |---|---|---|---|
@@ -103,9 +103,9 @@ This follows what worked on an earlier project: the second editor took the autho
 ## 10. Ownership and change rules
 
 - **The video chat owns only this video's files:** `<list>`, and its video log.
-- **Authority and the video log (Oct 26):** the video chat is the source of truth for its video's files and for the video's state. It verifies the author's pasted output for its own deliveries (the base hash, the expected stat, the commit result) and does not route them through the root. It keeps `docs/module1-videoN-log.md`, which it creates with its first entry: the checklist state, claim confirmations with their retrieval dates, probe results, the take log, and the decisions the author makes with that chat (for example the slide shapes). Once the log exists, it is the truth about the video's state, ahead of the contract's checklist. The root reviews a delivery only if the author asks. This applies while the chat is the active chat: only one chat at a time delivers changes to the repo (handoff, section 2, agreement 15), and a chat the author has not named active is advisory.
+- **Authority and the video log (Oct 26):** the video chat is the source of truth for its video's files and for the video's state. It verifies the author's pasted output for its own deliveries (the base hash, the expected stat, the commit result) and does not route them through the root. It keeps `docs/module1/videoN/module1-videoN-log.md`, which it creates with its first entry: the checklist state, claim confirmations with their retrieval dates, probe results, the take log, and the decisions the author makes with that chat (for example the slide shapes). Once the log exists, it is the truth about the video's state, ahead of the contract's checklist. The root reviews a delivery only if the author asks. This applies while the chat is the active chat: only one chat at a time delivers changes to the repo (`docs/shared/working-agreements.md`, section 2, agreement 15), and a chat the author has not named active is advisory.
 - **Seed material:** the root may hand a video chat work it built before the chat existed (a draft narrative, a claims table). It is a proposal, not a decision. The contract lists it, the video chat asks the author at the start whether to use it, rewrite it or ignore it, and from then on the file belongs to the video chat. Approved material is not a seed: the chat changes it only to fix a claim, or with the author's approval.
-- **Shared files belong to the root:** the living handoff, the claims register (docs/shared/claims-register.md), the glossary, the query lab, the environment notes, the voice guide, the learning objectives. A video chat reads them and never edits them.
+- **Shared files belong to the root:** the files in `docs/shared/` (the working agreements, decisions, glossary, lessons and traps, the claims register `docs/shared/claims-register.md`, the runbooks, the voice guide, the learning objectives), and the query lab. A video chat reads them and never edits them.
 - **Requests for the root:** most turns say nothing about the root. A video chat sends a request only when a shared file truly needs a change (a register row, a glossary term, a lab result), when a decision crosses videos, or at a milestone (a checklist row changes state). It records confirmations and results in its video log first. The author passes a request to the root at most once per session.
 - **Changes after submission:** if the second editor or a reviewer finds a wrong claim, number or mispronunciation, the fix goes through the video chat (text and claims) and the author (re-export). The root then updates the shared files.
 - **Repo routine:** the same as working agreements section 3. The author applies, checks, commits and pushes; the video chat states the expected result first and checks the pasted output.
@@ -119,5 +119,5 @@ This follows what worked on an earlier project: the second editor took the autho
 ## 12. Starter prompt for a video chat
 
 ```
-I'm the author of a Prometheus-to-Elastic training track, and this chat produces one video of Module 1. Please read docs/<this video's contract file> first, then the files it lists, then sections 1, 2, 3, 9, 10, 11 and 12 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). You are the active chat only when I say so; until then you are advisory: answer and review, but do not deliver files. Do not end replies with status lists unless something changed materially or I ask. If the contract lists seed material, ask me first whether to use it, rewrite it, or ignore it.
+I'm the author of a Prometheus-to-Elastic training track, and this chat produces one video of Module 1. Please read docs/module1/videoN/module1-videoN-contract.md (N is this video's number) first, then the files it lists, then docs/shared/working-agreements.md (sections 1, 2, 3 and 9), docs/shared/glossary.md and docs/shared/lessons-and-traps.md (read-only). Follow the working agreements in section 2 of docs/shared/working-agreements.md: tiny steps, expected output before each step, one question at a time, and the repo routine in its section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). You are the active chat only when I say so; until then you are advisory: answer and review, but do not deliver files. Do not end replies with status lists unless something changed materially or I ask. If the contract lists seed material, ask me first whether to use it, rewrite it, or ignore it.
 ```

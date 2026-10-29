@@ -27,6 +27,7 @@
 | Docker cleanup that is never run | `docker system prune -a --volumes`, `docker volume prune` |
 | Demo version | Tag `3.0.0`, pinned. The payment service fails to start on `latest` |
 | Ingest path | The direct Elasticsearch remote-write endpoint, `/_prometheus/api/v1/write`. Elastic's docs recommend the managed Prometheus Remote Write endpoint for Serverless; the author chose to stay direct for Module 1 (register row 52) |
+| Elastic project | Serverless Observability, Azure Central US (Iowa), name my-observability-project-b04674. Elasticsearch endpoint https://my-observability-project-b04674.es.centralus.azure.elastic.cloud. Write-only key named prometheus-remote-write (never in the repo). Data stream metrics-generic.prometheus-default. The Windows desktop is unreliable since Oct 22: do not use it for the stack or for recording |
 
 ---
 
@@ -54,7 +55,7 @@ GET /_security/api_key
 GET _data_stream/metrics-generic.prometheus-default
 ```
 
-**Expect:** a list of keys (names and ids, never secrets) and either the data stream or a not-found error. Retire (invalidate) keys you do not recognize or no longer use, in Kibana's API keys page. Give the root chat the name, region and endpoint (never a key) so the handoff can record them.
+**Expect:** a list of keys (names and ids, never secrets) and either the data stream or a not-found error. Retire (invalidate) keys you do not recognize or no longer use, in Kibana's API keys page. Give the root chat the name, region and endpoint (never a key) so section 0 of this runbook can record them.
 
 ### A2. Host checks (read-only)
 

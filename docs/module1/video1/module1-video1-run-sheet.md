@@ -45,7 +45,7 @@
 - **Voice:** a professional trainer who is an SME speaking to peers: conversational authority, contractions, direct address, signposts, one idea per sentence, claims stated precisely and then shown. No hype, and no game language.
 - **TTS spellings:** `prom-Q-L`, `E-S-Q-L`, `S-L-Os`, metric names as words, symbols as words. How the speech engine reads them is a listening-test question.
 - Say **expression**, not "query", when claiming sameness. Say **most** or **everyday**, never "all". No statement about the feature's status. Also forbidden: "runs unchanged" as an absolute; "single remote-write block" (say "one remote-write block added to its config"); any bare percentage; "can't be done in PromQL"; `increase()`; `topk`; claims about alerting or "real time".
-- **Numbers come only from the take.** Counts are whole numbers. Rates are spoken to three decimals. Seconds are whole numbers ("about 8"). `{{DIGITS_C}}` is computed from the full-precision values (see "After the take"). The spoken form of numbers is still open in the handoff; this is a proposal.
+- **Numbers come only from the take.** Counts are whole numbers. Rates are spoken to three decimals. Seconds are whole numbers ("about 8"). `{{DIGITS_C}}` is computed from the full-precision values (see "After the take"). The spoken form of numbers is still open (`docs/shared/decisions.md`, section 8); this is a proposal.
 - `{{LIKE_THIS}}` placeholders are all filled before the audio is generated.
 - If a number disagrees with a sentence, **rewrite the sentence**; don't bend the number.
 
@@ -447,7 +447,7 @@ PROMQL index=metrics-generic.prometheus-default time=?_tend request_rate=(sum by
 ## Still open
 
 - **Where this sheet is displayed** during a take, and whether the narration plays in the background (the author's experiments).
-- **The spoken form of numbers** (three decimals, whole counts, whole seconds): a proposal; the handoff lists it as open.
+- **The spoken form of numbers** (three decimals, whole counts, whole seconds): a proposal; `docs/shared/decisions.md`, section 8, lists it as open.
 - **The staging routine** (Remove query, the zero-row query): judge it on the first take; the empty-state panel may look like an answer.
 - **What Discover's grid shows for rates.** The rehearsal read full-precision values from the JSON; the grid may round them. If it does, say the values as shown and state the digits from the JSON.
 - **How the slide toolkit times its reveals** against audio read from the spoken version.

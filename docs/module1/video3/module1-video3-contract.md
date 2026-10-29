@@ -1,7 +1,7 @@
 # Module 1, Video 3 — Contract
 
 **Status:** Draft v1, October 25, 2026. Filled in from `docs/shared/video-contract-template.md`. Owned by the root chat.
-**Under consideration (Oct 27):** the author is considering dropping Video 3. Nothing in this contract changes until the author decides (handoff, section 8).
+**Under consideration (Oct 27):** the author is considering dropping Video 3. Nothing in this contract changes until the author decides (`docs/shared/decisions.md`, section 8).
 **Unlike Videos 1 and 2,** this video has no outline and no narrative yet. The Video 3 chat writes both. The candidate beats in section 4 and the facts in the claims register are seed material, not decisions (section 10).
 
 ---
@@ -14,7 +14,7 @@
 | Contract version and date | v1, October 25, 2026 |
 | Contract status | Draft |
 | Chat | Not started yet |
-| Root handoff | `docs/shared/` (the shared files; read-only for the video chat) |
+| Shared files | `docs/shared/` (read-only for the video chat) |
 
 ## 1. The finish line
 
@@ -40,9 +40,9 @@ The contract is fulfilled when the author, as the first video editor, has assemb
 
 ## 4. Story
 
-- **Through-line:** proposed by the Video 3 chat with the author. Candidate (from the arc idea in the handoff, section 8): the viewer can finally *catch* the expression changing. In Video 1 it never did. Here the expression has to change, or it cannot run, or it quietly behaves differently. Because the videos are standalone, this must be a bonus for viewers of Video 1, and nothing may depend on it.
-- **Narrative file:** `docs/module1-video3-narrative.md`, written by the Video 3 chat after its outline.
-- **Outline file:** `docs/module1-video3-outline.md`, written by the Video 3 chat.
+- **Through-line:** proposed by the Video 3 chat with the author. Candidate (from the arc idea in `docs/shared/decisions.md`, section 8): the viewer can finally *catch* the expression changing. In Video 1 it never did. Here the expression has to change, or it cannot run, or it quietly behaves differently. Because the videos are standalone, this must be a bonus for viewers of Video 1, and nothing may depend on it.
+- **Narrative file:** `docs/module1/video3/module1-video3-narrative.md`, written by the Video 3 chat after its outline. (planned: created if Video 3 is kept)
+- **Outline file:** `docs/module1/video3/module1-video3-outline.md`, written by the Video 3 chat. (planned: created if Video 3 is kept)
 
 Candidate beats (a seed, not a decision), each tied to the evidence it needs:
 
@@ -111,19 +111,19 @@ Everything else stays in the repo. **This section changes only if something chan
 
 ## 10. Ownership and change rules
 
-- **The Video 3 chat owns:** `docs/module1-video3-outline.md`, `docs/module1-video3-narrative.md`, `docs/module1-video3-log.md` (created with its first entry), and the Video 3 run-sheet and story document when they exist.
+- **The Video 3 chat owns:** `docs/module1/video3/module1-video3-outline.md`, `docs/module1/video3/module1-video3-narrative.md`, `docs/module1/video3/module1-video3-log.md` (created with its first entry), and the Video 3 run-sheet and story document when they exist. (planned: created if Video 3 is kept)
 - **Seed material:** the candidate beats in section 4, and the docs findings already in the claims register (rows 36 to 44). They are proposals, not decisions. The chat asks the author at the start whether to use them, rewrite them or ignore them.
 - **Shared files belong to the root** (see the template, section 10). Known needs (record them in the video log first and send them at a milestone): register rows for the probe results and the exact error texts once they exist, a row for the feature's status once the author has read the badges, and the lab's probe tables once filled.
-- **Authority and the video log (Oct 26):** this chat is the source of truth for this video's files and for the video's state. It verifies the author's pasted output for its own deliveries (the base hash, the expected stat, the commit result) and does not route them through the root. It keeps `docs/module1-video3-log.md`, which it creates with its first entry: the checklist state, claim confirmations with their retrieval dates, probe results, the take log, and the decisions the author makes with this chat (for example the slide shapes). Once the log exists, it is the truth about the video's state, ahead of section 8 of this contract. The root reviews a delivery only if the author asks. This applies while the chat is the active chat: only one chat at a time delivers changes to the repo (handoff, section 2, agreement 15), and a chat the author has not named active is advisory.
+- **Authority and the video log (Oct 26):** this chat is the source of truth for this video's files and for the video's state. It verifies the author's pasted output for its own deliveries (the base hash, the expected stat, the commit result) and does not route them through the root. It keeps `docs/module1/video3/module1-video3-log.md`, which it creates with its first entry: the checklist state, claim confirmations with their retrieval dates, probe results, the take log, and the decisions the author makes with this chat (for example the slide shapes). Once the log exists, it is the truth about the video's state, ahead of section 8 of this contract. The root reviews a delivery only if the author asks. This applies while the chat is the active chat: only one chat at a time delivers changes to the repo (`docs/shared/working-agreements.md`, section 2, agreement 15), and a chat the author has not named active is advisory. (planned: created if Video 3 is kept)
 
 ## 11. Video chat routine and starter prompt
 
 As in the template (sections 11 and 12). The starter prompt, with this file's name filled in:
 
 ```
-I'm the author of a Prometheus-to-Elastic training track, and this chat produces Video 3 of Module 1. Please read docs/module1/video3/module1-video3-contract.md first, then the files it lists, then sections 1, 2, 3, 9, 10, 11 and 12 of docs/handoff-module1-living.md (read-only). Follow the working agreements in section 2 of the handoff: tiny steps, expected output before each step, one question at a time, and the repo routine in section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). You are the active chat only when I say so; until then you are advisory: answer and review, but do not deliver files. Do not end replies with status lists unless something changed materially or I ask. If the contract lists seed material, ask me first whether to use it, rewrite it, or ignore it.
+I'm the author of a Prometheus-to-Elastic training track, and this chat produces Video 3 of Module 1. Please read docs/module1/video3/module1-video3-contract.md first, then the files it lists, then docs/shared/working-agreements.md (sections 1, 2, 3 and 9), docs/shared/glossary.md and docs/shared/lessons-and-traps.md (read-only). Follow the working agreements in section 2 of docs/shared/working-agreements.md: tiny steps, expected output before each step, one question at a time, and the repo routine in its section 3. I'm not a PromQL specialist; explain everything. Then tell me (a) what you understand the current state to be, (b) what you need from me, and (c) the one next step you'd take. Don't edit shared files. You are the source of truth for this video's files and state: verify my pasted output for your own deliveries, keep a video log, and send requests to the root chat only when the contract says to (a shared file that truly needs a change, a decision that crosses videos, or a milestone). You are the active chat only when I say so; until then you are advisory: answer and review, but do not deliver files. Do not end replies with status lists unless something changed materially or I ask. If the contract lists seed material, ask me first whether to use it, rewrite it, or ignore it.
 ```
 
-Files to read, in order: this contract; `docs/module1/module1-query-lab.md` (probes P1 to P8 and R4); `docs/archive/module1-status-2026-10-19.md` (the claims register, section 4); `docs/module1/video2/module1-video2-outline.md` (for the format of an outline only); `docs/shared/slide-narrative-guidance.md`; `docs/module1/video1/module1-video1-narrative.md` and `docs/module1/video2/module1-video2-narrative.md` (for the voice only; Video 3 must not depend on them).
+Files to read, in order: this contract; `docs/module1/module1-query-lab.md` (probes P1 to P8 and R4); `docs/shared/claims-register.md` (the claims register); `docs/module1/video2/module1-video2-outline.md` (for the format of an outline only); `docs/shared/slide-narrative-guidance.md`; `docs/module1/video1/module1-video1-narrative.md` and `docs/module1/video2/module1-video2-narrative.md` (for the voice only; Video 3 must not depend on them).
 
 Work that can start before the one-time setup (no stack needed): checklist rows 2 to 6, and the docs reading the chat needs for its claims table.

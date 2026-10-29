@@ -21,7 +21,7 @@
 | `index=` | The data stream to query: `metrics-generic.prometheus-default` | Lab |
 | `time=?_tend` | Makes an instant query at the end of the date picker's range; leave it out for a range query with a chart | Lab (command docs) and Kibana docs for `?_tend`: https://www.elastic.co/docs/explore-analyze/query-filter/languages/esql-where |
 | Wrapper | Our narration's word for everything around the expression in Elastic: the `PROMQL` command, its options (`index`, `time`) and the result name. It answers three questions: where this runs, when it is evaluated, and what the answer is called | Our term, not Elastic's; the pieces are from the command docs (see `PROMQL` command above) |
-| Contract | The handoff for one video chat: the learning objective, audience, through-line, entry and exit sentences, entry knowledge, allowed and forbidden claims, the evidence and stack state needed, acceptance checks, deliverables and the files the chat owns | Our term (Oct 25) |
+| Contract | The starting document and job description for one video chat: the learning objective, audience, through-line, entry and exit sentences, entry knowledge, allowed and forbidden claims, the evidence and stack state needed, acceptance checks, deliverables and the files the chat owns | Our term (Oct 25) |
 | Reset | The per-video procedure that clears all data and restarts the stack, so no video depends on another's data | Our term (Oct 25); the runbook is tracker row 26 |
 | Date picker | PROMQL reads only data inside its range, so a window longer than the picker sees less data (lab R4: 9,391 versus 18,925 versus Prometheus 18,960 for `increase(...[30m])`) | Tested |
 | ES\|QL | Elasticsearch Query Language | Verified (Kibana docs) |
